@@ -2,7 +2,7 @@
   <div id="wrapper">
     <div id="topBar">
       <div id="topBar-left">
-        <img id="topBar-logo" width="90px" height="90px" src="../assets/img/logo.webp" alt="logo"/>
+        <img id="topBar-logo" style="height: 90px;width: 90px;" src="../assets/img/logo.webp" alt="logo"/>
         <span id="topBar-restaurant-name">Zuma Restaurant</span>
       </div>
       <div id="topBar-right">
@@ -40,6 +40,10 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: #f3f6fd;
+}
+
 
 #wrapper {
   background: #f3f6fd;
@@ -53,10 +57,8 @@ export default {
   bottom: 0;
   margin-left: 0;
   margin-right: 0;
-  overflow: hidden;
   width: auto;
   height: 100%;
-  background: #f3f6fd;
 }
 
 #topBar {
