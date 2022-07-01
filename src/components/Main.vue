@@ -9,31 +9,58 @@
       </div>
     </div>
     <div id="content">
-      <div id="navigator"></div>
+      <div id="navigator">
+        <dock-item :dockItems="dockItems"></dock-item>
+      </div>
       <div id="module-wrapper">
+        <router-view></router-view>
       </div>
       <div id="statistics-wrapper"></div>
     </div>
-    <div id="bottomBar"></div>
+    <div id="bottomBar">
+      <BottomBar></BottomBar>
+    </div>
   </div>
 </template>
 
 <script>
+import DockItem from "@/components/LeftDock";
+import BottomBar from "@/components/BottomBar";
+import axios from "axios";
 
 export default {
   name: "global-frame",
-  components: {},
+  components: {
+    DockItem,
+    BottomBar,
+  },
   data() {
     return {
-      // TODO:some data here
+      //TODO:dockItems应该从后台获取，而不是在这里定义
+      dockItems: [
+          {routeTo: '/dashboard/waiter', img: 'https://cdn2.iconfinder.com/data/icons/cafe-and-restaurant-2/119/Stickers_I-11-01-512.png', toolTips: 'dashboard'},
+        {routeTo: '/order', img: 'https://cdn2.iconfinder.com/data/icons/cafe-and-restaurant-2/119/Stickers_I-11-01-512.png', toolTips: 'order'},
+      ],
+      statistics: [],
+      //TODO:userInfo应该从后台获取，而不是在这里定义
+      userinfo: {role: 'waiter'},
     };
   },
   methods: {
-
+    // 向后端拉取用户信息
+    getInfos() {
+      axios.all([
+        axios.get("/api/user/info"),
+        axios.get("/api/statistics"),
+      ]).then(axios.spread((userinfo, statistics) => {
+        this.userinfo = userinfo.data;
+        this.statistics = statistics.data;
+      }));
+    }
   },
   created() {
-    // 向后端拉取用户角色
-
+    // TODO:暂时由data的userinfo指定角色
+    // this.getInfos();
   }
 }
 
@@ -151,7 +178,7 @@ body {
   order: 3;
   margin-top: 17px;
   margin-bottom: 17px;
-  height: 90px;
+  height: 70px;
   background: #ffffff;
   border-radius: 30px;
 }
