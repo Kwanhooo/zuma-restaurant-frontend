@@ -30,7 +30,22 @@
         </div>
       </div>
       <div id="registerView" v-if="!isLogin">
-        Hello
+        <div style="font-family: 'Times New Roman',serif;font-size: 25px;margin-bottom: 20px;">
+          <b>用户注册</b>
+          <p></p>
+          <form>
+            <input type="text" id="username" class="fadeIn second" name="register" placeholder="🧊  用户名" v-model="username">
+            <input type="text" id="telephone" class="fadeIn second" name="register" placeholder="📞 电话号码" v-model="telephone">
+            <input type="password" id="firstPassword" class="fadeIn third" name="register" placeholder="🔑  密码"
+                   v-model="password">
+            <input type="password" id="confirmPassword" class="fadeIn third" name="register" placeholder="🔑  确认密码"
+                   v-model="confirmPassword"  v-on:blur="judgePwd()">
+            <div v-if="judgePwdStatus" style="color:green;font-size:14px;">{{}}</div>
+            <div v-else style="color:red;font-size:14px">❌{{judgePwdMsg}}</div>
+            <input type="submit" class="fadeIn fourth" value="员工注册" @click.prevent="userRegister()">
+            <input type="submit" class="fadeIn fourth" value="顾客注册" @click.prevent="userRegister()" style="background-color: #ff6600;">
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -47,8 +62,13 @@ export default {
       isLogin: true,
       username: "",
       password: "",
+      telephone:"",
       isErr: false,
       errInfo: "",
+      confirmPassword:"",
+      judgePwdMsg:"",
+      pwdSafetyStatus:0,
+      judgePwdStatus:true,
     };
   },
   methods: {
@@ -78,11 +98,56 @@ export default {
             console.log(err);
           });
     },
+    judgePwd() {
+      //判断密码和二次输入密码是否一致
+      if(this.password===this.confirmPassword){
+        //如果相等
+        this.judgePwdStatus=true;
+        this.judgePwdMsg="两次密码一致";
+      }
+      else{
+        this.judgePwdStatus=false;
+        this.judgePwdMsg="两次密码不一致，请检查！";
+      }
+    },
+    userRegister() {
+      if(!this.judgePwdStatus){
+        alert("请保证两次密码一致！");
+        return;
+      }
+
+      // 将账号和密码Post到服务器，并获取token
+      axios({
+        method: "post",
+        url: "/api/register",
+        data: {
+          username: this.username,
+          password: this.password,
+          telephone:this.telephone,
+        },
+      })
+          .then((res) => {
+            if (res.data.code === 0) {
+              // 登录成功，将token存入本地存储
+              localStorage.setItem("token", res.data.token);
+              // 跳转到首页
+              this.$router.push("/home");
+            } else {
+              // 登录失败，提示错误信息
+              this.errInfo = res.data.msg;
+              this.isErr = true;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    },
+
   },
   created() {
     //  把页面标题改为登录
     document.title = "登入 - Zuma Restaurant";
-  }
+  },
 }
 </script>
 
