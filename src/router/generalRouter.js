@@ -4,6 +4,10 @@ import Main from "@/components/Main.vue";
 import Order from "@/components/waiter/Order.vue";
 import Me from "@/components/waiter/Me.vue";
 import waiterDashBoard from "@/components/waiter/WaiterDashBoard";
+import kitchen from "@/components/kitchen/Kitchen";
+import user from "@/components/kitchen/User";
+import notice from "@/components/kitchen/Notice";
+
 import Front from "@/components/Front.vue"
 import Front_ViewOrder from "@/components/front/ViewOrder.vue"
 import Front_ViewUser from "@/components/front/ViewUser.vue"
@@ -59,7 +63,22 @@ const router = createRouter({
                             component: Front_ViewNotice,
                         }
                     ]
-                }
+                },
+                {
+                    path: '/kitchen',
+                    name: 'kitchen',
+                    component: kitchen
+                },
+                {
+                    path: '/user',
+                    name: 'user',
+                    component: user
+                },
+                {
+                    path: '/notice',
+                    name: 'notice',
+                    component: notice
+                },
             ]
         },
         {
