@@ -1,8 +1,8 @@
 <template>
   <div v-for="(item,index) in dockItems" :key="index" :class="{'navigator-item':true}">
     <button class="navigator-btn" @click.prevent="this.$router.push(item.routeTo)">
-      <img :src="item.img" style="width: 40px;height: 40px;" alt="home">
-      <span>{{ item.toolTips }}</span>
+      <img :src="item.img" style="width: 50px;height: 50px;" alt="home">
+      <!--      <span>{{ item.toolTips }}</span>-->
     </button>
   </div>
 </template>
@@ -18,8 +18,7 @@ export default {
       type: Array,
       required: true,
       default() {
-        return [
-        ];
+        return [];
       }
     }
   },
@@ -35,10 +34,10 @@ export default {
 .navigator-btn {
   text-align: center;
   transition-duration: 0.4s;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border: 3px;
-  border-radius: 30px;
+  border-radius: 35px;
 }
 
 .navigator-btn:hover {

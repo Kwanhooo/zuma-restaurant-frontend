@@ -31,7 +31,7 @@ export default {
 
 #csc {
   margin-left: 160px;
-  font-family: 'Segoe UI Emoji',emoji;
+  font-family: 'Segoe UI Emoji', emoji;
   font-size: 15px;
 }
 

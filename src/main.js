@@ -18,25 +18,31 @@ app.use(ElementPlus)
 
 //TODO:模拟存一个token
 sessionStorage.setItem('token', '123456');
+//TODO:模拟存一个用户角色为waiter
+sessionStorage.setItem('role', 'waiter');
 
 // 路由守卫
 generalRouter.beforeEach((to, from, next) => {
+    if (to.path ==='/dashboard'){
+        let role = sessionStorage.getItem('role');
+        next('/dashboard/'+role);
+    }
     // 判断是否需要登录权限
     if (to.meta.authRequired === true) {
         // 判断是否已经登录
         const token = sessionStorage.getItem('token');
         if (token) {
             //TODO:token有效性验证，暂时不开
-            axios.get('/api/validate?token='+token).then(res => {
-                if (res.data.code === 0) {
-                  // token有效，跳到首页
-                  this.$router.push('/');
-                } else {
-                  // token无效，清除假token
-                  localStorage.removeItem('token');
-                  this.$router.push('/auth');
-                }
-            });
+            // axios.get('/api/validate?token='+token).then(res => {
+            //     if (res.data.code === 0) {
+            //       // token有效，跳到首页
+            //       this.$router.push('/');
+            //     } else {
+            //       // token无效，清除假token
+            //       localStorage.removeItem('token');
+            //       this.$router.push('/auth');
+            //     }
+            // });
             next()
         } else {
             next({
