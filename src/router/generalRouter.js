@@ -4,7 +4,10 @@ import Main from "@/components/Main.vue";
 import Order from "@/components/waiter/Order.vue";
 import Me from "@/components/waiter/Me.vue";
 import waiterDashBoard from "@/components/waiter/WaiterDashBoard";
-
+import Front from "@/components/Front.vue"
+import Front_ViewOrder from "@/components/front/ViewOrder.vue"
+import Front_ViewUser from "@/components/front/ViewUser.vue"
+import Front_ViewNotice from "@/components/front/ViewNotice"
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
@@ -35,6 +38,28 @@ const router = createRouter({
                     meta: {authRequired: true},
                     component: Me
                 },
+                {
+                    path: '/front',
+                    name: 'front',
+                    component: Front,
+                    children:[
+                        {
+                            path: '/front/viewOrder',
+                            name: 'front-viewOrder',
+                            component: Front_ViewOrder,
+                        },
+                        {
+                            path: '/front/viewUser',
+                            name: 'front-viewUser',
+                            component: Front_ViewUser,
+                        },
+                        {
+                            path: '/front/viewNotice',
+                            name: 'front-viewNotice',
+                            component: Front_ViewNotice,
+                        }
+                    ]
+                }
             ]
         },
         {
