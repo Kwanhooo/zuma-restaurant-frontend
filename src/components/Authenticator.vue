@@ -39,25 +39,25 @@
             <div style="font-family: 'Times New Roman',serif;font-size: 25px;font-style: italic;margin-bottom: 20px;">
               <b>Zuma</b> Restaurant
             </div>
+          </div>
+          <form>
+            <input type="text" id="username" class="fadeIn second" name="register" placeholder="🧊  用户名"
+                   v-model="username">
+            <input type="text" id="telephone" class="fadeIn second" name="register" placeholder="📞 电话号码"
+                   v-model="telephone">
+            <input type="password" id="firstPassword" class="fadeIn third" name="register" placeholder="🔑  密码"
+                   v-model="password">
+            <input type="password" id="confirmPassword" class="fadeIn third" name="register" placeholder="🔑  确认密码"
+                   v-model="confirmPassword" v-on:blur="judgePwd()">
+            <div v-if="judgePwdStatus" style="color:green;font-size:14px;">{{}}</div>
+            <div v-else style="color:red;font-size:14px">❌{{ judgePwdMsg }}</div>
+            <input type="submit" class="fadeIn fourth" value="员工注册" @click.prevent="userRegister()">
+            <!--          <input type="submit" class="fadeIn fourth" value="顾客注册" @click.prevent="userRegister()"-->
+            <!--                 style="background-color: #ff6600;">-->
+          </form>
         </div>
-        <form>
-          <input type="text" id="username" class="fadeIn second" name="register" placeholder="🧊  用户名"
-                 v-model="username">
-          <input type="text" id="telephone" class="fadeIn second" name="register" placeholder="📞 电话号码"
-                 v-model="telephone">
-          <input type="password" id="firstPassword" class="fadeIn third" name="register" placeholder="🔑  密码"
-                 v-model="password">
-          <input type="password" id="confirmPassword" class="fadeIn third" name="register" placeholder="🔑  确认密码"
-                 v-model="confirmPassword" v-on:blur="judgePwd()">
-          <div v-if="judgePwdStatus" style="color:green;font-size:14px;">{{}}</div>
-          <div v-else style="color:red;font-size:14px">❌{{ judgePwdMsg }}</div>
-          <input type="submit" class="fadeIn fourth" value="员工注册" @click.prevent="userRegister()">
-<!--          <input type="submit" class="fadeIn fourth" value="顾客注册" @click.prevent="userRegister()"-->
-<!--                 style="background-color: #ff6600;">-->
-        </form>
       </div>
     </div>
-  </div>
   </div>
 </template>
 

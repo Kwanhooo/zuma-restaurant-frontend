@@ -1,16 +1,11 @@
 <template>
-  <div>
-    ORDER
-  </div>
+Me
 </template>
 
 <script>
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Order",
-  data() {
-
-  },
+  name: "Me"
 }
 </script>
 
