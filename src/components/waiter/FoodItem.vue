@@ -66,6 +66,9 @@ export default {
       if (data.affectedFood === vm.food)
         vm.currentAmount = data.newAmount;
     });
+    bus.on("ClearCart",()=>{
+      vm.currentAmount = 0;
+    });
   },
 }
 </script>
