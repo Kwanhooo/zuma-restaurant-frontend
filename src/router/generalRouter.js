@@ -12,6 +12,9 @@ import Front from "@/components/Front.vue"
 import Front_ViewOrder from "@/components/front/ViewOrder.vue"
 import Front_ViewUser from "@/components/front/ViewUser.vue"
 import Front_ViewNotice from "@/components/front/ViewNotice"
+import Front_CheckOut from "@/components/front/CheckOut"
+import Front_ViewFood from "@/components/front/ViewFood"
+import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
@@ -61,6 +64,21 @@ const router = createRouter({
                             path: '/front/viewNotice',
                             name: 'front-viewNotice',
                             component: Front_ViewNotice,
+                        },
+                        {
+                            path: '/front/checkOut',
+                            name: 'front-checkOut',
+                            component: Front_CheckOut,
+                        },
+                        {
+                            path: '/front/viewFood',
+                            name: 'front-viewFood',
+                            component: Front_ViewFood,
+                        },
+                        {
+                            path: '/front/viewEvaluation',
+                            name: 'front-viewEvaluation',
+                            component: Front_ViewEvaluation,
                         }
                     ]
                 },
