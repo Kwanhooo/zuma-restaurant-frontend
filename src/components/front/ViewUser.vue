@@ -18,17 +18,17 @@
           fixed
           prop="userId"
           label="用户名"
-          width="150">
+          width="350">
       </el-table-column>
       <el-table-column
           prop="password"
           label="密码"
-          width="120">
+          width="320">
       </el-table-column>
       <el-table-column
           prop="charactor"
           label="职位"
-          width="120">
+          width="320">
       </el-table-column>
       <el-table-column
           fixed="right"
@@ -104,8 +104,8 @@ export default {
       addCharactor:"",
       tableData: [
         {
-          userId:10001,
-          password:12345,
+          userId:"10001",
+          password:"123456",
           charactor:"厨师",
         }
       ]
@@ -121,7 +121,6 @@ export default {
       // dialog.show();
     },
     modifyUser() {
-      this.dialogVisible = false;
       axios({
         method: "post",
         url: "/front/modifyUser",
@@ -134,15 +133,15 @@ export default {
         .then((res)=>{
           if(res.data.code===0){
             this.dialogVisibleModify = false;
-            this.$alert('成功更新!', '更新用户', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${ action }`
-                });
+            let id = this.modifyUserId;
+            let password = this.modifyPassword;
+            let charactor = this.modifyCharactor;
+            this.tableData.forEach(function (item,index,arr){
+              if(item.userId===id){
+                arr[index].password=password;
+                arr[index].charactor=charactor;
               }
-            });
+            })
           }else {
             this.$alert(res.data.msg, '更新用户', {
               confirmButtonText: '确定',
@@ -167,15 +166,11 @@ export default {
       })
         .then((res)=>{
           if(res.data.code===0){
-            this.$alert('成功删除!', '删除用户', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${ action }`
-                });
+            this.tableData.forEach(function (item,index,arr){
+              if(item.userId===row.id){
+                arr.splice(index,0);
               }
-            });
+            })
           }else {
             this.$alert(res.data.msg, '删除用户', {
               confirmButtonText: '确定',
@@ -230,15 +225,12 @@ export default {
           .then((res)=>{
             if(res.data.code===0){
               this.dialogVisibleAdd = false;
-              this.$alert('成功添加!', '添加用户', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${ action }`
-                  });
-                }
-              });
+              let user = {
+                userId: this.addUserId,
+                password: this.addPassword,
+                charactor: this.addCharactor,
+              }
+              this.tableData.push(user)
             }else {
               this.$alert(res.data.msg, '添加用户', {
                 confirmButtonText: '确定',

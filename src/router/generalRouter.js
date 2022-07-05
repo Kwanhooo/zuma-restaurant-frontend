@@ -5,6 +5,10 @@ import Main from "@/components/Main.vue";
 import Order from "@/components/waiter/Order.vue";
 import Me from "@/components/waiter/Me.vue";
 import waiterDashBoard from "@/components/waiter/WaiterDashBoard";
+import kitchen from "@/components/kitchen/Kitchen";
+import user from "@/components/kitchen/User";
+import notice from "@/components/kitchen/Notice";
+
 import Front from "@/components/Front.vue"
 import Front_ViewOrder from "@/components/front/ViewOrder.vue"
 import Front_ViewUser from "@/components/front/ViewUser.vue"
@@ -12,6 +16,9 @@ import Front_ViewNotice from "@/components/front/ViewNotice"
 import WaiterStatistics from "@/components/waiter/WaiterStatistics";
 import WaiterCart from "@/components/waiter/WaiterCart";
 
+import Front_CheckOut from "@/components/front/CheckOut"
+import Front_ViewFood from "@/components/front/ViewFood"
+import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
 const router = createRouter({
     history: createWebHashHistory(),
     // mode: 'history',
@@ -71,9 +78,39 @@ const router = createRouter({
                             path: '/front/viewNotice',
                             name: 'front-viewNotice',
                             component: Front_ViewNotice,
+                        },
+                        {
+                            path: '/front/checkOut',
+                            name: 'front-checkOut',
+                            component: Front_CheckOut,
+                        },
+                        {
+                            path: '/front/viewFood',
+                            name: 'front-viewFood',
+                            component: Front_ViewFood,
+                        },
+                        {
+                            path: '/front/viewEvaluation',
+                            name: 'front-viewEvaluation',
+                            component: Front_ViewEvaluation,
                         }
                     ]
-                }
+                },
+                {
+                    path: '/kitchen',
+                    name: 'kitchen',
+                    component: kitchen
+                },
+                {
+                    path: '/user',
+                    name: 'user',
+                    component: user
+                },
+                {
+                    path: '/notice',
+                    name: 'notice',
+                    component: notice
+                },
             ]
         },
         {
