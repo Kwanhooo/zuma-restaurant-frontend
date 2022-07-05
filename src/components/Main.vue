@@ -53,9 +53,9 @@ export default {
           toolTips: 'order'
         },
         {
-          routeTo: '/me',
+          routeTo: '/user/waiter',
           img: 'https://cdn2.iconfinder.com/data/icons/user-set-1-line/32/Interface_user_about_me_computer_person_3-512.png',
-          toolTips: 'order'
+          toolTips: 'user'
         },
       ],
       statistics: [],

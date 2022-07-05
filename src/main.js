@@ -23,9 +23,9 @@ sessionStorage.setItem('role', 'waiter');
 
 // 路由守卫
 generalRouter.beforeEach((to, from, next) => {
-    if (to.path ==='/dashboard'){
+    if (to.path === '/dashboard') {
         let role = sessionStorage.getItem('role');
-        next('/dashboard/'+role);
+        next('/dashboard/' + role);
     }
     // 判断是否需要登录权限
     if (to.meta.authRequired === true) {

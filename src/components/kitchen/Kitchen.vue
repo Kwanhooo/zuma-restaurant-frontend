@@ -1,31 +1,31 @@
 <template>
-<!--  <div id="wrapper">
-    <div id="topBar">
-      <div id="topBar-left">
-        <img id="topBar-logo" style="height: 90px;width: 90px;" src="../../assets/img/logo.webp" alt="logo"/>
-        <span id="topBar-restaurant-name">Zuma Restaurant</span>
+  <!--  <div id="wrapper">
+      <div id="topBar">
+        <div id="topBar-left">
+          <img id="topBar-logo" style="height: 90px;width: 90px;" src="../../assets/img/logo.webp" alt="logo"/>
+          <span id="topBar-restaurant-name">Zuma Restaurant</span>
+        </div>
+        <div id="topBar-right">
+        </div>
       </div>
-      <div id="topBar-right">
-      </div>
-    </div>
-    <div id="content">-->
-<!--      <div id="navigator">
-        <div class="navigator-item">
-          <button class="navigator-btn navigator-btn-home" @click.prevent="nowContent='cook'">
-            烹饪
-          </button>
-        </div>
-        <div class="navigator-item">
-          <button class="navigator-btn navigator-btn-home" @click.prevent="nowContent='notice'">
-            公告
-          </button>
-        </div>
-        <div class="navigator-item">
-          <button class="navigator-btn navigator-btn-home" @click.prevent="nowContent='user'">
-            账号
-          </button>
-        </div>
-      </div>-->
+      <div id="content">-->
+  <!--      <div id="navigator">
+          <div class="navigator-item">
+            <button class="navigator-btn navigator-btn-home" @click.prevent="nowContent='cook'">
+              烹饪
+            </button>
+          </div>
+          <div class="navigator-item">
+            <button class="navigator-btn navigator-btn-home" @click.prevent="nowContent='notice'">
+              公告
+            </button>
+          </div>
+          <div class="navigator-item">
+            <button class="navigator-btn navigator-btn-home" @click.prevent="nowContent='user'">
+              账号
+            </button>
+          </div>
+        </div>-->
   <div id="left">
     <div id="nowCook">
       <div class="categoryTitle">🍳 当前正在烹饪</div>
@@ -33,11 +33,20 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook">{{ nowCook.foodType }}</div>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook.foodType == null && nextCook.foodType != null">休息中</div>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook.foodType == null && nextCook.foodType == null">暂无菜品需要烹饪噢</div>
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook">{{
+            nowCook.foodType
+          }}
+        </div>
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
+             v-if="nowCook.foodType == null && nextCook.foodType != null">休息中
+        </div>
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
+             v-if="nowCook.foodType == null && nextCook.foodType == null">暂无菜品需要烹饪噢
+        </div>
         <button class="finishButton" @click.prevent="finishCook()" v-if="nowCook.foodType != null">完成烹饪</button>
-        <button class="finishButton" @click.prevent="continueCook()" v-if="nowCook.foodType == null && nextCook.foodType != null">继续工作</button>
+        <button class="finishButton" @click.prevent="continueCook()"
+                v-if="nowCook.foodType == null && nextCook.foodType != null">继续工作
+        </button>
       </div>
     </div>
 
@@ -81,7 +90,9 @@
             <span class="waiting-foodType" style="font-size: 25px; font-weight: bold">{{ waiting.foodType }}</span>
             <br/>
             <br/>
-            <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{ waiting.table }}号桌</span>
+            <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{
+                waiting.table
+              }}号桌</span>
             <span class="waiting-time" style="margin-left: 20px;">{{ waiting.time }}</span>
           </div>
           <br>
@@ -137,7 +148,7 @@ export default {
   name: "kitchen",
   kitchen: {},
   data() {
-    return{
+    return {
       stop: false,
       nowCook: {num: "3", foodType: "水煮鱼", table: "3", time: "2022-01-01 12:12:36"},
       nextCook: {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
@@ -160,22 +171,19 @@ export default {
     },
 
     finishCook() {
-      if(!this.stop){
-        if(this.nextCook.foodType != null){
+      if (!this.stop) {
+        if (this.nextCook.foodType != null) {
           this.nowCook = this.nextCook;
-        }
-        else {
+        } else {
           this.nowCook = {};
         }
-        if(this.queue.length > 0){
+        if (this.queue.length > 0) {
           this.nextCook = this.queue[0];
-          this.queue.splice(0,1);
-        }
-        else {
+          this.queue.splice(0, 1);
+        } else {
           this.nextCook = {};
         }
-      }
-      else{
+      } else {
         this.nowCook = {};
       }
       this.waitingDish++;
@@ -184,16 +192,17 @@ export default {
 
     continueCook() {
       this.stop = false;
-      if(this.nowCook.foodType == null){
+      if (this.nowCook.foodType == null) {
         this.nowCook = this.nextCook;
-        if(this.queue.length > 0){
+        if (this.queue.length > 0) {
           this.nextCook = this.queue[0];
-          this.queue.splice(0,1);
+          this.queue.splice(0, 1);
         }
       }
     }
   },
-  created() {},
+  created() {
+  },
 }
 </script>
 
@@ -304,6 +313,7 @@ body {
   background-color: #FFF4EA;
   color: #FF9465;
 }
+
 .finishButton:hover {
   background-color: #FF9465;
   color: #FFF4EA;
@@ -324,7 +334,7 @@ body {
   color: #4F3FF0;
 }
 
-.pauseButton:hover{
+.pauseButton:hover {
   background-color: #4F3FF0;
   color: #F6F5FE;
 }
@@ -344,7 +354,7 @@ body {
   color: #4F3FF0;
 }
 
-.continueButton:hover{
+.continueButton:hover {
   background-color: #4F3FF0;
   color: #F6F5FE;
 }

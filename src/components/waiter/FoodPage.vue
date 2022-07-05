@@ -16,8 +16,7 @@ import FoodItem from "@/components/waiter/FoodItem";
 export default {
   name: "FoodPage",
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
     amountChanged(sourceFood, newAmount) {

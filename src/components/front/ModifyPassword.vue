@@ -1,5 +1,5 @@
 <template>
-H
+  H
 </template>
 
 <script>

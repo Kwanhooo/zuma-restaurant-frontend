@@ -13,13 +13,17 @@
         </div>
       </li>
       <li v-for="(notice,index) in noticeList" :key="notice" class="infinite-list-item"
-          style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;cursor: pointer" @click.prevent="checkNotice(index)">
+          style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;cursor: pointer"
+          @click.prevent="checkNotice(index)">
         <div style="margin-left: 20px;">
           <div>
             <div style="height: 30px;"></div>
-            <span class="noticeTopic" style="font-size: 35px; color: #007BFF; font-weight: bold">{{ notice.topic }}</span>
+            <span class="noticeTopic" style="font-size: 35px; color: #007BFF; font-weight: bold">{{
+                notice.topic
+              }}</span>
             <br><br>
-            <span class="noticeSource" style="margin-left: 20px; font-size: 20px; font-weight: bold;">来自：{{ notice.source }}</span>
+            <span class="noticeSource"
+                  style="margin-left: 20px; font-size: 20px; font-weight: bold;">来自：{{ notice.source }}</span>
             <br>
             <span class="noticeTime" style="margin-left: 20px;">公告时间：{{ notice.time }}</span>
           </div>
@@ -35,7 +39,8 @@
       <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">{{ notice.topic }}</div>
       <div class="noticeFrom" style="font-size: 20px;margin-top: auto">来自：{{ notice.source }}</div>
       <div class="noticeTime" style="font-size: 20px; font-style: italic">{{ notice.time }}</div>
-      <div class="inform" style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%;width: 96%;overflow:auto;max-height:680px;">
+      <div class="inform"
+           style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%;width: 96%;overflow:auto;max-height:680px;">
         <div class="noticeContent" style="font-size: 20px;">{{ notice.content }}</div>
       </div>
       <button class="readBtm" @click.prevent="read(index)">确认</button>
@@ -45,7 +50,8 @@
     <div class="noticeListTitle">📮 公告详情</div>
     <hr style="width:80%">
     <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">请选择公告</div>
-    <div class="inform" style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 70%;width: 96%;overflow:auto;max-height:680px;"></div>
+    <div class="inform"
+         style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 70%;width: 96%;overflow:auto;max-height:680px;"></div>
   </div>
 </template>
 
@@ -55,30 +61,34 @@ export default {
   name: "notice",
   notice: {},
   data() {
-    return{
+    return {
       noticeList: [
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "国庆补班调休通知", source:"前台" ,content:"国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备", time:"2022-01-01 12:34:56"},
+        {topic: "晚上开会通知", source: "前台", content: "今天晚上十点半到会议室开会", time: "2022-01-01 12:12:12"},
+        {topic: "晚上开会通知", source: "前台", content: "今天晚上十点半到会议室开会", time: "2022-01-01 12:12:12"},
+        {topic: "晚上开会通知", source: "前台", content: "今天晚上十点半到会议室开会", time: "2022-01-01 12:12:12"},
+        {topic: "晚上开会通知", source: "前台", content: "今天晚上十点半到会议室开会", time: "2022-01-01 12:12:12"},
+        {topic: "晚上开会通知", source: "前台", content: "今天晚上十点半到会议室开会", time: "2022-01-01 12:12:12"},
+        {
+          topic: "国庆补班调休通知",
+          source: "前台",
+          content: "国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备",
+          time: "2022-01-01 12:34:56"
+        },
       ],
       choose: -1,
     }
   },
   methods: {
-    checkNotice(index){
-      this.choose=index;
+    checkNotice(index) {
+      this.choose = index;
       this.reload();
     },
-    read(index){
-      this.noticeList.splice(index,1);
-      if(this.noticeList.length == 0){
-        this.choose=-1;
-      }
-      else{
-        this.choose=0;
+    read(index) {
+      this.noticeList.splice(index, 1);
+      if (this.noticeList.length == 0) {
+        this.choose = -1;
+      } else {
+        this.choose = 0;
       }
       this.reload();
     }

@@ -140,7 +140,7 @@ ul {
 }
 
 
-#CartSubmitWrapper{
+#CartSubmitWrapper {
   max-height: 55px;
   margin-left: 0;
   margin-right: 0;
@@ -269,21 +269,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .fadeInFast {
-  opacity: 0;
-  -webkit-animation: fadeIn ease-in 1;
-  -moz-animation: fadeIn ease-in 1;
-  animation: fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-
-  -webkit-animation-duration: 0.2s;
-  -moz-animation-duration: 0.2s;
-  animation-duration: 0.2s;
-}
-
-.fadeOutFast {
   opacity: 0;
   -webkit-animation: fadeIn ease-in 1;
   -moz-animation: fadeIn ease-in 1;

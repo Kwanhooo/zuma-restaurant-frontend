@@ -1,12 +1,12 @@
 <template>
-  {{username}}
+  {{ username }}
   <el-header>
-  <div class="header" style="text-align:center">
-  <input type="text" id="username" class="fadeIn second" name="register" placeholder="🧊  用户名"
-         v-model="username" style="width:200px;margin-top:20px">
-    <el-button round @click="viewOneUser()" >🔍</el-button>
-    <el-button round @click="dialogVisibleAdd=true">➕</el-button>
-  </div>
+    <div class="header" style="text-align:center">
+      <input type="text" id="username" class="fadeIn second" name="register" placeholder="🧊  用户名"
+             v-model="username" style="width:200px;margin-top:20px">
+      <el-button round @click="viewOneUser()">🔍</el-button>
+      <el-button round @click="dialogVisibleAdd=true">➕</el-button>
+    </div>
 
   </el-header>
   <el-main>
@@ -51,10 +51,10 @@
   </el-main>
   <el-dialog
       title="提示"
-       v-model="dialogVisibleModify"
+      v-model="dialogVisibleModify"
       width="30%">
     <span>
-      <p>用户名：{{modifyUserId}}</p>
+      <p>用户名：{{ modifyUserId }}</p>
       <p>密码：<el-input v-model="modifyPassword" :placeholder="modifyPassword" style="width:200px"/></p>
       <p>职位：<el-input v-model="modifyCharactor" :placeholder="modifyCharactor" style="width:200px"/></p>
     </span>
@@ -71,7 +71,7 @@
       v-model="dialogVisibleAdd"
       width="30%">
     <span>
-      <p>用户名：<el-input v-model="addUserId"  style="width:200px"/></p>
+      <p>用户名：<el-input v-model="addUserId" style="width:200px"/></p>
       <p>密  码：<el-input v-model="addPassword" style="width:200px"/></p>
       <p>职  位：<el-input v-model="addCharactor" style="width:200px"/></p>
     </span>
@@ -93,20 +93,20 @@ export default {
   name: "ViewUser",
   data() {
     return {
-      dialogVisibleModify:false,
-      dialogVisibleAdd:false,
-      username:"",
-      modifyUserId:"",
-      modifyPassword:"",
-      modifyCharactor:"",
-      addUserId:"",
-      addPassword:"",
-      addCharactor:"",
+      dialogVisibleModify: false,
+      dialogVisibleAdd: false,
+      username: "",
+      modifyUserId: "",
+      modifyPassword: "",
+      modifyCharactor: "",
+      addUserId: "",
+      addPassword: "",
+      addCharactor: "",
       tableData: [
         {
-          userId:"10001",
-          password:"123456",
-          charactor:"厨师",
+          userId: "10001",
+          password: "123456",
+          charactor: "厨师",
         }
       ]
     }
@@ -114,10 +114,10 @@ export default {
   methods: {
     showModifyDialog(row) {
       this.dialogVisibleModify = true;
-      this.modifyUserId=row.userId;
-      this.modifyPassword=row.password;
-      this.modifyCharactor=row.charactor;
-      this.dialogTableVisible=true;
+      this.modifyUserId = row.userId;
+      this.modifyPassword = row.password;
+      this.modifyCharactor = row.charactor;
+      this.dialogTableVisible = true;
       // dialog.show();
     },
     modifyUser() {
@@ -130,30 +130,30 @@ export default {
           charactor: this.modifyCharactor,
         },
       })
-        .then((res)=>{
-          if(res.data.code===0){
-            this.dialogVisibleModify = false;
-            let id = this.modifyUserId;
-            let password = this.modifyPassword;
-            let charactor = this.modifyCharactor;
-            this.tableData.forEach(function (item,index,arr){
-              if(item.userId===id){
-                arr[index].password=password;
-                arr[index].charactor=charactor;
-              }
-            })
-          }else {
-            this.$alert(res.data.msg, '更新用户', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${ action }`
-                });
-              }
-            });
-          }
-        })
+          .then((res) => {
+            if (res.data.code === 0) {
+              this.dialogVisibleModify = false;
+              let id = this.modifyUserId;
+              let password = this.modifyPassword;
+              let charactor = this.modifyCharactor;
+              this.tableData.forEach(function (item, index, arr) {
+                if (item.userId === id) {
+                  arr[index].password = password;
+                  arr[index].charactor = charactor;
+                }
+              })
+            } else {
+              this.$alert(res.data.msg, '更新用户', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.$message({
+                    type: 'info',
+                    message: `action: ${action}`
+                  });
+                }
+              });
+            }
+          })
     },
 
     deleteUser(row) {
@@ -164,25 +164,25 @@ export default {
           userId: row.userId
         },
       })
-        .then((res)=>{
-          if(res.data.code===0){
-            this.tableData.forEach(function (item,index,arr){
-              if(item.userId===row.id){
-                arr.splice(index,0);
-              }
-            })
-          }else {
-            this.$alert(res.data.msg, '删除用户', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${ action }`
-                });
-              }
-            });
-          }
-        })
+          .then((res) => {
+            if (res.data.code === 0) {
+              this.tableData.forEach(function (item, index, arr) {
+                if (item.userId === row.id) {
+                  arr.splice(index, 0);
+                }
+              })
+            } else {
+              this.$alert(res.data.msg, '删除用户', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.$message({
+                    type: 'info',
+                    message: `action: ${action}`
+                  });
+                }
+              });
+            }
+          })
     },
 
     viewOneUser() {
@@ -193,22 +193,21 @@ export default {
           userId: this.username,
         },
       })
-        .then((res)=>{
-          if(res.data.status===0){
-            this.tableData=res.data;
-          }
-          else{
-            this.$alert(res.data.msg, '查找用户', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${ action }`
-                });
-              }
-            });
-          }
-        })
+          .then((res) => {
+            if (res.data.status === 0) {
+              this.tableData = res.data;
+            } else {
+              this.$alert(res.data.msg, '查找用户', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.$message({
+                    type: 'info',
+                    message: `action: ${action}`
+                  });
+                }
+              });
+            }
+          })
     },
 
     addOneUser() {
@@ -222,8 +221,8 @@ export default {
           charactor: this.addCharactor,
         },
       })
-          .then((res)=>{
-            if(res.data.code===0){
+          .then((res) => {
+            if (res.data.code === 0) {
               this.dialogVisibleAdd = false;
               let user = {
                 userId: this.addUserId,
@@ -231,13 +230,13 @@ export default {
                 charactor: this.addCharactor,
               }
               this.tableData.push(user)
-            }else {
+            } else {
               this.$alert(res.data.msg, '添加用户', {
                 confirmButtonText: '确定',
                 callback: action => {
                   this.$message({
                     type: 'info',
-                    message: `action: ${ action }`
+                    message: `action: ${action}`
                   });
                 }
               });
@@ -250,21 +249,21 @@ export default {
       method: 'POST',
       url: '/front/viewUser'
     })
-    .then((res)=>{
-      if(res.data.code===0){
-        this.tableData=res.data
-      }else {
-        this.$alert(res.data.msg, '查询用户', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
+        .then((res) => {
+          if (res.data.code === 0) {
+            this.tableData = res.data
+          } else {
+            this.$alert(res.data.msg, '查询用户', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.$message({
+                  type: 'info',
+                  message: `action: ${action}`
+                });
+              }
             });
           }
-        });
-      }
-    })
+        })
   }
 }
 </script>
