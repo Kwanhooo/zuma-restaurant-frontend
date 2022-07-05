@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {createRouter, createWebHashHistory} from 'vue-router';
 import Authenticator from "@/components/Authenticator";
 import Main from "@/components/Main.vue";
@@ -12,11 +13,15 @@ import Front from "@/components/Front.vue"
 import Front_ViewOrder from "@/components/front/ViewOrder.vue"
 import Front_ViewUser from "@/components/front/ViewUser.vue"
 import Front_ViewNotice from "@/components/front/ViewNotice"
+import WaiterStatistics from "@/components/waiter/WaiterStatistics";
+import WaiterCart from "@/components/waiter/WaiterCart";
+
 import Front_CheckOut from "@/components/front/CheckOut"
 import Front_ViewFood from "@/components/front/ViewFood"
 import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
 const router = createRouter({
     history: createWebHashHistory(),
+    // mode: 'history',
     routes: [
         {
             path: '/',
@@ -27,7 +32,10 @@ const router = createRouter({
                 {
                     path: '/dashboard/waiter',
                     name: 'waiter-dashboard',
-                    component: waiterDashBoard,
+                    components: {
+                        default: waiterDashBoard,
+                        'content-right': WaiterStatistics,
+                    },
                     // TODO:暂时打上false，后期改为true
                     meta: {authRequired: true},
                 },
@@ -36,14 +44,20 @@ const router = createRouter({
                     name: 'order',
                     // TODO:暂时打上false，后期改为true
                     meta: {authRequired: true},
-                    component: Order
+                    components: {
+                        default: Order,
+                        'content-right': WaiterCart,
+                    },
                 },
                 {
                     path: '/me',
                     name: 'me',
                     // TODO:暂时打上false，后期改为true
                     meta: {authRequired: true},
-                    component: Me
+                    components: {
+                        default: Me,
+                        'content-right': WaiterStatistics,
+                    },
                 },
                 {
                     path: '/front',
