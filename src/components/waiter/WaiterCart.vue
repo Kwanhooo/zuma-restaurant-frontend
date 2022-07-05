@@ -5,6 +5,21 @@
       <hr style="margin-left: 20px;width: 90%">
     </div>
     <div id="CartItemWrapper">
+      <div v-if="orderMap.size === 0">
+        <div style="margin-left: 10px;" class="CartItem fadeInFast">
+          <div>
+            <div style="height: 13px;"></div>
+            <span style="margin-left: 15px;font-size: 25px;font-weight: bold;">😢还没有添加餐品</span>
+          </div>
+          <div style="margin-top:10px;">
+          <span style="margin-left: 15px;font-size: 18px;font-style: italic;">
+            Tips: 请在左侧选取餐品...
+          </span>
+            <br>
+          </div>
+          <br>
+        </div>
+      </div>
       <ul class="infinite-list " v-infinite-scroll="load" :infinite-scroll-immediate="false"
           v-for="(value,order) in this.orderMap" :key="order"
           style="max-height:680px;">
@@ -27,7 +42,7 @@
               <br>
               <div class="item-amount-container">
                 <span class="item-amount-minus" @click.prevent="handleAmountChanged('-',value[0])">-</span>
-                <input type="number" name="#" id="#" class="item-amount-field" v-model="value[1]" readonly="readonly">
+                <input type="number" class="item-amount-field" v-model="value[1]" readonly="readonly">
                 <span class="item-amount-plus" @click.prevent="handleAmountChanged('+',value[0])">+</span>
               </div>
             </div>
@@ -36,20 +51,30 @@
         </li>
       </ul>
     </div>
-    <div id="CartSubmitWrapper">
-      <button class="CartSubmitBtn" v-if="orderMap.size !== 0">下单</button>
+    <div id="TotalPriceWrapper" v-if="orderMap.size !== 0" class="fadeInFast">
+      <span style="font-weight: bold;">总价：</span>
+      <span style="font-style: italic;font-weight: bold;color: var(--blue);">
+        {{ totalPrice }}</span>
+    </div>
+    <div id="CartSubmitWrapper" v-if="orderMap.size !== 0" class="fadeInFast">
+      <input type="number" class="TableIdInput" v-model="tableId" placeholder="🍽️桌号">
+      <button class="CartClearBtn" @click.prevent="clearAll">清除</button>
+      <button class="CartSubmitBtn" @click.prevent="submitOrder">下单</button>
     </div>
   </div>
 </template>
 
 <script>
 import bus from '../../util/bus.ts';
+// import axios from "axios";
 
 export default {
   name: "WaiterCart",
   data() {
     return {
       orderMap: new Map(),
+      tableId: null,
+      totalPrice: 0.0,
     };
   },
   methods: {
@@ -59,6 +84,7 @@ export default {
     handleAmountChanged(sign, data) {
       if (sign === '-') {
         bus.emit("ChangedBack", {affectedFood: data, newAmount: this.orderMap.get(data) - 1});
+        this.calculateTotalPrice();
         if (this.orderMap.get(data) > 1) {
           this.orderMap.set(data, this.orderMap.get(data) - 1);
         } else {
@@ -66,9 +92,60 @@ export default {
         }
       } else {
         bus.emit("ChangedBack", {affectedFood: data, newAmount: this.orderMap.get(data) + 1});
+        this.calculateTotalPrice();
         this.orderMap.set(data, this.orderMap.get(data) + 1);
       }
     },
+    calculateTotalPrice() {
+      let temp = 0;
+      this.orderMap.forEach((value, key) => {
+        temp += key.price * value;
+      });
+      // 保留两位小数
+      this.totalPrice = Math.round(temp * 100) / 100;
+    },
+    clearAll() {
+      // 清空orderMap
+      this.orderMap.clear();
+      // 清空tableId
+      this.tableId = null;
+      // 从bus发送消息清空购物车
+      bus.emit("ClearCart");
+    },
+    submitOrder() {
+      // 构造传送给服务器的数据
+      let foodInUse = [];
+      let totalPrice = 0;
+      let orderToSend = {};
+
+
+      orderToSend.tableId = this.tableId;
+
+      // 遍历orderMap
+      for (let [food, amount] of this.orderMap) {
+        for (let i = 0; i < amount; i++) {
+          foodInUse.push(food);
+          totalPrice += food.price;
+        }
+      }
+      orderToSend.foodInUse = foodInUse;
+      orderToSend.totalPrice = totalPrice;
+
+      //TODO:删掉这个
+      console.log(orderToSend);
+
+      this.clearAll();
+
+      // TODO:发送orderToSend到/serve/order
+      // let vm=this;
+      // axios({
+      //   method: "post",
+      //   url: "/serve/order",
+      //   data: orderToSend,
+      // }).then(() => {
+      //   vm.clearAll();
+      // });
+    }
   },
   mounted() {
     const vm = this;
@@ -77,6 +154,7 @@ export default {
         vm.orderMap.delete(data.affectedFood);
       else
         vm.orderMap.set(data.affectedFood, data.newAmount);
+      this.calculateTotalPrice();
     });
   },
 };
@@ -136,19 +214,26 @@ ul {
   margin-right: 7px;
   margin-bottom: 10px;
   /*height: 100%;*/
-  height: 665px;
+  height: 630px;
 }
 
 
 #CartSubmitWrapper {
-  max-height: 55px;
+  height: 60px;
   margin-left: 0;
   margin-right: 0;
-  margin-bottom: 10px;
+  margin-bottom: 0;
+}
+
+
+#TotalPriceWrapper {
+  /*float: right;*/
+  margin: 0 20px 0 180px;
+  font-size: 20px;
 }
 
 .item-title {
-  margin-left: 10px;
+  margin-left: 15px;
   font-size: 20px;
   font-weight: bold;
 }
@@ -202,7 +287,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 15px 20px 10px 0;
   border: 3px;
   border-radius: 30px;
-  width: 105px;
+  width: 100px;
   height: 45px;
   font-size: 13px;
 
@@ -216,18 +301,51 @@ input[type=number]::-webkit-outer-spin-button {
   color: #FFF4EA;
 }
 
+.CartClearBtn {
+  float: left;
+  margin: 15px 0 10px 20px;
+  border: 3px;
+  border-radius: 30px;
+  width: 90px;
+  height: 45px;
+  font-size: 13px;
+
+  transition-duration: 0.4s;
+  background-color: #FFEDF3;
+  color: #DF3B88;
+}
+
+.CartClearBtn:hover {
+  background-color: #DF3B88;
+  color: #FFEDF3;
+}
+
+.TableIdInput {
+  /*选中时边框设置为无*/
+  border: none;
+
+  float: left;
+  margin: 15px 0 0 10px;
+  font-size: 22px;
+  text-align: center;
+  /*box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.09);*/
+  border-radius: 30px;
+  width: 90px;
+  height: 45px;
+}
+
 /*shits*/
 
 .item-type {
   float: right;
   text-align: right;
   margin: 5px 30px 0 10px;
-  font-size: 13px;
+  font-size: 15px;
   font-style: italic;
 }
 
 .item-amount {
-  margin-left: 10px;
+  margin-left: 15px;
   font-size: 18px;
 }
 
