@@ -127,11 +127,11 @@
             <div>
               <div style="height: 13px;"></div>
               <span class="waiting-foodType" style="font-size: 25px; font-weight: bold">{{ waiting.foodType }}</span>
+              <span class="waiting-time" style="margin-left: 20px; font-style: italic">{{ waiting.time }}</span>
               <br/>
               <br/>
-              <span class="waiting-table"
-                    style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{ waiting.table }}号桌</span>
-              <span class="waiting-time" style="margin-left: 20px;">{{ waiting.time }}</span>
+              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{ waiting.table }}号桌</span>
+              <button class="callingBtm" style="margin-left: 100px">通知上菜</button>
             </div>
             <br>
           </div>
@@ -484,6 +484,22 @@ ul {
 .calling-table {
   font-size: 25px;
   font-weight: bold;
+}
+
+.callingBtm {
+  text-align: center;
+  width: 120px;
+  height: 40px;
+  border: 3px;
+  border-radius: 30px;
+  transition-duration: 0.4s;
+  background-color: #F1FBFE;
+  color: #1383B6;
+}
+
+.callingBtm:hover{
+  background-color: #1383B6;
+  color: #F1FBFE;
 }
 
 #otherWrapper {
