@@ -16,7 +16,7 @@
         <router-view></router-view>
       </div>
       <div id="statistics-wrapper">
-        <WaiterStatistics></WaiterStatistics>
+        <router-view name="content-right"></router-view>
       </div>
     </div>
     <div id="bottomBar">
@@ -29,12 +29,12 @@
 import DockItem from "@/components/LeftDock";
 import BottomBar from "@/components/BottomBar";
 import axios from "axios";
-import WaiterStatistics from "@/components/waiter/WaiterStatistics";
+
 
 export default {
   name: "global-frame",
   components: {
-    WaiterStatistics,
+    // WaiterStatistics,
     DockItem,
     BottomBar,
   },
