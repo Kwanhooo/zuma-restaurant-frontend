@@ -5,7 +5,7 @@
         <div style="background: white;border-radius: 30px;height: auto;position: absolute;top: 20px;">
           <nav class="navigation">
             <ul v-for="(type,index) in typeList" :key="index">
-              <li>
+              <li style="margin: 10px 0;">
                 <button @click.prevent="handleJump(type,index)"
                         :class="{active:currentIndex===index,NavigatorBtn:true}">
                   {{ type }}
@@ -36,14 +36,57 @@ export default {
   data() {
     return {
       typeList: ['主食', '甜品', '饮料'],
+      //TODO:假数据
       foodData: [
-        {type: '主食', name: '咸酸菜', price: 88.8, rating: 4},
-        {type: '主食', name: '荷兰豆', price: 66.6, rating: 5},
-        {type: '饮料', name: '蓝山王', price: 28, rating: 3},
-        {type: '饮料', name: '拿铁', price: 45, rating: 3},
-        {type: '甜品', name: '杨枝甘露', price: 12, rating: 3},
-        {type: '甜品', name: '芒果班戟', price: 17, rating: 5},
-        {type: '甜品', name: '绿豆沙', price: 17, rating: 5},
+        {
+          type: '主食',
+          name: '咸酸菜',
+          price: 88.8,
+          rating: 4,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
+        {
+          type: '主食',
+          name: '荷兰豆',
+          price: 66.6,
+          rating: 5,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
+        {
+          type: '饮料',
+          name: '蓝山王',
+          price: 28,
+          rating: 3,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
+        {
+          type: '饮料',
+          name: '拿铁',
+          price: 45,
+          rating: 3,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
+        {
+          type: '甜品',
+          name: '杨枝甘露',
+          price: 12,
+          rating: 3,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
+        {
+          type: '甜品',
+          name: '芒果班戟',
+          price: 17,
+          rating: 5,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
+        {
+          type: '甜品',
+          name: '绿豆沙',
+          price: 17,
+          rating: 5,
+          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
+        },
       ],
       currentIndex: 0,
     }
@@ -100,6 +143,7 @@ export default {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
 }
+
 /**************/
 
 /* 通用 */

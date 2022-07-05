@@ -6,11 +6,11 @@
   </el-header>
   <el-main>
     <el-table :data="tableData" height="600" style="width: 100%">
-      <el-table-column prop="noticeId" label="编号" width="180" />
-      <el-table-column prop="noticeSource" label="发出者" width="180" />
-      <el-table-column prop="noticeReceiver" label="接收者" width="180" />
-      <el-table-column prop="noticeTime" label="发出时间" width="180" />
-      <el-table-column prop="text" label="文本内容" width="580" />
+      <el-table-column prop="noticeId" label="编号" width="180"/>
+      <el-table-column prop="noticeSource" label="发出者" width="180"/>
+      <el-table-column prop="noticeReceiver" label="接收者" width="180"/>
+      <el-table-column prop="noticeTime" label="发出时间" width="180"/>
+      <el-table-column prop="text" label="文本内容" width="580"/>
     </el-table>
   </el-main>
   <el-dialog
@@ -19,7 +19,7 @@
       width="30%"
   >
     <span>
-      <p>编    号:   <el-input v-model="noticeId" placeholder="Please input" style="width:225px" /></p>
+      <p>编    号:   <el-input v-model="noticeId" placeholder="Please input" style="width:225px"/></p>
       <p>发出者:   <el-select v-model="noticeSource" class="m-2" placeholder="Select" size="middle">
     <el-option
         v-for="item in options"
@@ -44,7 +44,7 @@
           format="YYYY/MM/DD hh:mm:ss"
       /></p>
       <p><el-form-item label="内容">
-      <el-input v-model="text" type="textarea" />
+      <el-input v-model="text" type="textarea"/>
     </el-form-item></p>
     </span>
     <template #footer>
@@ -65,22 +65,22 @@ import axios from "axios";
 export default {
   name: "viewNotice",
   data() {
-    return{
+    return {
       tableData: [
         {
-          noticeId:10001,
-          noticeSource:"后厨",
-          noticeReceiver:"采购员",
-          noticeTime:"2022-07-04 13:40:29",
-          text:"猪肉要用完哩"
+          noticeId: 10001,
+          noticeSource: "后厨",
+          noticeReceiver: "采购员",
+          noticeTime: "2022-07-04 13:40:29",
+          text: "猪肉要用完哩"
         }
       ],
-      dialogVisible:false,
-      noticeId:"",
-      noticeSource:"",
-      noticeReceiver:"",
-      noticeTime:"",
-      text:"",
+      dialogVisible: false,
+      noticeId: "",
+      noticeSource: "",
+      noticeReceiver: "",
+      noticeTime: "",
+      text: "",
       options: [
         {
           value: '前台',
@@ -106,39 +106,39 @@ export default {
       ]
     }
   },
-  methods :{
+  methods: {
     pushNotice() {
       axios({
         method: 'POST',
         url: '/front/addNotice',
         data: {
-          adminId:sessionStorage.getItem('userId'),
-          text:this.text,
+          adminId: sessionStorage.getItem('userId'),
+          text: this.text,
         }
       })
-          .then((res)=>{
-            if(res.status===0){
+          .then((res) => {
+            if (res.status === 0) {
               var newNotice = {
-                noticeId:res.data.noticeId,
-                noticeSource:res.data.noticeSource,
-                noticeReceiver:res.data.noticeReceiver,
-                noticeTime:res.data.noticeTime,
-                text:res.data.text
+                noticeId: res.data.noticeId,
+                noticeSource: res.data.noticeSource,
+                noticeReceiver: res.data.noticeReceiver,
+                noticeTime: res.data.noticeTime,
+                text: res.data.text
               };
               this.tableData.push(newNotice);
-              this.noticeId="";
-              this.noticeSource="";
-              this.noticeReceiver="";
-              this.noticeTime="";
-              this.text="";
-              this.dialogVisible=false;
-            }else {
+              this.noticeId = "";
+              this.noticeSource = "";
+              this.noticeReceiver = "";
+              this.noticeTime = "";
+              this.text = "";
+              this.dialogVisible = false;
+            } else {
               this.$alert(res.data.msg, '发布公告', {
                 confirmButtonText: '确定',
                 callback: action => {
                   this.$message({
                     type: 'info',
-                    message: `action: ${ action }`
+                    message: `action: ${action}`
                   });
                 }
               });
@@ -151,16 +151,16 @@ export default {
       method: 'POST',
       url: '/front/viewNotice'
     })
-        .then((res)=>{
-          if(res.data.code===0){
-            this.tableData=res.data
-          }else {
+        .then((res) => {
+          if (res.data.code === 0) {
+            this.tableData = res.data
+          } else {
             this.$alert(res.data.msg, '查询公告', {
               confirmButtonText: '确定',
               callback: action => {
                 this.$message({
                   type: 'info',
-                  message: `action: ${ action }`
+                  message: `action: ${action}`
                 });
               }
             });
@@ -172,9 +172,9 @@ export default {
 
 <style scoped>
 
-.pushButton{
-  position:relative;
-  left:1150px;
-  top:35px;
+.pushButton {
+  position: relative;
+  left: 1150px;
+  top: 35px;
 }
 </style>

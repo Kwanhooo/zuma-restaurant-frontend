@@ -1,11 +1,9 @@
 <template>
   <div class="product-container">
-    <a href="#" class="product-image-wrapper">
-      <span class="product-image-link"
-            style="background-image: url('https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg')">
-      </span>
-    </a>
-
+    <div class="product-image-wrapper">
+      <img class="product-image-link" :src="food.img" :alt="food.name">
+    </div>
+<!--    https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg-->
     <div class="product-title">
       <a href="#">{{ food.name }}</a>
     </div>
@@ -92,7 +90,7 @@ export default {
   position: relative;
   display: block;
   margin: 0 auto;
-  height: 230px;
+  height: 150px;
   width: auto;
 }
 
@@ -102,7 +100,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  margin: 0 auto;
+  margin: 20px auto;
   max-width: 200px;
   max-height: 200px;
   background-position: center;

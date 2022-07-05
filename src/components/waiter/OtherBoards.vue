@@ -1,5 +1,5 @@
 <template>
-  <div id="otherWrapper">
+  <div id="otherWrapperDash">
     <div class="today">
       <div class="todayTitle">
         <div style="height: 20px;"></div>
@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped>
-#otherWrapper {
+#otherWrapperDash {
   height: 100%;
 }
 

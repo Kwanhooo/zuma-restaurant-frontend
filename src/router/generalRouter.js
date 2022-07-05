@@ -3,7 +3,6 @@ import {createRouter, createWebHashHistory} from 'vue-router';
 import Authenticator from "@/components/Authenticator";
 import Main from "@/components/Main.vue";
 import Order from "@/components/waiter/Order.vue";
-import Me from "@/components/waiter/Me.vue";
 import waiterDashBoard from "@/components/waiter/WaiterDashBoard";
 import kitchen from "@/components/kitchen/Kitchen";
 import user from "@/components/kitchen/User";
@@ -19,6 +18,7 @@ import WaiterCart from "@/components/waiter/WaiterCart";
 import Front_CheckOut from "@/components/front/CheckOut"
 import Front_ViewFood from "@/components/front/ViewFood"
 import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
+
 const router = createRouter({
     history: createWebHashHistory(),
     // mode: 'history',
@@ -50,12 +50,12 @@ const router = createRouter({
                     },
                 },
                 {
-                    path: '/me',
-                    name: 'me',
+                    path: '/user/waiter',
+                    name: 'waiter-me',
                     // TODO:暂时打上false，后期改为true
                     meta: {authRequired: true},
                     components: {
-                        default: Me,
+                        default: user,
                         'content-right': WaiterStatistics,
                     },
                 },
@@ -63,7 +63,7 @@ const router = createRouter({
                     path: '/front',
                     name: 'front',
                     component: Front,
-                    children:[
+                    children: [
                         {
                             path: '/front/viewOrder',
                             name: 'front-viewOrder',

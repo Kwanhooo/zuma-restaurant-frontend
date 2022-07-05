@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <div class="block"  style="text-align:center;">
+      <div class="block" style="text-align:center;">
         查询从：
         <el-date-picker
             v-model="timeValue"
@@ -11,9 +11,10 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             align="right">
-        </el-date-picker> 的订单
+        </el-date-picker>
+        的订单
         <el-button type="primary" @on-click="search()"><i class="el-icon-search">搜索</i></el-button>
-        {{timeValue}}
+        {{ timeValue }}
       </div>
     </el-header>
     <el-main>
@@ -93,7 +94,7 @@ export default {
       tableData: [],
     };
   },
-  methods :{
+  methods: {
     search() {
       axios({
         method: "post",
@@ -103,22 +104,22 @@ export default {
           timeValue2: this.timeValue.at(1),
         },
       })
-          .then((res)=>{
-            if(res.data.code===0){
-              this.tableData=res.data;
-            }else {
+          .then((res) => {
+            if (res.data.code === 0) {
+              this.tableData = res.data;
+            } else {
               this.$alert('这是一段内容', '标题名称', {
                 confirmButtonText: '确定',
                 callback: action => {
                   this.$message({
                     type: 'info',
-                    message: `action: ${ action }`
+                    message: `action: ${action}`
                   });
                 }
               });
             }
           })
-          .catch((err)=>{
+          .catch((err) => {
             console.log(err);
           });
     }
@@ -129,7 +130,7 @@ export default {
 
 <style scoped>
 .block {
-  text-align:center;
+  text-align: center;
   padding-top: 20px;
 }
 </style>

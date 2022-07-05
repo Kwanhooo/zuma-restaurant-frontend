@@ -3,20 +3,20 @@
   <div id="left">
     <div class="user">
       <div class="categoryTitle" align="center">📃 账号信息</div>
-      <hr style="width:80%;top:0%" >
+      <hr style="width:80%;top:0%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <table class="userMsgForm">
           <tr>
             <td>id:</td>
-            <td>{{id}}</td>
+            <td>{{ id }}</td>
           </tr>
           <tr>
             <td>用户名:</td>
-            <td>{{userId}}</td>
+            <td>{{ userId }}</td>
           </tr>
           <tr>
             <td>电话:</td>
-            <td>{{phone}}</td>
+            <td>{{ phone }}</td>
           </tr>
         </table>
       </div>
@@ -24,7 +24,7 @@
 
     <div class="changePhone">
       <div class="categoryTitle" align="center">💾 修改电话</div>
-      <hr style="width:80%" >
+      <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <br>
         <input class="phoneText" type="text" v-text="phone">
@@ -57,7 +57,7 @@
 
     <div class="other">
       <div class="categoryTitle" align="center">📎 其他操作</div>
-      <hr style="width:80%" >
+      <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <br>
         <button class="otherBtm" @click.prevent="">修改密码</button>
@@ -74,7 +74,7 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "user",
   data() {
-    return{
+    return {
       day: "",
       date: "",
       time: "",
@@ -227,7 +227,7 @@ export default {
   color: #1383B6;
 }
 
-.changePhoneBtm:hover{
+.changePhoneBtm:hover {
   background-color: #1383B6;
   color: #F1FBFE;
 }
