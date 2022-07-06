@@ -1,14 +1,12 @@
-<!--Date:2022-06-30-->
-<!--Description:认证组件，注入在App.vue根组件中-->
 <template>
-  <div class="wrapper fadeInDown">
+  <div class="MobileAuthWrapper fadeInDown">
     <h2 v-if="isErr" style="color: coral">{{ errInfo }}</h2>
     <div id="formContent">
       <h2 :class="{active:isLogin,inactive:!isLogin,underlineHover:!isLogin,} " @click="isLogin=true;"> 登入 </h2>
       <h2 :class="{active:!isLogin,inactive:isLogin, underlineHover:isLogin}" @click="isLogin=false;">注册 </h2>
       <div id="loginView" v-if="isLogin">
         <div class="fadeIn first">
-          <img src="../assets/img/logo.webp"
+          <img src="../../assets/img/logo.webp"
                style="max-width: 200px; height: auto; width: auto;padding-bottom: 20px;padding-top: 30px;" id="icon"
                alt="Icon"/>
 
@@ -32,7 +30,7 @@
         <div style="font-family: var(--font-family-sans-serif),serif;font-size: 25px;margin-bottom: 20px;">
           <!--          <div id="regTitle">用户注册</div>-->
           <div class="fadeIn first">
-            <img src="../assets/img/register.png"
+            <img src="../../assets/img/register.png"
                  style="max-width: 150px; height: auto; width: auto;padding-bottom: 20px;padding-top: 30px;" id="icon"
                  alt="Icon"/>
             <div style="font-family: 'Times New Roman',serif;font-size: 25px;font-style: italic;margin-bottom: 20px;">
@@ -193,19 +191,18 @@ h2 {
 
 /* 总体结构 */
 
-.wrapper {
+.MobileAuthWrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   width: 100%;
   min-height: 100%;
-  padding: 20px;
-
+  padding:3px 20px;
 }
 
 #formContent {
-  margin-top: 9vh;
+  margin-top: 0;
   margin-bottom: 0;
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
