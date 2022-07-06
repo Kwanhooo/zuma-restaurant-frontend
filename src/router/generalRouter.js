@@ -19,6 +19,8 @@ import Front_CheckOut from "@/components/front/CheckOut"
 import Front_ViewFood from "@/components/front/ViewFood"
 import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
 
+import Rider from "@/components/Rider"
+
 const router = createRouter({
     history: createWebHashHistory(),
     // mode: 'history',
@@ -117,8 +119,13 @@ const router = createRouter({
             path: '/auth',
             name: 'auth',
             meta: {authRequired: false},
-            component: Authenticator
+            component: Authenticator,
         },
+        {
+            path :'/rider',
+            name: 'rider',
+            component: Rider,
+        }
     ]
 });
 
