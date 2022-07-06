@@ -5,6 +5,7 @@
       <div class="categoryTitle" align="center">📃 账号信息</div>
       <hr style="width:80%;top:0%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
+        <br><br>
         <table class="userMsgForm">
           <tr>
             <td>id:</td>
@@ -70,6 +71,7 @@
 </template>
 
 <script>
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "user",
