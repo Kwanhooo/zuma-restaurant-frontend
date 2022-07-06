@@ -21,6 +21,10 @@ import Front_CheckOut from "@/components/front/CheckOut"
 import Front_ViewFood from "@/components/front/ViewFood"
 import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
 import MobileAuth from "@/components/mobile/MobileAuth";
+import MobileHome from "@/components/mobile/MobileHome";
+import MobileCart from "@/components/mobile/MobileCart";
+import MobileOrder from "@/components/mobile/MobileOrder";
+import MobileMe from "@/components/mobile/MobileMe";
 
 import Rider from "@/components/Rider"
 
@@ -130,10 +134,10 @@ const router = createRouter({
             component: Rider,
         },
         {
-            path:'/m/auth',
-            name:'Mobile-auth',
-            meta:{authRequired:false},
-            component:MobileAuth
+            path: '/m/auth',
+            name: 'Mobile-auth',
+            meta: {authRequired: false},
+            component: MobileAuth
         },
         {
             path: '/m',
@@ -141,6 +145,30 @@ const router = createRouter({
             meta: {authRequired: true},
             component: Mobile,
             children: [
+                {
+                    path: '/m/home',
+                    name: 'Mobile-home',
+                    meta: {authRequired: true},
+                    component: MobileHome,
+                },
+                {
+                    path: '/m/cart',
+                    name: 'Mobile-cart',
+                    meta: {authRequired: true},
+                    component: MobileCart,
+                },
+                {
+                    path: '/m/order',
+                    name: 'Mobile-order',
+                    meta: {authRequired: true},
+                    component: MobileOrder,
+                },
+                {
+                    path: '/m/me',
+                    name: 'Mobile-me',
+                    meta: {authRequired: true},
+                    component: MobileMe,
+                },
 
             ]
         },
