@@ -128,7 +128,7 @@ export default {
       // 将账号和密码Post到服务器，并获取token
       axios({
         method: "post",
-        url: "/api/register",
+        url: "/serve/register",
         data: {
           username: this.username,
           password: this.password,
@@ -138,7 +138,7 @@ export default {
           .then((res) => {
             if (res.data.code === 0) {
               // 登录成功，将token存入本地存储
-              localStorage.setItem("token", res.data.token);
+              sessionStorage.setItem("token", res.data.token);
               // 跳转到首页
               this.$router.push("/home");
             } else {

@@ -2,6 +2,8 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import Authenticator from "@/components/Authenticator";
 import Main from "@/components/Main.vue";
+// import Mobile from "@/components/Mobile.vue";
+
 import Order from "@/components/waiter/Order.vue";
 import waiterDashBoard from "@/components/waiter/WaiterDashBoard";
 import kitchen from "@/components/kitchen/Kitchen";
