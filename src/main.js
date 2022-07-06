@@ -16,6 +16,8 @@ const app = createApp(App)
 app.component('element-icon', Edit)
 app.use(ElementPlus)
 
+//TODO:模拟清空
+sessionStorage.clear();
 //TODO:模拟存一个token
 sessionStorage.setItem('token', '123456');
 //TODO:模拟存一个用户角色为waiter
@@ -29,20 +31,22 @@ generalRouter.beforeEach((to, from, next) => {
     }
     // 判断是否需要登录权限
     if (to.meta.authRequired === true) {
+        // TODO:生产环境需要添加token验证
+        next();
         // 判断是否已经登录
         const token = sessionStorage.getItem('token');
         if (token) {
             //TODO:token有效性验证，暂时不开
-            // axios.get('/api/validate?token='+token).then(res => {
-            //     if (res.data.code === 0) {
-            //       // token有效，跳到首页
-            //       this.$router.push('/');
-            //     } else {
-            //       // token无效，清除假token
-            //       localStorage.removeItem('token');
-            //       this.$router.push('/auth');
-            //     }
-            // });
+            axios.get('/user/validate').then(res => {
+                if (res.data.code === 0) {
+                    // token有效，跳到首页
+                    next();
+                } else {
+                    // token无效，清除假token
+                    localStorage.removeItem('token');
+                    next('/auth');
+                }
+            });
             next()
         } else {
             next({
@@ -53,21 +57,16 @@ generalRouter.beforeEach((to, from, next) => {
     } else next();
 });
 
+// 注册路由
 app.use(generalRouter)
 
-
-axios.defaults.baseURL = "https://0xffff.xn--6qq986b3xl"
+//TODO:baseurl暂时不用
+axios.defaults.baseURL = "/api";
 
 // 每次请求都带上token
 axios.interceptors.request.use(config => {
-    config.headers.Authorization = localStorage.getItem('token')
-    return config
-});
-
-// 拦截未登录的请求
-axios.interceptors.request.use(config => {
-        if (localStorage.getItem("token")) {
-            config.headers.Authorization = localStorage.getItem("token")
+        if (sessionStorage.getItem("token")) {
+            config.headers.Authorization = sessionStorage.getItem("token")
         }
         return config
     },
@@ -75,6 +74,7 @@ axios.interceptors.request.use(config => {
         return Promise.reject(error)
     });
 
+// 全局axios实例
 app.config.globalProperties.$http = axios
 
 app.mount('#app')

@@ -33,9 +33,7 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook">{{
-            nowCook.foodType
-          }}
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook">{{ nowCook.foodType }}
         </div>
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
              v-if="nowCook.foodType == null && nextCook.foodType != null">休息中
@@ -87,13 +85,9 @@
         <div style="margin-left: 20px;">
           <div>
             <div style="height: 13px;"></div>
-            <span class="waiting-foodType" style="font-size: 25px; font-weight: bold">{{ waiting.foodType }}</span>
+            <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold">{{ waiting.foodType }}</span>
             <br/>
-            <br/>
-            <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{
-                waiting.table
-              }}号桌</span>
-            <span class="waiting-time" style="margin-left: 20px;">{{ waiting.time }}</span>
+            <span class="waiting-table" style="font-size: 20px; font-weight: bold;">{{ waiting.table }}号桌</span>
           </div>
           <br>
         </div>
@@ -109,29 +103,28 @@
       </div>
       <hr style="width:90%">
       <ul id="calling-ul" style="overflow:auto;max-height:600px;">
-        <li style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;" v-if="queue.length===0">
+        <li style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;" v-if="finish.length===0">
           <div style="margin-left: 20px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="calling-table">烹饪队列为空</span>
+              <span class="calling-table">还没有做完的菜哦</span>
             </div>
             <div style="margin-top:20px;">
-              <span style="font-size: 20px;">休息一下吧~</span>
+              <span style="font-size: 20px;">继续加油吧~</span>
             </div>
             <br>
           </div>
         </li>
-        <li v-for="waiting in queue" :key="waiting" class="infinite-list-item"
+        <li v-for="(dish,index) in finish" :key="dish" class="infinite-list-item"
             style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;">
           <div style="margin-left: 20px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold">{{ waiting.foodType }}</span>
-              <span class="waiting-time" style="margin-left: 20px; font-style: italic">{{ waiting.time }}</span>
+              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold">{{ dish.foodType }}</span>
               <br/>
               <br/>
-              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{ waiting.table }}号桌</span>
-              <button class="callingBtm" style="margin-left: 100px">通知上菜</button>
+              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{ dish.table }}号桌</span>
+              <button class="callingBtm" style="margin-left: 100px" @click.prevent="inform(index)">通知上菜</button>
             </div>
             <br>
           </div>
@@ -143,6 +136,10 @@
 </template>
 
 <script>
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "kitchen",
@@ -150,19 +147,24 @@ export default {
   data() {
     return {
       stop: false,
-      nowCook: {num: "3", foodType: "水煮鱼", table: "3", time: "2022-01-01 12:12:36"},
-      nextCook: {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
+      nowCook: {/*num: "3", foodType: "水煮鱼", table: "3", time: "2022-01-01 12:12:36"*/},
+      nextCook: {/*num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"*/},
       queue: [
-        {num: "1", foodType: "红烧肉", table: "1", time: "2022-01-01 12:12:12"},
+        {id: 1, foodType: "红烧肉", table: 1, foodInUseListId: 1},
+        {id: 2, foodType: "狮子头", table: 2, foodInUseListId: 1},
+        {id: 3, foodType: "水煮鱼", table: 3, foodInUseListId: 1},
+        /*{num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
+        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
+        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
+        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
+        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},*/
+      ],
+      finish: [
+        /*{num: "1", foodType: "红烧肉", table: "1", time: "2022-01-01 12:12:12"},
         {num: "2", foodType: "狮子头", table: "2", time: "2022-01-01 12:12:24"},
         {num: "3", foodType: "水煮鱼", table: "3", time: "2022-01-01 12:12:36"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
+        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},*/
       ],
-      waitingDish: 0,
     }
   },
   methods: {
@@ -171,6 +173,16 @@ export default {
     },
 
     finishCook() {
+      this.finish.push(this.nowCook);
+      this.nowCook.ordercheck = '0';
+      axios({
+        method: 'POST',
+        url: '/back/modifyDinner/'+this.nowCook.id+'/'+this.nowCook.foodInUseListId,
+      })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
       if (!this.stop) {
         if (this.nextCook.foodType != null) {
           this.nowCook = this.nextCook;
@@ -186,7 +198,6 @@ export default {
       } else {
         this.nowCook = {};
       }
-      this.waitingDish++;
       this.reload();
     },
 
@@ -199,9 +210,61 @@ export default {
           this.queue.splice(0, 1);
         }
       }
+    },
+
+    inform(index) {
+      var notice = {text:"将"+this.finish[index].foodType+"送到"+this.finish[index].table+"号桌"};
+      this.finish.splice(index,1);
+      axios.post("/back/submitNotice",{
+        notice: notice
+      }).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
     }
   },
   created() {
+    axios({
+      method: 'GET',
+      url: '/back/viewDinner'
+    })
+        .then((res) => {
+          console.log(res);
+          for(let i in res.data){
+            let temp={
+              id: i.id,
+              table: i.table,
+              foodInUseList:{
+                id: i.foodInUseList.id,
+                name: i.foodInUseList.name,
+              }
+            }
+            for(let food in temp.foodInUseList){
+              let temp1 = {
+                id : temp.id,
+                table : temp.table,
+                foodInUseListId : food.id,
+                foodType : food.name,
+              }
+              this.queue.push(temp1);
+            }
+          }
+        })
+        .catch(err => {
+          //打印响应数据(错误信息)
+          console.log(err);
+        });
+    if(this.nextCook.id == null){
+      this.nextCook = this.queue[0];
+      this.queue.splice(0,1);
+    }
+
+    if(this.nowCook.id == null && !this.stop){
+      this.nowCook = this.nextCook;
+      this.nextCook = this.queue[0];
+      this.queue.splice(0,1);
+    }
   },
 }
 </script>

@@ -2,6 +2,8 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import Authenticator from "@/components/Authenticator";
 import Main from "@/components/Main.vue";
+import Mobile from "@/components/Mobile.vue";
+
 import Order from "@/components/waiter/Order.vue";
 import waiterDashBoard from "@/components/waiter/WaiterDashBoard";
 import kitchen from "@/components/kitchen/Kitchen";
@@ -18,6 +20,7 @@ import WaiterCart from "@/components/waiter/WaiterCart";
 import Front_CheckOut from "@/components/front/CheckOut"
 import Front_ViewFood from "@/components/front/ViewFood"
 import Front_ViewEvaluation from "@/components/front/ViewEvaluation"
+import MobileAuth from "@/components/mobile/MobileAuth";
 
 import Rider from "@/components/Rider"
 
@@ -125,7 +128,22 @@ const router = createRouter({
             path :'/rider',
             name: 'rider',
             component: Rider,
-        }
+        },
+        {
+            path:'/m/auth',
+            name:'Mobile-auth',
+            meta:{authRequired:false},
+            component:MobileAuth
+        },
+        {
+            path: '/m',
+            name: 'Mobile',
+            meta: {authRequired: true},
+            component: Mobile,
+            children: [
+
+            ]
+        },
     ]
 });
 
