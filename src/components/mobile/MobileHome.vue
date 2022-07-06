@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import HomeTitle from "@/components/mobile/HomeTitle";
+import HomeTitle from "@/components/mobile/HomeTopBar";
 import HomePurchase from "@/components/mobile/HomePurchase";
 
 export default {
