@@ -17,10 +17,10 @@
         <div style="margin-left: 20px;">
           <div>
             <div style="height: 30px;"></div>
-            <span class="noticeTopic" style="font-size: 35px; color: #007BFF; font-weight: bold">来自：{{ notice.source }}的公告</span>
+            <span class="noticeTopic" style="font-size: 35px; color: #007BFF; font-weight: bold">来自：{{ notice.noticesource }}的公告</span>
             <br><br>
             <br>
-            <span class="noticeTime" style="margin-left: 20px;font-style: italic">公告时间：{{ notice.time }}</span>
+            <span class="noticeTime" style="margin-left: 20px;font-style: italic">公告时间：{{ notice.noticetime }}</span>
           </div>
           <br>
         </div>
@@ -31,10 +31,10 @@
     <div class="noticeDetail" v-if="index == choose">
       <div class="noticeListTitle">📮 公告详情</div>
       <hr style="width:80%">
-      <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">来自：{{ notice.source }}的公告</div>
-      <div class="noticeTime" style="font-size: 20px; font-style: italic">{{ notice.time }}</div>
+      <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">来自：{{ notice.noticesource }}的公告</div>
+      <div class="noticeTime" style="font-size: 20px; font-style: italic">{{ notice.noticetime }}</div>
       <div class="inform" style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 55%;width: 96%;overflow:auto;max-height:680px;">
-        <div class="noticeContent" style="font-size: 20px;">{{ notice.content }}</div>
+        <div class="noticeContent" style="font-size: 20px;">{{ notice.text }}</div>
       </div>
       <button class="readBtm" @click.prevent="read(index)">确认</button>
     </div>
@@ -49,6 +49,8 @@
 
 <script>
 
+import axios from "axios";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "notice",
@@ -56,20 +58,15 @@ export default {
   data() {
     return{
       noticeList: [
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "晚上开会通知", source:"前台" ,content:"今天晚上十点半到会议室开会", time:"2022-01-01 12:12:12"},
-        {topic: "国庆补班调休通知", source:"前台" ,content:"国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备", time:"2022-01-01 12:34:56"},
+        {noticeid: "12345", noticesource:"前台" ,text:"今天晚上十点半到会议室开会", noticetime:"2022-01-01 12:12:12"},
+        {noticeid: "67890", noticesource:"前台" ,text:"国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备", noticetime:"2022-01-01 12:34:56"},
       ],
       choose: -1,
     }
   },
   methods: {
     checkNotice(index){
-      this.choose=index;
-      this.reload();
+      this.choose = index;
     },
     read(index){
       this.noticeList.splice(index,1);
@@ -79,10 +76,32 @@ export default {
       else{
         this.choose=0;
       }
-      this.reload();
     }
   },
   created() {
+    axios({
+      method: 'GET',
+      url: '/common/viewNotice'
+    })
+        .then((res) => {
+          console.log(res.data.data)
+          if(res.data.status != 1){
+            for(let i in res.data.data){
+              let temp = {
+                noticeid : res.data.data[i].noticeid,
+                noticesource : res.data.data[i].noticesource == "front"?"前台":res.data.data[i].noticesource,
+                text : res.data.data[i].text,
+                noticetime : res.data.data[i].noticetime,
+              }
+              console.log(temp)
+              this.noticeList.push(temp);
+            }
+          }
+        })
+        .catch(err => {
+          //打印响应数据(错误信息)
+          console.log(err);
+        });
   }
 }
 </script>

@@ -126,11 +126,14 @@
           <div style="margin-left: 20px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold">{{ dish.foodType }}</span>
+              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold" v-if="dish.foodInUseListId != -1">{{ dish.foodType }}</span>
+              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold" v-if="dish.foodInUseListId == -1">外卖订单{{ dish.id }}号</span>
               <br/>
               <br/>
-              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;">{{ dish.table }}号桌</span>
-              <button class="callingBtm" style="margin-left: 100px" @click.prevent="inform(index)">通知上菜</button>
+              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;" v-if="dish.foodInUseListId != -1">{{ dish.table }}号桌</span>
+              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;" v-if="dish.foodInUseListId == -1">用户：{{ dish.table }}</span>
+              <button class="callingBtm" style="margin-left: 100px" @click.prevent="inform(index)" v-if="dish.foodInUseListId != -1">通知上菜</button>
+              <button class="callingBtm" style="margin-left: 50px" @click.prevent="inform(index)" v-if="dish.foodInUseListId == -1">通知上菜</button>
             </div>
             <br>
           </div>
@@ -156,25 +159,14 @@ export default {
     return {
       stop: false,
       showDetail: false,
-      nowCook: {/*num: "3", foodType: "水煮鱼", table: "3", time: "2022-01-01 12:12:36"*/},
-      nextCook: {/*num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"*/},
+      nowCook: {},
+      nextCook: {},
       queue: [
         {id: 1, foodType: "红烧肉", table: "1", foodInUseListId: 1},
         {id: 2, foodType: "狮子头", table: "2", foodInUseListId: 1},
         {id: 3, foodType: "水煮鱼", table: "3", foodInUseListId: 1},
-        {id: 4, foodType: "红烧肉,狮子头,水煮鱼", table: "afan", foodInUseListId: -1},
-        /*{num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},*/
       ],
-      finish: [
-        /*{num: "1", foodType: "红烧肉", table: "1", time: "2022-01-01 12:12:12"},
-        {num: "2", foodType: "狮子头", table: "2", time: "2022-01-01 12:12:24"},
-        {num: "3", foodType: "水煮鱼", table: "3", time: "2022-01-01 12:12:36"},
-        {num: "4", foodType: "上海青", table: "4", time: "2022-01-01 12:12:48"},*/
-      ],
+      finish: [],
     }
   },
   methods: {
@@ -234,23 +226,40 @@ export default {
 
     inform(index) {
       var date = new Date();
-      console.log("将"+this.finish[index].foodType+"送到"+this.finish[index].table+"号桌");
-      var notice = {
-        noticeid : 1,
-        noticesource : "后厨",
-        noticereceiver : "服务员",
-        noticetime : dateUtils.formatDate(date,'yyyy-MM-dd hh:mm:ss'),
-        text :"将"+this.finish[index].foodType+"送到"+this.finish[index].table+"号桌",
-        ifchecked : "false"
-      };
+      var notice = {};
+      if(this.finish[index].foodInUseListId != -1){
+        notice = {
+          noticeid : 1,
+          noticesource : "back",
+          noticereceiver : "serve",
+          noticetime : dateUtils.formatDate(date,'yyyy-MM-dd hh:mm:ss'),
+          text :this.finish[index].foodType+","+this.finish[index].table,
+          ifchecked : "false"
+        };
+      }
+      else {
+        notice = {
+          noticeid : 1,
+          noticesource : "back",
+          noticereceiver : "rider",
+          noticetime : dateUtils.formatDate(date,'yyyy-MM-dd hh:mm:ss'),
+          text :this.finish[index].id+","+this.finish[index].table,
+          ifchecked : "false"
+        };
+      }
       this.finish.splice(index,1);
-      axios.post("/back/submitNotice",{
-        notice: notice
-      }).then(res => {
-        console.log(res);
-      }).catch(err => {
-        console.log(err);
-      });
+      axios({
+        method: 'POST',
+        url: '/back/submitNotice',
+        data: notice
+      })
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
     }
   },
   created() {
@@ -260,23 +269,26 @@ export default {
       url: '/back/viewDinner'
     })
         .then((res) => {
-          for(let i in res.data){
-            let temp={
-              id: i.id,
-              table: i.table,
-              foodInUseList:{
-                id: i.foodInUseList.id,
-                name: i.foodInUseList.name,
+          console.log(res.data)
+          if(res.data.status != 1){
+            for(let i in res.data.data){
+              let temp={
+                id: res.data.data[i].id,
+                table: res.data.data[i].table,
+                foodInUseList:{
+                  id: res.data.data[i].foodInUseList.id,
+                  name: res.data.data[i].foodInUseList.name,
+                }
               }
-            }
-            for(let food in temp.foodInUseList){
-              let temp1 = {
-                id : temp.id,
-                table : temp.table.toString(),
-                foodInUseListId : food.id,
-                foodType : food.name,
+              for(let food in temp.foodInUseList){
+                let temp1 = {
+                  id : temp.id,
+                  table : temp.table.toString(),
+                  foodInUseListId : temp.foodInUseList[food].id,
+                  foodType : temp.foodInUseList[food].name,
+                }
+                this.queue.push(temp1);
               }
-              this.queue.push(temp1);
             }
           }
         })
@@ -291,14 +303,16 @@ export default {
       url: '/back/viewOrderOut'
     })
         .then((res) => {
-          for(let i in res.data){
-            let temp = {
-              id : i.orderid,
-              table : i.userid,
-              foodInUseListId : -1,
-              foodType : i.allfood,
+          if(res.data.status != 1){
+            for(let i in res.data.data){
+              let temp1 ={
+                id : res.data.data[i].orderId,
+                table : res.data.data[i].userId,
+                foodInUseListId : -1,
+                foodType : res.data.data[i].allFood,
+              }
+              this.queue.push(temp1);
             }
-            this.queue.push(temp);
           }
         })
         .catch(err => {
