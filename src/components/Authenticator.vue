@@ -2,7 +2,8 @@
 <!--Description:认证组件，注入在App.vue根组件中-->
 <template>
   <div class="wrapper fadeInDown">
-    <h2 v-if="isErr" style="color: coral">{{ errInfo }}</h2>
+    <h2 v-if="isErr" class="fadeInDown" style="color: coral;padding: 10px 20px;background: white;border-radius: 15px;">
+      {{ errInfo }}</h2>
     <div id="formContent">
       <h2 :class="{active:isLogin,inactive:!isLogin,underlineHover:!isLogin,} " @click="isLogin=true;"> 登入 </h2>
       <h2 :class="{active:!isLogin,inactive:isLogin, underlineHover:isLogin}" @click="isLogin=false;">注册 </h2>
@@ -21,7 +22,20 @@
           <input type="text" id="login" class="fadeIn second" name="login" placeholder="💳  账号" v-model="username">
           <input type="password" id="password" class="fadeIn third" name="login" placeholder="🔑  密码"
                  v-model="password">
-          <input type="submit" class="fadeIn fourth" value="登录" @click.prevent="userLogin()">
+          <!--          <input type="submit" class="fadeIn fourth" value="登录" @click.prevent="userLogin()">-->
+          <label class="dropdown">
+            <div class="dd-button fadeIn fourth LoginSelect">
+              登录
+            </div>
+            <input type="checkbox" class="dd-input" id="test">
+            <ul class="dd-menu">
+              <li @click="userLogin('waiter')">职工登录</li>
+              <li class="divider"></li>
+              <li class="admin-li" style="background: #7bcaf6" @click="userLogin('admin')">
+                <a>管理员登录</a>
+              </li>
+            </ul>
+          </label>
         </form>
 
         <div id="formFooter">
@@ -81,31 +95,39 @@ export default {
     };
   },
   methods: {
-    userLogin() {
+    userLogin(userRole) {
+      const vm = this;
       // 将账号和密码Post到服务器，并获取token
+      JSON.stringify()
       axios({
         method: "post",
-        url: "/api/login",
+        url: "/common/login",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         data: {
-          username: this.username,
+          userid: this.username,
           password: this.password,
-        },
-      })
-          .then((res) => {
-            if (res.data.code === 0) {
-              // 登录成功，将token存入本地存储
-              localStorage.setItem("token", res.data.token);
-              // 跳转到首页
-              this.$router.push("/home");
-            } else {
-              // 登录失败，提示错误信息
-              this.errInfo = res.data.msg;
-              this.isErr = true;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          charactor: userRole,
+        }
+        ,
+      }).then((res) => {
+        // 获取url中的redirect参数，用于跳转到相应的页面
+        if (res.data.status === 0) {
+          const redirectTo = vm.$router.currentRoute.value.query.redirectTo;
+          // 将token存入sessionStorage
+          sessionStorage.setItem("token", res.data.data);
+          // 将用户角色存入sessionStorage
+          sessionStorage.setItem("role", userRole);
+          window.location.href = redirectTo;
+          vm.isErr = false;
+        } else {
+          // 账号密码错误
+          vm.isErr = true;
+          vm.errInfo = res.data.msg;
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     judgePwd() {
       //判断密码和二次输入密码是否一致
@@ -160,8 +182,109 @@ export default {
 </script>
 
 <style scoped>
+/*body {*/
+/*  color: #000000;*/
+/*  font-family: Sans-Serif;*/
+/*  padding: 30px;*/
+/*  background-color: #f6f6f6;*/
+/*}*/
+
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+a:hover {
+  color: #222222
+}
+
+/* Dropdown */
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dd-button {
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 10px 30px 10px 20px;
+  /*background-color: #ffffff;*/
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+
+.dd-button:hover {
+  /*background-color: #3aace7;*/
+}
+
+
+.dd-input {
+  display: none;
+}
+
+.dd-menu {
+  position: absolute;
+  top: 80%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
+  margin: 0 0 0 85px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  list-style-type: none;
+}
+
+.dd-input + .dd-menu {
+  display: none;
+}
+
+.dd-input:checked + .dd-menu {
+  display: block;
+}
+
+.dd-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-menu li:hover {
+  background-color: #f6f6f6;
+}
+
+.admin-li:hover {
+  background-color: #3aace7;
+}
+
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+  padding: 10px 20px;
+}
+
+.dd-menu li.divider {
+  padding: 0;
+  border-bottom: 1px solid #cccccc;
+}
+
+
 html {
-  background-color: #56baed;
+  background-color: #f3f6fd;
 }
 
 body {
@@ -170,7 +293,7 @@ body {
 }
 
 a {
-  color: #92badd;
+  color: #3f3f3f;
   display: inline-block;
   text-decoration: none;
   font-weight: 400;
@@ -244,7 +367,7 @@ h2.active {
 
 /* 表单样式 */
 
-input[type=button], input[type=submit], input[type=reset] {
+input[type=button], input[type=submit], input[type=reset], .LoginSelect {
   background-color: #56baed;
   border: none;
   color: white;
@@ -266,11 +389,11 @@ input[type=button], input[type=submit], input[type=reset] {
   transition: all 0.3s ease-in-out;
 }
 
-input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover, .LoginSelect {
   background-color: #39ace7;
 }
 
-input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active, .LoginSelect {
   -moz-transform: scale(0.95);
   -webkit-transform: scale(0.95);
   -o-transform: scale(0.95);
