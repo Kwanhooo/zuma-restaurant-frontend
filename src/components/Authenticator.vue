@@ -64,9 +64,12 @@
                    v-model="confirmPassword" v-on:blur="judgePwd()">
             <div v-if="judgePwdStatus" style="color:green;font-size:14px;">{{}}</div>
             <div v-else style="color:red;font-size:14px">❌{{ judgePwdMsg }}</div>
-            <input type="submit" class="fadeIn fourth" value="员工注册" @click.prevent="userRegister()">
-            <!--          <input type="submit" class="fadeIn fourth" value="顾客注册" @click.prevent="userRegister()"-->
-            <!--                 style="background-color: #ff6600;">-->
+<!--            <input type="submit" class="fadeIn fourth" value="员工注册" @click.prevent="userRegister()" style="width:40px;text-align:center">-->
+<!--                      <input type="submit" class="fadeIn fourth" value="顾客注册" @click.prevent="userRegister()"-->
+<!--                             style="background-color: #ff6600;width:40px;text-align:center">-->
+<!--            <input type="submit" class="fadeIn fourth" value="骑手注册" @click.prevent="userRegister()" style="width:40px;text-align:center">-->
+            <el-button type="primary"  class="fadeIn fourth" style="width:120px;text-align:center" @click.prevent="userRegister()">员工注册</el-button>
+            <el-button type="success"  class="fadeIn fourth" style="width:120px;text-align:center" @click.prevent="riderRegister()" >骑手注册</el-button>
           </form>
         </div>
       </div>
@@ -147,15 +150,17 @@ export default {
       }
 
       // 将账号和密码Post到服务器，并获取token
+      JSON.stringify()
       axios({
-        method: "post",
-        url: "/serve/register",
-        data: {
-          username: this.username,
-          password: this.password,
-          telephone: this.telephone,
-        },
-      })
+            method: "post",
+            url: "/user/register",
+            dataType:"json",
+            data:{
+              userId: this.username,
+              password: this.password,
+              phone: this.telephone,
+            }
+          })
           .then((res) => {
             if (res.data.code === 0) {
               // 登录成功，将token存入本地存储
@@ -172,6 +177,41 @@ export default {
             console.log(err);
           });
     },
+    riderRegister() {
+      if (!this.judgePwdStatus) {
+        alert("请保证两次密码一致！");
+        return;
+      }
+
+      // 将账号和密码Post到服务器，并获取token
+      JSON.stringify()
+      axios({
+        method: "post",
+        url: "/rider/register",
+        dataType:"json",
+        data: {
+          name: this.username,
+          password: this.password,
+          phone: this.telephone,
+        }
+      })
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.code === 0) {
+              // 登录成功，将token存入本地存储
+              sessionStorage.setItem("token", res.data.token);
+              // 跳转到首页
+              this.$router.push("/home");
+            } else {
+              // 登录失败，提示错误信息
+              this.errInfo = res.data.msg;
+              this.isErr = true;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }
 
   },
   created() {

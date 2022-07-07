@@ -22,7 +22,7 @@
           <span>全部订单</span>
         </span>
     </template>
-      <DoingOrder></DoingOrder>
+      <DeliveryOrder></DeliveryOrder>
     </el-tab-pane>
     <el-tab-pane label="历史订单">
       <template #label>
@@ -31,7 +31,7 @@
           <span>历史订单</span>
         </span>
       </template>
-      <DoingOrder></DoingOrder>
+      <HistoryOrder></HistoryOrder>
     </el-tab-pane>
     <el-tab-pane label="公告">
       <template #label>
@@ -66,10 +66,14 @@ import { Postcard } from '@element-plus/icons-vue'
 import { Message } from '@element-plus/icons-vue'
 import { User } from '@element-plus/icons-vue'
 import DoingOrder from "@/components/rider/DoingOrder"
+import DeliveryOrder from '@/components/rider/DeliveryOrder'
+import HistoryOrder from '@/components/rider/HistoryOrder'
 
 export default {
   components:{
     DoingOrder,
+    DeliveryOrder,
+    HistoryOrder,
     Calendar,
     Postcard,
     Message,
