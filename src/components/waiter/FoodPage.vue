@@ -1,6 +1,6 @@
 <template>
   <div class="TypeTitle">
-    {{ foodType }}
+    {{ foodType.text }}
   </div>
   <hr>
   <div class="ItemsWrapper">
@@ -12,11 +12,14 @@
 
 <script>
 import FoodItem from "@/components/waiter/FoodItem";
+import axios from "axios";
 
 export default {
   name: "FoodPage",
   data() {
-    return {}
+    return {
+      foodsInThisType: [],
+    }
   },
   methods: {
     amountChanged(sourceFood, newAmount) {
@@ -27,20 +30,30 @@ export default {
       else
         this.orderMap.set(sourceFood, newAmount);
     },
+    getFoodsByType(foodType) {
+      const vm = this;
+      axios({
+        method: "get",
+        url: "/serve/viewOneTypeOfFood/" + foodType,
+      }).then((response) => {
+        vm.foodsInThisType = response.data.data;
+        vm.foodsInThisType.forEach((food) => {
+          food.type = vm.foodType;
+        });
+      });
+    },
   },
   components: {FoodItem},
   props: {
     foodType: {
-      type: String,
-      required: true,
-    },
-    foodsInThisType: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
+  mounted() {
+    this.getFoodsByType(this.foodType.type);
+  }
 }
-
 
 </script>
 

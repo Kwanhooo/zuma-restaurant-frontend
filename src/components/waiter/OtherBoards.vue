@@ -50,7 +50,7 @@
           <div>
             <div style="height: 13px;"></div>
             <span class="calling-table">
-              信息更新<button class="confirmBtn" @click="handleBtn('/me')">去使用</button>
+              信息更新<button class="confirmBtn" @click="handleBtn('/user/waiter')">去使用</button>
             </span>
           </div>
           <div style="margin-top:10px;">

@@ -6,9 +6,9 @@
           <nav class="navigation">
             <ul v-for="(type,index) in typeList" :key="index">
               <li style="margin: 10px 0;">
-                <button @click.prevent="handleJump(type,index)"
+                <button @click.prevent="handleJump(type.type,index)"
                         :class="{active:currentIndex===index,NavigatorBtn:true}">
-                  {{ type }}
+                  {{ type.text }}
                 </button>
               </li>
             </ul>
@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="main-content" v-for="(type,index) in typeList" :key="index">
-        <section :id="type">
-          <FoodPage :foodType="type" :foodsInThisType="getFoodsByType(type)"></FoodPage>
+        <section :id="type.type">
+          <FoodPage :foodType="type"></FoodPage>
         </section>
         <hr>
       </div>
@@ -27,6 +27,7 @@
 
 <script>
 import FoodPage from "@/components/waiter/FoodPage";
+import axios from "axios";
 // import axios from "axios";
 
 export default {
@@ -35,59 +36,8 @@ export default {
   components: {FoodPage},
   data() {
     return {
-      typeList: ['主食', '甜品', '饮料'],
-      //TODO:假数据
-      foodData: [
-        {
-          type: '主食',
-          name: '咸酸菜',
-          price: 88.8,
-          rating: 4,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '主食',
-          name: '荷兰豆',
-          price: 66.6,
-          rating: 5,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '饮料',
-          name: '蓝山王',
-          price: 28,
-          rating: 3,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '饮料',
-          name: '拿铁',
-          price: 45,
-          rating: 3,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '甜品',
-          name: '杨枝甘露',
-          price: 12,
-          rating: 3,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '甜品',
-          name: '芒果班戟',
-          price: 17,
-          rating: 5,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '甜品',
-          name: '绿豆沙',
-          price: 17,
-          rating: 5,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-      ],
+      typeList: [],
+      foodData: [],
       currentIndex: 0,
     }
   },
@@ -102,25 +52,22 @@ export default {
       this.currentIndex = index;
       console.log('currentIndex:' + this.currentIndex);
     },
-    getFoodsByType(foodType) {
-      return this.foodData.filter(food => food.type === foodType);
-    },
   },
   created() {
     //TODO: 从后端获取对应typeList
-    //   axios({
-    //     method: "get",
-    //     url: "/serve/getFoodTypes",
-    //   }).then((response) => {
-    //     this.typeList = response.data;
-    //   });
-    //   // 从后端获取对应foodData
-    //   axios({
-    //     method: "get",
-    //     url: "/serve/getFoods",
-    //   }).then((response) => {
-    //     this.foodData = response.data;
-    //   });
+    axios({
+      method: "get",
+      url: "/serve/viewFoodType",
+    }).then((response) => {
+      this.typeList = response.data.data;
+    });
+    // 从后端获取对应foodData
+    axios({
+      method: "get",
+      url: "/serve/viewFood",
+    }).then((response) => {
+      this.foodData = response.data;
+    });
   }
 }
 </script>
@@ -241,7 +188,8 @@ nav li a:hover {
 
 section {
   background-color: #f3f6fd;
-  height: 100%;
+  /*height: 100%;*/
+  min-height: 500px;
   margin: 0;
   padding: 2.5rem 4rem;
 }
