@@ -81,29 +81,37 @@ export default {
   methods: {
     userLogin() {
       // 将账号和密码Post到服务器，并获取token
+      const vm = this;
+      // 将账号和密码Post到服务器，并获取token
       axios({
         method: "post",
-        url: "/api/login",
+        url: "/common/login",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         data: {
-          username: this.username,
+          userid: this.username,
           password: this.password,
-        },
-      })
-          .then((res) => {
-            if (res.data.code === 0) {
-              // 登录成功，将token存入本地存储
-              localStorage.setItem("token", res.data.token);
-              // 跳转到首页
-              this.$router.push("/home");
-            } else {
-              // 登录失败，提示错误信息
-              this.errInfo = res.data.msg;
-              this.isErr = true;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          charactor: 'Customer',
+        }
+        ,
+      }).then((res) => {
+        // 获取url中的redirect参数，用于跳转到相应的页面
+        if (res.data.status === 0) {
+          const redirectTo = vm.$router.currentRoute.value.query.redirectTo;
+          // 将token存入sessionStorage
+          sessionStorage.setItem("token", res.data.data);
+          // 将用户角色存入sessionStorage
+          sessionStorage.setItem("role", 'Customer');
+          window.location.href = redirectTo;
+          vm.isErr = false;
+        } else {
+          // 账号密码错误
+          vm.isErr = true;
+          vm.errInfo = res.data.msg;
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     judgePwd() {
       //判断密码和二次输入密码是否一致
@@ -198,7 +206,7 @@ h2 {
   justify-content: center;
   width: 100%;
   min-height: 100%;
-  padding:3px 20px;
+  padding: 3px 20px;
 }
 
 #formContent {

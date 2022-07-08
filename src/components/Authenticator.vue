@@ -101,7 +101,6 @@ export default {
     userLogin(userRole) {
       const vm = this;
       // 将账号和密码Post到服务器，并获取token
-      JSON.stringify()
       axios({
         method: "post",
         url: "/common/login",
