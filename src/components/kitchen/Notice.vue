@@ -13,14 +13,18 @@
         </div>
       </li>
       <li v-for="(notice,index) in noticeList" :key="notice" class="infinite-list-item"
-          style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;cursor: pointer" @click.prevent="checkNotice(index)">
+          style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;cursor: pointer"
+          @click.prevent="checkNotice(index)">
         <div style="margin-left: 20px;">
           <div>
             <div style="height: 30px;"></div>
-            <span class="noticeTopic" style="font-size: 35px; color: #007BFF; font-weight: bold">来自：{{ notice.noticesource }}的公告</span>
+            <span class="noticeTopic"
+                  style="font-size: 35px; color: #007BFF; font-weight: bold">来自：{{ notice.noticesource }}的公告</span>
             <br><br>
             <br>
-            <span class="noticeTime" style="margin-left: 20px;font-style: italic">公告时间：{{ notice.noticetime }}</span>
+            <span class="noticeTime" style="margin-left: 20px;font-style: italic">公告时间：{{
+                notice.noticetime
+              }}</span>
           </div>
           <br>
         </div>
@@ -31,9 +35,13 @@
     <div class="noticeDetail" v-if="index == choose">
       <div class="noticeListTitle">📮 公告详情</div>
       <hr style="width:80%">
-      <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">来自：{{ notice.noticesource }}的公告</div>
+      <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">来自：{{
+          notice.noticesource
+        }}的公告
+      </div>
       <div class="noticeTime" style="font-size: 20px; font-style: italic">{{ notice.noticetime }}</div>
-      <div class="inform" style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 55%;width: 96%;overflow:auto;max-height:680px;">
+      <div class="inform"
+           style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 55%;width: 96%;overflow:auto;max-height:680px;">
         <div class="noticeContent" style="font-size: 20px;">{{ notice.text }}</div>
       </div>
       <button class="readBtm" @click.prevent="read(index)">确认</button>
@@ -43,7 +51,8 @@
     <div class="noticeListTitle">📮 公告详情</div>
     <hr style="width:80%">
     <div class="noticeTopic" style="font-size: 50px; color: #007BFF; font-weight: bold">请选择公告</div>
-    <div class="inform" style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 70%;width: 96%;overflow:auto;max-height:580px;"></div>
+    <div class="inform"
+         style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 70%;width: 96%;overflow:auto;max-height:580px;"></div>
   </div>
 </template>
 
@@ -56,25 +65,34 @@ export default {
   name: "notice",
   notice: {},
   data() {
-    return{
+    return {
       noticeList: [
-        {noticeid: "12345", noticesource:"前台" ,text:"今天晚上十点半到会议室开会", noticetime:"2022-01-01 12:12:12"},
-        {noticeid: "67890", noticesource:"前台" ,text:"国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备", noticetime:"2022-01-01 12:34:56"},
+        {
+          noticeid: "12345",
+          noticesource: "前台",
+          text: "今天晚上十点半到会议室开会",
+          noticetime: "2022-01-01 12:12:12"
+        },
+        {
+          noticeid: "67890",
+          noticesource: "前台",
+          text: "国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备",
+          noticetime: "2022-01-01 12:34:56"
+        },
       ],
       choose: -1,
     }
   },
   methods: {
-    checkNotice(index){
+    checkNotice(index) {
       this.choose = index;
     },
-    read(index){
-      this.noticeList.splice(index,1);
-      if(this.noticeList.length == 0){
-        this.choose=-1;
-      }
-      else{
-        this.choose=0;
+    read(index) {
+      this.noticeList.splice(index, 1);
+      if (this.noticeList.length == 0) {
+        this.choose = -1;
+      } else {
+        this.choose = 0;
       }
     }
   },
@@ -85,13 +103,13 @@ export default {
     })
         .then((res) => {
           console.log(res.data.data)
-          if(res.data.status != 1){
-            for(let i in res.data.data){
+          if (res.data.status != 1) {
+            for (let i in res.data.data) {
               let temp = {
-                noticeid : res.data.data[i].noticeid,
-                noticesource : res.data.data[i].noticesource == "front"?"前台":res.data.data[i].noticesource,
-                text : res.data.data[i].text,
-                noticetime : res.data.data[i].noticetime,
+                noticeid: res.data.data[i].noticeid,
+                noticesource: res.data.data[i].noticesource == "front" ? "前台" : res.data.data[i].noticesource,
+                text: res.data.data[i].text,
+                noticetime: res.data.data[i].noticetime,
               }
               console.log(temp)
               this.noticeList.push(temp);

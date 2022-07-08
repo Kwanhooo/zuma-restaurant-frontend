@@ -100,11 +100,11 @@ export default {
       modifyUserId: "",
       modifyPassword: "",
       modifyCharactor: "",
-      modifyPhone:"",
+      modifyPhone: "",
       addUserId: "",
       addPassword: "",
       addCharactor: "",
-      addPhone:"",
+      addPhone: "",
       tableData: [
         {
           userid: "10001",
@@ -129,12 +129,12 @@ export default {
       axios({
         method: "post",
         url: "/front/modifyUser",
-        dataType:"json",
+        dataType: "json",
         data: {
           userid: this.modifyUserId,
           password: this.modifyPassword,
           charactor: this.modifyCharactor,
-          phone:this.modifyPhone,
+          phone: this.modifyPhone,
         }
       })
           .then((res) => {
@@ -161,7 +161,7 @@ export default {
 
       axios({
         method: "post",
-        url: "/front/deleteUser?userId="+row.userid,
+        url: "/front/deleteUser?userId=" + row.userid,
 
       })
           .then((res) => {
@@ -180,7 +180,7 @@ export default {
     viewOneUser() {
       axios({
         method: "POST",
-        url: "/front/viewOneUser?userId="+this.username,
+        url: "/front/viewOneUser?userId=" + this.username,
 
       })
           .then((res) => {
@@ -206,12 +206,12 @@ export default {
       axios({
         method: "post",
         url: "/front/addUser",
-        dataType:"json",
+        dataType: "json",
         data: {
           userid: this.addUserId,
           password: this.addPassword,
           charactor: this.addCharactor,
-          phone:this.addPhone,
+          phone: this.addPhone,
         },
       })
           .then((res) => {
@@ -224,7 +224,7 @@ export default {
               }
               this.tableData.push(user);
             } else {
-                console.log(res.data.msg);
+              console.log(res.data.msg);
             }
           })
     }

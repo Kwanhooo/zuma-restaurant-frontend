@@ -1,78 +1,54 @@
 <template>
   <div id="mobile-purchase">
     <div id="mobile-purchase-nav">
-      <ul v-for="(type,index) in typeList" :key="index">
-        <li>
-          <button :class="{MobilePurchaseNavBtnActive:currentIndex===index,MobilePurchaseNavBtn:true}">{{ type }}</button>
+      <ul class="mobile-purchase-nav-ul">
+        <li v-for="(type,index) in typeList" :key="index">
+          <button :class="{MobilePurchaseNavBtn:true,MobilePurchaseNavBtnActive:currentIndex===index}"
+                  @click.prevent="handleAnchorClick(index)">
+            {{ type.text }}
+          </button>
         </li>
       </ul>
     </div>
     <div id="mobile-purchase-content">
-
+      <div class="MobileFoodPage" :id="type.type" v-for="(type,index) in typeList" :key="index">
+        <MobileFoodPage :displayType="type" :displayIndex="index"></MobileFoodPage>
+      </div>
+      <div class="PagePlaceHolder"></div>
     </div>
   </div>
 </template>
 
 <script>
+import MobileFoodPage from "@/components/mobile/MobileFoodPage";
+import axios from "axios";
+
 export default {
   name: "MobileHomeOrder",
+  components: {MobileFoodPage},
   data() {
     return {
-      typeList: ['主食', '甜品', '饮料'],
-      //TODO:假数据
-      foodData: [
-        {
-          type: '主食',
-          name: '咸酸菜',
-          price: 88.8,
-          rating: 4,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '主食',
-          name: '荷兰豆',
-          price: 66.6,
-          rating: 5,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '饮料',
-          name: '蓝山王',
-          price: 28,
-          rating: 3,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '饮料',
-          name: '拿铁',
-          price: 45,
-          rating: 3,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '甜品',
-          name: '杨枝甘露',
-          price: 12,
-          rating: 3,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '甜品',
-          name: '芒果班戟',
-          price: 17,
-          rating: 5,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-        {
-          type: '甜品',
-          name: '绿豆沙',
-          price: 17,
-          rating: 5,
-          img: 'https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg'
-        },
-      ],
+      typeList: [],
       currentIndex: 0,
     }
+  },
+  methods: {
+    handleAnchorClick(index) {
+      this.$el.querySelector('#' + this.typeList[index].type).scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+      });
+      this.currentIndex = index;
+    }
+  },
+  created() {
+    axios({
+      method: "get",
+      url: "/serve/viewFoodType",
+    }).then((response) => {
+      this.typeList = response.data.data;
+    });
   }
 }
 </script>
@@ -95,21 +71,28 @@ export default {
   border-right: 1px solid #e5e5e5;
 }
 
-ul{
+.mobile-purchase-nav-ul {
+  height: 100%;
+  width: 100%;
+}
+
+ul {
   list-style: none;
   padding: 0;
 }
 
 .MobilePurchaseNavBtn {
-  width: 70px;
+  /*width: 70px;*/
+  width: 95%;
   height: 40px;
   margin: 5px 0;
   border: 3px;
   border-radius: 30px;
 
-  font-size: 17px;
+  font-size: 0.9em;
 
   transition-duration: 0.6s;
+  /*padding: 5px 5px;*/
   background-color: #F1FBFE;
   color: #1383B6;
 
@@ -133,5 +116,17 @@ ul{
   max-height: calc(100vh - 184px);
   overflow-x: hidden;
   overflow-y: scroll;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.MobileFoodPage {
+  flex: 1.0;
+  /*min-height: 400px;*/
+}
+
+.PagePlaceHolder {
+  /*min-height: 100px;*/
 }
 </style>

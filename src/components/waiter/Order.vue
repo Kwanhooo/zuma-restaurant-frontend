@@ -43,14 +43,13 @@ export default {
   },
   methods: {
     handleJump(type, index) {
-      console.log('index:' + index);
       this.$el.querySelector('#' + type).scrollIntoView({
         behavior: 'smooth',
         block: 'start',
         inline: 'nearest',
       });
       this.currentIndex = index;
-      console.log('currentIndex:' + this.currentIndex);
+      // console.log('currentIndex:' + this.currentIndex);
     },
   },
   created() {

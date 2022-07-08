@@ -218,7 +218,7 @@ export default {
     viewOneFood() {
       axios({
         method: 'POST',
-        url: '/front/viewOneFood?name='+this.searchFoodName,
+        url: '/front/viewOneFood?name=' + this.searchFoodName,
       })
           .then((res) => {
             if (res.data.status === 0) {
@@ -231,7 +231,7 @@ export default {
     deleteFood(row) {
       axios({
         method: 'POST',
-        url: '/front/deleteFood?name='+row.name,
+        url: '/front/deleteFood?name=' + row.name,
       })
           .then((res) => {
             if (res.status === 0) {
@@ -250,7 +250,7 @@ export default {
       axios({
         method: 'POST',
         url: '/front/addFood',
-        dataType:'json',
+        dataType: 'json',
         data: {
           id: this.food.id,
           text: this.food.text,

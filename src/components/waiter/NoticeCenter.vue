@@ -24,7 +24,7 @@
           <div style="margin-left: 10px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="calling-table">{{ notice.noticesource==='kitchen'?'送菜':'公告' }}</span>
+              <span class="calling-table">{{ notice.noticesource === 'kitchen' ? '送菜' : '公告' }}</span>
               <span class="calling-time">
             {{ notice.noticetime }}
             <div class="notice-source">
@@ -66,8 +66,8 @@ export default {
         this.notices = res.data.data;
         this.notices.forEach(notice => {
           notice.noticetime = notice.noticetime.split('T')[0];
-          notice.foodName= notice.text.split(',')[0];
-          notice.toTable= notice.text.split(',')[1];
+          notice.foodName = notice.text.split(',')[0];
+          notice.toTable = notice.text.split(',')[1];
         });
         console.log(this.notices);
       });
