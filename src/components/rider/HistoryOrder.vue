@@ -1416,8 +1416,15 @@ export default {
     search() {
       axios({
         method: 'POST',
-        url: 'getHistoryOrderByTime'
+        url: '/rider/getHistoryOrderByTime?time1='+this.time1+"&time2="+this.time2,
       })
+        .then((res) => {
+          if(res.data.code===0){
+            this.tableData = res.data;
+          }else {
+            console.log(res.data.msg);
+          }
+        })
     },
   },
   created() {

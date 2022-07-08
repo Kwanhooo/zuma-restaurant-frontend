@@ -40,7 +40,7 @@
           <span>公告</span>
         </span>
       </template>
-      <DoingOrder></DoingOrder>
+      <RiderNotice></RiderNotice>
     </el-tab-pane>
     <el-tab-pane label="我的">
       <template #label>
@@ -49,7 +49,7 @@
           <span>我的</span>
         </span>
       </template>
-      <DoingOrder></DoingOrder>
+      <MyInformation></MyInformation>
     </el-tab-pane>
   </el-tabs>
 </div>
@@ -68,6 +68,8 @@ import { User } from '@element-plus/icons-vue'
 import DoingOrder from "@/components/rider/DoingOrder"
 import DeliveryOrder from '@/components/rider/DeliveryOrder'
 import HistoryOrder from '@/components/rider/HistoryOrder'
+import RiderNotice from '@/components/rider/RiderNotice'
+import MyInformation from '@/components/rider/MyInformation'
 
 export default {
   components:{
@@ -78,6 +80,8 @@ export default {
     Postcard,
     Message,
     User,
+    RiderNotice,
+    MyInformation
   },
 
   name: "riderMain",
