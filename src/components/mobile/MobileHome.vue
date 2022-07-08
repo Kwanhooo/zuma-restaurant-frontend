@@ -57,7 +57,7 @@ export default {
 }
 
 #mobile-content-wrapper {
-  padding: 0 10px;
+  padding: 0 5px;
   background: white;
   border-radius: 20px 20px 20px 20px;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2);

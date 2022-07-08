@@ -104,8 +104,9 @@ export default {
   bottom: 0;
   left: 0;
   margin: 20px auto;
-  max-width: 200px;
-  max-height: 200px;
+  width: auto;
+  height: auto;
+  max-height: 150px;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;

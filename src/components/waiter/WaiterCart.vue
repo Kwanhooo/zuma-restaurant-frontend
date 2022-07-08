@@ -29,7 +29,7 @@
               <div style="height: 13px;"></div>
               <span class="item-title">{{ value[0].name }}</span>
               <span class="item-type">
-            {{ value[0].type }}
+            {{ value[0].type.text }}
             <div class="item-price">
               单价： {{ value[0].price }}
             </div>
@@ -66,7 +66,7 @@
 
 <script>
 import bus from '../../util/bus.ts';
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "WaiterCart",
@@ -115,21 +115,24 @@ export default {
     submitOrder() {
       // 构造传送给服务器的数据
       let foodInUse = [];
-      let totalPrice = 0;
       let orderToSend = {};
 
 
-      orderToSend.tableId = this.tableId;
+      orderToSend.tableid = this.tableId.toString();
 
+      let foodInUseIndex = 0;
       // 遍历orderMap
       for (let [food, amount] of this.orderMap) {
         for (let i = 0; i < amount; i++) {
-          foodInUse.push(food);
-          totalPrice += food.price;
+          let clonedFood = JSON.parse(JSON.stringify(food))
+          clonedFood.id = foodInUseIndex;
+          foodInUseIndex++;
+          foodInUse.push(clonedFood);
         }
       }
       orderToSend.foodInUse = foodInUse;
-      orderToSend.totalPrice = totalPrice;
+      this.calculateTotalPrice();
+      orderToSend.totalPrice = this.totalPrice;
 
       //TODO:删掉这个
       console.log(orderToSend);
@@ -137,14 +140,15 @@ export default {
       this.clearAll();
 
       // TODO:发送orderToSend到/serve/order
-      // let vm=this;
-      // axios({
-      //   method: "post",
-      //   url: "/serve/order",
-      //   data: orderToSend,
-      // }).then(() => {
-      //   vm.clearAll();
-      // });
+      let vm = this;
+      axios({
+        method: "post",
+        url: "/serve/submitDinner",
+        dataType:"json",
+        data: orderToSend,
+      }).then(() => {
+        vm.clearAll();
+      });
     }
   },
   mounted() {
