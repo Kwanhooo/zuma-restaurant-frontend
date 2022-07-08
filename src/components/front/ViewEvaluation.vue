@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "viewEvaluation",
   data() {
@@ -32,6 +34,17 @@ export default {
         }
       ]
     }
+  },
+  created() {
+    axios({
+      method: 'POST',
+      url: '/front/viewEvaluation'
+    })
+        .then((res) => {
+          if (res.data.code === 0) {
+            this.tableData = res.data;
+          }
+        })
   }
 }
 </script>

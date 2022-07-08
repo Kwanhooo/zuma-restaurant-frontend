@@ -110,11 +110,7 @@ export default {
     pushNotice() {
       axios({
         method: 'POST',
-        url: '/front/addNotice',
-        data: {
-          adminId: sessionStorage.getItem('userId'),
-          text: this.text,
-        }
+        url: '/front/addNotice?adminId='+sessionStorage.getItem('userId')+"&text="+this.text,
       })
           .then((res) => {
             if (res.status === 0) {
@@ -155,15 +151,7 @@ export default {
           if (res.data.code === 0) {
             this.tableData = res.data
           } else {
-            this.$alert(res.data.msg, '查询公告', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${action}`
-                });
-              }
-            });
+            console.log(res.data.msg);
           }
         })
   }

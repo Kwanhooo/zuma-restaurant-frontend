@@ -19,9 +19,9 @@ app.use(ElementPlus)
 //TODO:模拟清空
 // sessionStorage.clear();
 //TODO:模拟存一个token
-// sessionStorage.setItem('token', '123456');
+sessionStorage.setItem('token', '123456');
 //TODO:模拟存一个用户角色为waiter
-// sessionStorage.setItem('role', 'waiter');
+sessionStorage.setItem('role', 'waiter');
 
 // 路由守卫
 

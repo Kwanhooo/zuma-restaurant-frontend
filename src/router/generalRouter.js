@@ -176,7 +176,7 @@ const router = createRouter({
     ]
 });
 
-// 路由守卫
+//路由守卫
 router.beforeEach((to, from, next) => {
     // 由于dashboard需要判断角色，所以在这里先特殊处理
     if (to.path === '/dashboard') {
@@ -218,5 +218,5 @@ router.beforeEach((to, from, next) => {
     } else next();
 });
 
-export default router;
+ export default router;
 

@@ -1,5 +1,4 @@
 <template>
-  {{ username }}
   <el-header>
     <div class="header" style="text-align:center">
       <input type="text" id="username" class="fadeIn second" name="register" placeholder="🧊  用户名"
@@ -121,14 +120,17 @@ export default {
       // dialog.show();
     },
     modifyUser() {
+      console.log(this.modifyUserId);
+      JSON.stringify()
       axios({
         method: "post",
         url: "/front/modifyUser",
+        dataType:"json",
         data: {
-          userId: this.modifyUserId,
+          userid: this.modifyUserId,
           password: this.modifyPassword,
           charactor: this.modifyCharactor,
-        },
+        }
       })
           .then((res) => {
             if (res.data.code === 0) {
@@ -142,27 +144,20 @@ export default {
                   arr[index].charactor = charactor;
                 }
               })
+
             } else {
-              this.$alert(res.data.msg, '更新用户', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${action}`
-                  });
-                }
-              });
+              console.log(res.data.msg);
             }
           })
+
     },
 
     deleteUser(row) {
+
       axios({
         method: "post",
-        url: "/front/viewUser/deleteUser",
-        data: {
-          userId: row.userId
-        },
+        url: "/front/deleteUser?userId="+row.userId,
+
       })
           .then((res) => {
             if (res.data.code === 0) {
@@ -188,10 +183,8 @@ export default {
     viewOneUser() {
       axios({
         method: "POST",
-        url: "/front/viewOneUser",
-        data: {
-          userId: this.username,
-        },
+        url: "/front/viewOneUser?userId="+this.username,
+
       })
           .then((res) => {
             if (res.data.status === 0) {
@@ -212,11 +205,13 @@ export default {
 
     addOneUser() {
       this.dialogVisible = false;
+      JSON.stringify()
       axios({
         method: "post",
         url: "/front/addUser",
+        dataType:"json",
         data: {
-          userId: this.addUserId,
+          userid: this.addUserId,
           password: this.addPassword,
           charactor: this.addCharactor,
         },
@@ -229,17 +224,9 @@ export default {
                 password: this.addPassword,
                 charactor: this.addCharactor,
               }
-              this.tableData.push(user)
+              this.tableData.push(user);
             } else {
-              this.$alert(res.data.msg, '添加用户', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${action}`
-                  });
-                }
-              });
+                console.log(res.data.msg);
             }
           })
     }

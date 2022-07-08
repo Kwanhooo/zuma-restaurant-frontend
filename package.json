@@ -14,7 +14,9 @@
     "element-plus": "^2.0.6",
     "mitt": "^3.0.0",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.13"
+    "vue-date-pick": "^1.4.1",
+    "vue-router": "^4.0.13",
+    "vue-vanilla-datetime-picker": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

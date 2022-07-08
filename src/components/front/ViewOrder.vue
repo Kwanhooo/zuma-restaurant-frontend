@@ -13,8 +13,7 @@
             align="right">
         </el-date-picker>
         的订单
-        <el-button type="primary" @on-click="search()"><i class="el-icon-search">搜索</i></el-button>
-        {{ timeValue }}
+        <el-button type="primary" @click="search()"><i class="el-icon-search">搜索</i></el-button>
       </div>
     </el-header>
     <el-main>
@@ -98,30 +97,19 @@ export default {
     search() {
       axios({
         method: "post",
-        url: '/front/viewOrder',
-        data: {
-          timeValue1: this.timeValue.at(0),
-          timeValue2: this.timeValue.at(1),
-        },
+        url: "/front/viewOrder?time1="+this.timeValue.at(0).toString()+"&time2="+this.timeValue.at(1).toString(),
       })
           .then((res) => {
             if (res.data.code === 0) {
               this.tableData = res.data;
             } else {
-              this.$alert('这是一段内容', '标题名称', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${action}`
-                  });
-                }
-              });
+              console.log(res.data.msg);
             }
           })
           .catch((err) => {
             console.log(err);
           });
+
     }
   },
 

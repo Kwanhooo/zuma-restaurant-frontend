@@ -184,9 +184,11 @@ export default {
 
     },
     modifyFood() {
+      JSON.stringify()
       axios({
         method: 'POST',
-        url: '/front/modify',
+        url: '/front/modifyFood',
+        dataType: 'json',
         data: {
           id: this.food.id,
           text: this.food.text,
@@ -209,25 +211,14 @@ export default {
                 }
               })
             } else {
-              this.$alert(res.data.msg, '修改食物信息', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${action}`
-                  });
-                }
-              });
+              console.log(res.data.msg);
             }
           })
     },
     viewOneFood() {
       axios({
         method: 'POST',
-        url: '/front/viewOneFood',
-        data: {
-          name: this.searchFoodName,
-        }
+        url: '/front/viewOneFood?name='+this.searchFoodName,
       })
           .then((res) => {
             if (res.status === 0) {
@@ -240,10 +231,7 @@ export default {
     deleteFood(row) {
       axios({
         method: 'POST',
-        url: '/front/deleteFood',
-        data: {
-          name: row.name,
-        }
+        url: '/front/deleteFood?name='+row.name,
       })
           .then((res) => {
             if (res.status === 0) {
@@ -258,9 +246,11 @@ export default {
           })
     },
     addFood() {
+      JSON.stringify()
       axios({
         method: 'POST',
-        url: '/front/modify',
+        url: '/front/addFood',
+        dataType:'json',
         data: {
           id: this.food.id,
           text: this.food.text,

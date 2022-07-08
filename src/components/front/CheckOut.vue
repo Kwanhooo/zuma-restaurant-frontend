@@ -59,10 +59,7 @@ export default {
     checkOut(row) {
       axios({
         method: 'POST',
-        url: '/front/confirm',
-        data: {
-          id: row.id,
-        }
+        url: '/front/confirm?orderId='+row.id,
       })
           .then((res) => {
             if (res.data.code === 0) {
@@ -72,15 +69,7 @@ export default {
                 }
               });
             } else {
-              this.$alert(res.data.msg, '结账', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${action}`
-                  });
-                }
-              });
+                console.log(res.data.msg)
             }
           })
     }
