@@ -21,18 +21,35 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "HomeTitle",
   data() {
     return {
-      restaurantName: "由美子日料",
-      tags: ['日料榜第3', '综合 4.8分'],
-      restaurantAddress: "天心区文源街道127号",
-      logoSrc: "https://cdn2.iconfinder.com/data/icons/cafe-and-restaurant-2/119/Stickers_I-11-01-1024.png"
+      restaurantName: "",
+      tags: [],
+      restaurantAddress: "",
+      logoSrc: "",
     }
   },
-  methods: {}, created() {
-    // 从后端获取数据
+  methods: {
+    getRestaurantInfo() {
+      axios({
+        method: "get",
+        url: "/common/getRestaurantInfo",
+      }).then(res => {
+        this.restaurantName = res.data.data.name;
+        this.restaurantAddress = res.data.data.address;
+        this.tags = res.data.data.tags;
+        this.logoSrc = res.data.data.logoSrc;
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+  },
+  created() {
+    this.getRestaurantInfo();
   }
 }
 </script>
