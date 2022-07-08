@@ -36,13 +36,15 @@ export default {
     }
   },
   created() {
+    console.log(5555);
     axios({
       method: 'POST',
       url: '/front/viewEvaluation'
     })
         .then((res) => {
-          if (res.data.code === 0) {
-            this.tableData = res.data;
+          console.log(res.data);
+          if (res.data.status === 0) {
+            this.tableData = res.data.data;
           }
         })
   }

@@ -80,18 +80,10 @@ export default {
       url: '/front/getUsingTables'
     })
         .then((res) => {
-          if (res.status === 0) {
+          if (res.data.status === 0) {
             this.tableData = res.data;
           } else {
-            this.$alert(res.data.msg, '查看用餐桌号', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${action}`
-                });
-              }
-            });
+            console.log("初始化错误"+res.data.msg);
           }
         })
   }

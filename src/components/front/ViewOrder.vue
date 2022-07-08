@@ -13,7 +13,7 @@
             align="right">
         </el-date-picker>
         的订单
-        <el-button type="primary" @click="search()"><i class="el-icon-search">搜索</i></el-button>
+        <el-button type="primary" @click="search()"><i class="el-icon-search">搜索</i></el-button>{{timeValue}}
       </div>
     </el-header>
     <el-main>
@@ -95,22 +95,30 @@ export default {
   },
   methods: {
     search() {
+      let time1 = this.timeValue.at(0);
+      let time2 = this.timeValue.at(1);
+      const resDate1 = time1.getFullYear()+'-'+ this.p((time1.getMonth()+1))+'-'+this.p(time1.getDate());
+      const resTime1 = this.p(time1.getHours())+':'+this.p(time1.getMinutes())+':'+this.p(time1.getSeconds());
+      const resDate2 = time2.getFullYear()+'-'+ this.p((time2.getMonth()+1))+'-'+this.p(time2.getDate());
+      const resTime2 = this.p(time2.getHours())+':'+this.p(time2.getMinutes())+':'+this.p(time2.getSeconds());
+      time1 = resDate1+' '+resTime1;
+      time2 = resDate2+' '+resTime2;
       axios({
         method: "post",
-        url: "/front/viewOrder?time1="+this.timeValue.at(0).toString()+"&time2="+this.timeValue.at(1).toString(),
+        url: "/front/viewOrder?time1="+time1+"&time2="+time2,
       })
           .then((res) => {
-            if (res.data.code === 0) {
-              this.tableData = res.data;
+            if (res.data.status === 0) {
+              this.tableData = res.data.data;
             } else {
               console.log(res.data.msg);
             }
           })
-          .catch((err) => {
-            console.log(err);
-          });
 
-    }
+    },
+    p(s) {
+      return s < 10 ? '0' + s : s
+    },
   },
 
 }

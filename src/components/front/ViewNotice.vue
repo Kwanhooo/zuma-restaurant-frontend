@@ -6,10 +6,10 @@
   </el-header>
   <el-main>
     <el-table :data="tableData" height="600" style="width: 100%">
-      <el-table-column prop="noticeId" label="编号" width="180"/>
-      <el-table-column prop="noticeSource" label="发出者" width="180"/>
-      <el-table-column prop="noticeReceiver" label="接收者" width="180"/>
-      <el-table-column prop="noticeTime" label="发出时间" width="180"/>
+      <el-table-column prop="noticeid" label="编号" width="180"/>
+      <el-table-column prop="noticesource" label="发出者" width="180"/>
+      <el-table-column prop="noticereceiver" label="接收者" width="180"/>
+      <el-table-column prop="noticetime" label="发出时间" width="180"/>
       <el-table-column prop="text" label="文本内容" width="580"/>
     </el-table>
   </el-main>
@@ -113,13 +113,13 @@ export default {
         url: '/front/addNotice?adminId='+sessionStorage.getItem('userId')+"&text="+this.text,
       })
           .then((res) => {
-            if (res.status === 0) {
+            if (res.data.status === 0) {
               var newNotice = {
-                noticeId: res.data.noticeId,
-                noticeSource: res.data.noticeSource,
-                noticeReceiver: res.data.noticeReceiver,
-                noticeTime: res.data.noticeTime,
-                text: res.data.text
+                noticeId: res.data.data.noticeId,
+                noticeSource: res.data.data.noticeSource,
+                noticeReceiver: res.data.data.noticeReceiver,
+                noticeTime: res.data.data.noticeTime,
+                text: res.data.data.text
               };
               this.tableData.push(newNotice);
               this.noticeId = "";
@@ -148,8 +148,9 @@ export default {
       url: '/front/viewNotice'
     })
         .then((res) => {
-          if (res.data.code === 0) {
-            this.tableData = res.data
+          console.log(res.data.data);
+          if (res.data.status === 0) {
+            this.tableData = res.data.data
           } else {
             console.log(res.data.msg);
           }
