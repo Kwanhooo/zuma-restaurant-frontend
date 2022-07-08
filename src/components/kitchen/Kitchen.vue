@@ -251,7 +251,7 @@ export default {
           noticeid: 1,
           noticesource: "back",
           noticereceiver: "serve",
-          noticetime: dateUtils.formatDate(date, 'yyyy-MM-dd hh:mm:ss'),
+          noticetime: null,
           text: this.finish[index].foodType + "," + this.finish[index].table,
           ifchecked: "false"
         };
