@@ -144,7 +144,7 @@ export default {
       axios({
         method: "post",
         url: "/serve/submitDinner",
-        dataType:"json",
+        dataType: "json",
         data: orderToSend,
       }).then(() => {
         vm.clearAll();

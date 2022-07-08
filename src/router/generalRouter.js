@@ -50,6 +50,26 @@ const router = createRouter({
                     meta: {authRequired: true},
                 },
                 {
+                    path: '/dashboard/kitchen',
+                    name: 'kitchen-dashboard',
+                    components: {
+                        default: kitchen,
+                        'content-right': WaiterStatistics,
+                    },
+                    // TODO:暂时打上false，后期改为true
+                    meta: {authRequired: true},
+                },
+                {
+                    path: '/dashboard/front',
+                    name: 'front-dashboard',
+                    components: {
+                        default: waiterDashBoard,
+                        'content-right': WaiterStatistics,
+                    },
+                    // TODO:暂时打上false，后期改为true
+                    meta: {authRequired: true},
+                },
+                {
                     path: '/order',
                     name: 'order',
                     // TODO:暂时打上false，后期改为true
@@ -72,7 +92,10 @@ const router = createRouter({
                 {
                     path: '/front',
                     name: 'front',
-                    component: Front,
+                    components: {
+                        default: Front,
+                        'content-right': WaiterStatistics,
+                    },
                     children: [
                         {
                             path: '/front/viewOrder',
@@ -109,17 +132,26 @@ const router = createRouter({
                 {
                     path: '/kitchen',
                     name: 'kitchen',
-                    component: kitchen
+                    components: {
+                        default: kitchen,
+                        'content-right': WaiterStatistics,
+                    },
                 },
                 {
                     path: '/user',
                     name: 'user',
-                    component: user
+                    components: {
+                        default: user,
+                        'content-right': WaiterStatistics,
+                    },
                 },
                 {
                     path: '/notice',
                     name: 'notice',
-                    component: notice
+                    components: {
+                        default: notice,
+                        'content-right': WaiterStatistics,
+                    },
                 },
             ]
         },
@@ -129,8 +161,9 @@ const router = createRouter({
             meta: {authRequired: false},
             component: Authenticator,
         },
+        // 以下部分都位于移动端
         {
-            path :'/rider',
+            path: '/rider',
             name: 'rider',
             component: Rider,
         },
@@ -218,5 +251,5 @@ router.beforeEach((to, from, next) => {
     } else next();
 });
 
- export default router;
+export default router;
 

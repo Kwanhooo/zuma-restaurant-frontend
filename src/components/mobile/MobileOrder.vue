@@ -1,7 +1,5 @@
 <template>
-  <div id="mobile-order">
-
-  </div>
+  <div id="mobile-order"></div>
 </template>
 
 <script>

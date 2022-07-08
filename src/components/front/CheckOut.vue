@@ -59,7 +59,7 @@ export default {
     checkOut(row) {
       axios({
         method: 'POST',
-        url: '/front/confirm?orderId='+row.id,
+        url: '/front/confirm?orderId=' + row.id,
       })
           .then((res) => {
             if (res.data.code === 0) {
@@ -69,7 +69,7 @@ export default {
                 }
               });
             } else {
-                console.log(res.data.msg)
+              console.log(res.data.msg)
             }
           })
     }
@@ -83,7 +83,7 @@ export default {
           if (res.data.status === 0) {
             this.tableData = res.data;
           } else {
-            console.log("初始化错误"+res.data.msg);
+            console.log("初始化错误" + res.data.msg);
           }
         })
   }

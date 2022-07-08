@@ -3,7 +3,7 @@
     <div class="product-image-wrapper">
       <img class="product-image-link" :src="food.img" :alt="food.name">
     </div>
-<!--    https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg-->
+    <!--    https://cdn.pixabay.com/photo/2016/11/19/12/44/burgers-1839090_960_720.jpg-->
     <div class="product-title">
       <a href="#">{{ food.name }}</a>
     </div>
@@ -66,7 +66,7 @@ export default {
       if (data.affectedFood === vm.food)
         vm.currentAmount = data.newAmount;
     });
-    bus.on("ClearCart",()=>{
+    bus.on("ClearCart", () => {
       vm.currentAmount = 0;
     });
   },

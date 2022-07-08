@@ -1,6 +1,7 @@
 <template>
   <div v-for="(item,index) in dockItems" :key="index" :class="{'navigator-item':true}">
-    <button class="navigator-btn" @click.prevent="this.$router.push(item.routeTo)">
+    <button class="navigator-btn" @click.prevent="this.$router.push(item.routeTo)"
+            v-if="item.role===this.role">
       <img :src="item.img" style="width: 50px;height: 50px;" alt="home">
       <!--      <span>{{ item.toolTips }}</span>-->
     </button>
@@ -11,7 +12,12 @@
 export default {
   name: "DockItem",
   data() {
-    return {}
+    return {
+      role: '',
+    }
+  },
+  created() {
+    this.role = sessionStorage.getItem('role');
   },
   props: {
     dockItems: {

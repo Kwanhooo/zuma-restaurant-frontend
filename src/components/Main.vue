@@ -45,17 +45,80 @@ export default {
         {
           routeTo: '/dashboard/waiter',
           img: 'https://cdn4.iconfinder.com/data/icons/eon-ecommerce-i-1/32/home_house_desktop_dashboard-512.png',
-          toolTips: 'dashboard'
+          toolTips: 'dashboard',
+          role: 'waiter',
         },
         {
           routeTo: '/order',
           img: 'https://cdn4.iconfinder.com/data/icons/e-commerce-lineart/48/Artboard_4-512.png',
-          toolTips: 'order'
+          toolTips: 'order',
+          role: 'waiter',
         },
         {
           routeTo: '/user/waiter',
           img: 'https://cdn2.iconfinder.com/data/icons/user-set-1-line/32/Interface_user_about_me_computer_person_3-512.png',
-          toolTips: 'user'
+          toolTips: 'user',
+          role: 'waiter',
+        },
+        {
+          routeTo: '/dashboard/kitchen',
+          img: 'https://cdn4.iconfinder.com/data/icons/eon-ecommerce-i-1/32/home_house_desktop_dashboard-512.png',
+          toolTips: 'dashboard',
+          role: 'kitchen'
+        },
+        {
+          routeTo: '/user',
+          img: 'https://cdn2.iconfinder.com/data/icons/user-set-1-line/32/Interface_user_about_me_computer_person_3-512.png',
+          toolTips: 'user',
+          role: 'kitchen'
+        },
+        {
+          routeTo: '/notice',
+          img: 'https://cdn4.iconfinder.com/data/icons/media-icons-23/24/24pt_bell-512.png',
+          toolTips: 'notice',
+          role: 'kitchen'
+        },
+        {
+          routeTo: '/dashboard/front',
+          img: 'https://cdn4.iconfinder.com/data/icons/eon-ecommerce-i-1/32/home_house_desktop_dashboard-512.png',
+          toolTips: 'dashboard',
+          role: 'front'
+        },
+        {
+          routeTo: '/front/viewOrder',
+          img: 'https://cdn1.iconfinder.com/data/icons/pixa-vol-1/160/blockchain-1-512.png',
+          toolTips: 'viewOrder',
+          role: 'front'
+        },
+        {
+          routeTo: '/front/viewUser',
+          img: 'https://cdn4.iconfinder.com/data/icons/zeir-miscellaneous-007/64/admin_user_edit_config-256.png',
+          toolTips: 'viewUser',
+          role: 'front'
+        },
+        {
+          routeTo: '/front/viewNotice',
+          img: 'https://cdn4.iconfinder.com/data/icons/media-icons-23/24/24pt_bell-512.png',
+          toolTips: 'viewNotice',
+          role: 'front'
+        },
+        {
+          routeTo: '/front/checkOut',
+          img: 'https://cdn3.iconfinder.com/data/icons/finance-business-15/91/Finance__Business_09-512.png',
+          toolTips: 'checkOut',
+          role: 'front'
+        },
+        {
+          routeTo: '/front/viewFood',
+          img: 'https://cdn0.iconfinder.com/data/icons/food-1216/24/rice-bowl-nutrition-food-512.png',
+          toolTips: 'viewFood',
+          role: 'front'
+        },
+        {
+          routeTo: '/front/viewEvaluation',
+          img: 'https://cdn1.iconfinder.com/data/icons/shopping-346/24/rating-rate-hand-star-512.png',
+          toolTips: 'viewEvaluation',
+          role: 'front'
         },
       ],
       statistics: [],

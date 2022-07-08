@@ -110,7 +110,7 @@ export default {
     pushNotice() {
       axios({
         method: 'POST',
-        url: '/front/addNotice?adminId='+sessionStorage.getItem('userId')+"&text="+this.text,
+        url: '/front/addNotice?adminId=' + sessionStorage.getItem('userId') + "&text=" + this.text,
       })
           .then((res) => {
             if (res.data.status === 0) {

@@ -33,8 +33,12 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook.foodInUseListId != -1">{{ nowCook.foodType }}</div>
-        <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;" v-if="nowCook.foodInUseListId == -1" @click="showDetail = true">外卖订单{{ nowCook.id }}号</div>
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook.foodInUseListId != -1">
+          {{ nowCook.foodType }}
+        </div>
+        <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;"
+             v-if="nowCook.foodInUseListId == -1" @click="showDetail = true">外卖订单{{ nowCook.id }}号
+        </div>
         <el-dialog title="订单菜品" v-model="showDetail" width="35%" style="font-size: 30px; font-weight: bold">
           {{ nowCook.foodType }}
         </el-dialog>
@@ -58,8 +62,12 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nextCook.foodInUseListId != -1">{{ nextCook.foodType }}</div>
-        <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;" v-if="nextCook.foodInUseListId == -1">外卖订单{{ nextCook.id }}号</div>
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nextCook.foodInUseListId != -1">
+          {{ nextCook.foodType }}
+        </div>
+        <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;"
+             v-if="nextCook.foodInUseListId == -1">外卖订单{{ nextCook.id }}号
+        </div>
         <div v-if="stop" style="font-size: 30px">休息中</div>
         <div v-if="nextCook.foodType == null" style="font-size: 30px">没有了哦</div>
         <button class="pauseButton" @click.prevent="pause()" v-if="!stop">小溜一会</button>
@@ -89,11 +97,15 @@
         <div style="margin-left: 20px;">
           <div>
             <div style="height: 13px;"></div>
-            <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold" v-if="waiting.foodInUseListId != -1">{{ waiting.foodType }}</span>
-            <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold" v-if="waiting.foodInUseListId == -1">外卖订单{{ waiting.id }}号</span>
+            <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold"
+                  v-if="waiting.foodInUseListId != -1">{{ waiting.foodType }}</span>
+            <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold"
+                  v-if="waiting.foodInUseListId == -1">外卖订单{{ waiting.id }}号</span>
             <br/>
-            <span class="waiting-table" style="font-size: 20px; font-weight: bold;" v-if="waiting.foodInUseListId != -1">{{ waiting.table }}号桌</span>
-            <span class="waiting-table" style="font-size: 20px; font-weight: bold;" v-if="waiting.foodInUseListId == -1">用户：{{ waiting.table }}</span>
+            <span class="waiting-table" style="font-size: 20px; font-weight: bold;"
+                  v-if="waiting.foodInUseListId != -1">{{ waiting.table }}号桌</span>
+            <span class="waiting-table" style="font-size: 20px; font-weight: bold;"
+                  v-if="waiting.foodInUseListId == -1">用户：{{ waiting.table }}</span>
           </div>
           <br>
         </div>
@@ -126,14 +138,22 @@
           <div style="margin-left: 20px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold" v-if="dish.foodInUseListId != -1">{{ dish.foodType }}</span>
-              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold" v-if="dish.foodInUseListId == -1">外卖订单{{ dish.id }}号</span>
+              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold"
+                    v-if="dish.foodInUseListId != -1">{{ dish.foodType }}</span>
+              <span class="waiting-foodType" style="font-size: 25px; font-weight: bold"
+                    v-if="dish.foodInUseListId == -1">外卖订单{{ dish.id }}号</span>
               <br/>
               <br/>
-              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;" v-if="dish.foodInUseListId != -1">{{ dish.table }}号桌</span>
-              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;" v-if="dish.foodInUseListId == -1">用户：{{ dish.table }}</span>
-              <button class="callingBtm" style="margin-left: 100px" @click.prevent="inform(index)" v-if="dish.foodInUseListId != -1">通知上菜</button>
-              <button class="callingBtm" style="margin-left: 50px" @click.prevent="inform(index)" v-if="dish.foodInUseListId == -1">通知上菜</button>
+              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;"
+                    v-if="dish.foodInUseListId != -1">{{ dish.table }}号桌</span>
+              <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;"
+                    v-if="dish.foodInUseListId == -1">用户：{{ dish.table }}</span>
+              <button class="callingBtm" style="margin-left: 100px" @click.prevent="inform(index)"
+                      v-if="dish.foodInUseListId != -1">通知上菜
+              </button>
+              <button class="callingBtm" style="margin-left: 50px" @click.prevent="inform(index)"
+                      v-if="dish.foodInUseListId == -1">通知上菜
+              </button>
             </div>
             <br>
           </div>
@@ -176,20 +196,19 @@ export default {
 
     finishCook() {
       this.finish.push(this.nowCook);
-      if(this.nowCook.foodInUseListId != -1){
+      if (this.nowCook.foodInUseListId != -1) {
         axios({
           method: 'PUT',
-          url: '/back/modifyDinner/'+this.nowCook.id+'/'+this.nowCook.foodInUseListId,
+          url: '/back/modifyDinner/' + this.nowCook.id + '/' + this.nowCook.foodInUseListId,
         })
             .catch(err => {
               //打印响应数据(错误信息)
               console.log(err);
             });
-      }
-      else {
+      } else {
         axios({
           method: 'PUT',
-          url: '/back/modifyOrderOut/'+this.nowCook.id,
+          url: '/back/modifyOrderOut/' + this.nowCook.id,
         })
             .catch(err => {
               //打印响应数据(错误信息)
@@ -227,27 +246,26 @@ export default {
     inform(index) {
       var date = new Date();
       var notice = {};
-      if(this.finish[index].foodInUseListId != -1){
+      if (this.finish[index].foodInUseListId != -1) {
         notice = {
-          noticeid : 1,
-          noticesource : "back",
-          noticereceiver : "serve",
-          noticetime : dateUtils.formatDate(date,'yyyy-MM-dd hh:mm:ss'),
-          text :this.finish[index].foodType+","+this.finish[index].table,
-          ifchecked : "false"
+          noticeid: 1,
+          noticesource: "back",
+          noticereceiver: "serve",
+          noticetime: dateUtils.formatDate(date, 'yyyy-MM-dd hh:mm:ss'),
+          text: this.finish[index].foodType + "," + this.finish[index].table,
+          ifchecked: "false"
+        };
+      } else {
+        notice = {
+          noticeid: 1,
+          noticesource: "back",
+          noticereceiver: "rider",
+          noticetime: dateUtils.formatDate(date, 'yyyy-MM-dd hh:mm:ss'),
+          text: this.finish[index].id + "," + this.finish[index].table,
+          ifchecked: "false"
         };
       }
-      else {
-        notice = {
-          noticeid : 1,
-          noticesource : "back",
-          noticereceiver : "rider",
-          noticetime : dateUtils.formatDate(date,'yyyy-MM-dd hh:mm:ss'),
-          text :this.finish[index].id+","+this.finish[index].table,
-          ifchecked : "false"
-        };
-      }
-      this.finish.splice(index,1);
+      this.finish.splice(index, 1);
       axios({
         method: 'POST',
         url: '/back/submitNotice',
@@ -270,22 +288,22 @@ export default {
     })
         .then((res) => {
           console.log(res.data)
-          if(res.data.status != 1){
-            for(let i in res.data.data){
-              let temp={
+          if (res.data.status != 1) {
+            for (let i in res.data.data) {
+              let temp = {
                 id: res.data.data[i].id,
                 table: res.data.data[i].table,
-                foodInUseList:{
+                foodInUseList: {
                   id: res.data.data[i].foodInUseList.id,
                   name: res.data.data[i].foodInUseList.name,
                 }
               }
-              for(let food in temp.foodInUseList){
+              for (let food in temp.foodInUseList) {
                 let temp1 = {
-                  id : temp.id,
-                  table : temp.table.toString(),
-                  foodInUseListId : temp.foodInUseList[food].id,
-                  foodType : temp.foodInUseList[food].name,
+                  id: temp.id,
+                  table: temp.table.toString(),
+                  foodInUseListId: temp.foodInUseList[food].id,
+                  foodType: temp.foodInUseList[food].name,
                 }
                 this.queue.push(temp1);
               }
@@ -303,13 +321,13 @@ export default {
       url: '/back/viewOrderOut'
     })
         .then((res) => {
-          if(res.data.status != 1){
-            for(let i in res.data.data){
-              let temp1 ={
-                id : res.data.data[i].orderId,
-                table : res.data.data[i].userId,
-                foodInUseListId : -1,
-                foodType : res.data.data[i].allFood,
+          if (res.data.status != 1) {
+            for (let i in res.data.data) {
+              let temp1 = {
+                id: res.data.data[i].orderId,
+                table: res.data.data[i].userId,
+                foodInUseListId: -1,
+                foodType: res.data.data[i].allFood,
               }
               this.queue.push(temp1);
             }
@@ -320,15 +338,15 @@ export default {
           console.log(err);
         });
 
-    if(this.nextCook.id == null){
+    if (this.nextCook.id == null) {
       this.nextCook = this.queue[0];
-      this.queue.splice(0,1);
+      this.queue.splice(0, 1);
     }
 
-    if(this.nowCook.id == null && !this.stop){
+    if (this.nowCook.id == null && !this.stop) {
       this.nowCook = this.nextCook;
       this.nextCook = this.queue[0];
-      this.queue.splice(0,1);
+      this.queue.splice(0, 1);
     }
   },
 }
@@ -625,7 +643,7 @@ ul {
   color: #1383B6;
 }
 
-.callingBtm:hover{
+.callingBtm:hover {
   background-color: #1383B6;
   color: #F1FBFE;
 }
