@@ -115,13 +115,14 @@ export default {
       }).then((res) => {
         // 获取url中的redirect参数，用于跳转到相应的页面
         if (res.data.status === 0) {
-          const redirectTo = vm.$router.currentRoute.value.query.redirectTo;
+          const redirectTo = vm.$router.currentRoute.value.query.redirect;
           // 将token存入sessionStorage
           sessionStorage.setItem("token", res.data.data);
           // 将用户角色存入sessionStorage
           sessionStorage.setItem("role", userRole);
-          window.location.href = redirectTo;
           vm.isErr = false;
+          console.log(redirectTo);
+          vm.$router.push(redirectTo[0]);
         } else {
           // 账号密码错误
           vm.isErr = true;
@@ -149,7 +150,6 @@ export default {
       }
 
       // 将账号和密码Post到服务器，并获取token
-      JSON.stringify()
       axios({
             method: "post",
             url: "/user/register",

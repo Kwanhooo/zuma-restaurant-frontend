@@ -24,17 +24,17 @@
           <div style="margin-left: 10px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="calling-table">{{ notice.type }}</span>
+              <span class="calling-table">{{ notice.noticesource==='kitchen'?'送菜':'公告' }}</span>
               <span class="calling-time">
-            {{ notice.time }}
+            {{ notice.noticetime }}
             <div class="notice-source">
-               From => {{ notice.source }}
+               From => {{ notice.noticesource }}
             </div>
           </span>
             </div>
             <div style="margin-top:10px;">
           <span class="notice-content">
-            📦 送：{{ notice.foodName }} × {{ notice.quantity }} <br>
+            📦 送：{{ notice.foodName }} × {{ 1 }} <br>
             🐾 到：{{ notice.toTable }}
           </span>
               <button class="confirmBtn" @click="handleBtn(notice)">确认</button>
@@ -55,33 +55,21 @@ export default {
   data() {
     return {
       notices: [
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
-        {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
+        // {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
       ],
     };
   },
   methods: {
     // 从后台获取公告数据
     getNoticeData() {
-      axios.get("/serve/getDeliveryNotice").then(res => {
-        this.notices = res.data;
+      axios.get('/serve/viewNoticeForServe').then(res => {
+        this.notices = res.data.data;
+        this.notices.forEach(notice => {
+          notice.noticetime = notice.noticetime.split('T')[0];
+          notice.foodName= notice.text.split(',')[0];
+          notice.toTable= notice.text.split(',')[1];
+        });
+        console.log(this.notices);
       });
     },
     load() {
@@ -98,12 +86,13 @@ export default {
     handleBtn(notice) {
       this.notices.splice(this.notices.indexOf(notice), 1);
     },
-    // 当这个组件被加载的时候，就会被调用
-    mounted() {
-      // TODO:每隔十秒钟执行一次getNoticeData函数，获取公告数据
-      // setInterval(this.getNoticeData, 10000);
-    },
-  }
+  },
+  // 当这个组件被加载的时候，就会被调用
+  mounted() {
+    this.getNoticeData();
+    // TODO:每隔十秒钟执行一次getNoticeData函数，获取公告数据
+    setInterval(this.getNoticeData, 10000);
+  },
 }
 </script>
 
