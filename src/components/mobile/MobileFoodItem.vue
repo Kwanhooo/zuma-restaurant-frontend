@@ -60,11 +60,11 @@
         </div>
         <div class="OperationWrapperFlex">
           <div class="OperationWrapper">
-            <span v-if="amount !== 0" class="BtnMinus">-</span>
-            <span v-if="amount !== 0" class="NumberBoxWrapper">
-            <input type="number" name="#" id="#" class="NumberBox" v-model="this.amount" readonly="readonly">
-          </span>
-            <span class="BtnPlus">+</span>
+            <span class="BtnMinus" @click.prevent="handleOperatorClick('-')">-</span>
+            <span class="NumberBoxWrapper">
+              <input type="number" class="NumberBox" v-model="this.amount" readonly="readonly">
+            </span>
+            <span class="BtnPlus" @click.prevent="handleOperatorClick('+')">+</span>
           </div>
         </div>
       </div>
@@ -73,15 +73,31 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import bus from '../../util/bus.ts';
+
 export default {
   name: "MobileFoodItem",
   data() {
     return {
       tags: [],
-      amount: 10,
+      amount: 0,
     };
   },
-  methods: {},
+  methods: {
+    resolveTags() {
+      this.tags = this.$props.displayFood.text.split('@')[1].split('#');
+    },
+    handleOperatorClick(operator) {
+      if (operator === '+') {
+        this.amount++;
+        bus.emit('itemAmountChange', {food: this.$props.displayFood, amount: this.amount});
+      } else {
+        if (this.amount > 0)
+          this.amount--;
+      }
+    }
+  },
   props: {
     displayFood: {
       type: Object,
@@ -93,7 +109,12 @@ export default {
     }
   },
   created() {
-    this.tags = this.$props.displayFood.text.split('@')[1].split('#');
+    this.resolveTags();
+  },
+  mounted() {
+    bus.on('cartAmountChange', (callBackData) => {
+      console.log(callBackData);
+    });
   }
 }
 </script>

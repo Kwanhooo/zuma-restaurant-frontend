@@ -1,9 +1,9 @@
 <template>
   <div class="TypeTitleBar">
-    <div>{{ this.$props.displayType.text }}</div>
+    <div class="MobileTypeTitle">{{ this.$props.displayType.text }}</div>
   </div>
   <template v-for="(food,index) in foodsOfThisType" :key="index">
-    <MobileFoodItem :display-food="food" :type-of-food="this.displayType"></MobileFoodItem>
+    <MobileFoodItem :displayFood="food" :typeOfFood="this.displayType"></MobileFoodItem>
   </template>
 </template>
 
@@ -52,5 +52,9 @@ export default {
 <style scoped>
 .TypeTitleBar {
   margin: 0.5rem 0.5rem;
+}
+
+.MobileTypeTitle{
+  margin: 10px 0 0 3px;
 }
 </style>
