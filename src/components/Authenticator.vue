@@ -124,6 +124,7 @@ export default {
           sessionStorage.setItem("token", res.data.data);
           // 将用户角色存入sessionStorage
           sessionStorage.setItem("role", res.data.msg);
+          sessionStorage.setItem("userId", this.username);
           vm.isErr = false;
           console.log(redirectTo);
           vm.$router.push(redirectTo[0]);

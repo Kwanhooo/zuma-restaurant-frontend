@@ -6,18 +6,18 @@
       <hr style="width:80%;top:0%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <br><br>
-        <table class="userMsgForm">
+        <table class="userMsgForm" style="margin-left: 100px;">
           <tr>
             <td>id:</td>
-            <td>{{ id }}</td>
+            <td>{{ user.id }}</td>
           </tr>
           <tr>
             <td>用户名:</td>
-            <td>{{ userId }}</td>
+            <td>{{ user.userId }}</td>
           </tr>
           <tr>
             <td>电话:</td>
-            <td>{{ phone }}</td>
+            <td>{{ user.phone }}</td>
           </tr>
         </table>
       </div>
@@ -28,9 +28,9 @@
       <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <br>
-        <input class="phoneText" type="text" v-text="phone">
+        <input class="phoneText" type="text" v-model="newPhone">
         <br><br>
-        <button class="changePhoneBtm" @click.prevent="">确定修改</button>
+        <button class="changePhoneBtm" @click.prevent="changePhone()">确定修改</button>
       </div>
     </div>
   </div>
@@ -61,9 +61,23 @@
       <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <br>
-        <button class="otherBtm" @click.prevent="">修改密码</button>
+        <button class="otherBtm" @click.prevent="changePassword()">修改密码</button>
+        <el-dialog title="修改密码" v-model="sendVal" width="35%" style="font-size: 30px; font-weight: bold">
+          <div id="modifyPassword">
+            <br/>
+            <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
+              <br>
+              <input id="oldPasswordText" type="text" v-model="oldPassword" style="width: 250px; height: 50px; font-size: 30px"><p v-if="passwordNotTrue" style="color: red; font-size: 30px">密码错误</p>
+              <br><br>
+              <input id="newPasswordText" type="text" v-model="newPassword" style="width: 250px; height: 50px; font-size: 30px">
+              <br>
+              <button class="continueButton" @click.prevent="modifyPassword()">确定修改</button>
+              <br><br><br><br><br>
+            </div>
+          </div>
+        </el-dialog>
         <br><br>
-        <button class="otherBtm" @click.prevent="">注销</button>
+        <button class="otherBtm" @click.prevent="logout()">注销</button>
       </div>
     </div>
   </div>
@@ -71,19 +85,97 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "user",
   data() {
     return {
+      user: {id: 0, userId: "", phone: ""},
+      sendVal: false,
+      passwordNotTrue :false,
+      oldPassword: "",
+      newPassword: "",
+      newPhone: "",
       day: "",
       date: "",
       time: "",
     }
   },
-  methods: {},
+  methods: {
+    changePhone() {
+      axios({
+        method: 'PUT',
+        url: '/back/modifyPhone',
+        params: {
+          userId: this.user.userId,
+          newPhone: this.newPhone
+        }
+      })
+          .then((res) => {
+            alert("修改成功")
+            console.log(res.data)
+          })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
+    },
+
+    changePassword() {
+      this.sendVal = true;
+      this.passwordNotTrue = false;
+    },
+
+    modifyPassword() {
+      var modifyPassword = {
+        userId : this.user.userId,
+        oldPassword : this.oldPassword,
+        newPasswrod : this.newPassword
+      }
+      axios({
+        method: 'POST',
+        url: '/back/modifyPassword',
+        data: modifyPassword
+      })
+          .then(res => {
+            if(res.data.status === 0){
+              this.oldPassword = "";
+              this.newPassword = "";
+              alert("修改成功")
+              this.sendVal = false;
+            }
+            else {
+              this.passwordNotTrue = true;
+            }
+          })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
+    },
+
+    logout() {
+      sessionStorage.clear()
+      this.$router.push("/auth")
+    }
+  },
   created() {
+    axios({
+      method: 'GET',
+      url: '/back/viewUser/'+sessionStorage.getItem("userId")
+    })
+        .then((res) => {
+          this.user.id = res.data.data.id
+          this.user.userId = res.data.data.userid
+          this.user.phone = res.data.data.phone
+        })
+        .catch(err => {
+          //打印响应数据(错误信息)
+          console.log(err);
+        });
+
     // 获取系统时间
     this.day = new Date().getDay();
     // 将day转换为中文
@@ -260,6 +352,30 @@ export default {
   /*color: #007BFF;*/
   font-size: 40px;
   font-weight: bold;
+}
+
+#modifyPassword {
+  text-align: center;
+  background: #e9e7fd;
+  box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.09);
+  border-radius: 30px;
+}
+
+.continueButton {
+  text-align: center;
+  left: 12%;
+  width: 265px;
+  height: 50px;
+  border: 3px;
+  border-radius: 30px;
+  transition-duration: 0.4s;
+  background-color: #F6F5FE;
+  color: #4F3FF0;
+}
+
+.continueButton:hover {
+  background-color: #4F3FF0;
+  color: #F6F5FE;
 }
 
 </style>
