@@ -15,7 +15,7 @@
         height="600">
       <el-table-column
           fixed
-          prop="userId"
+          prop="userid"
           label="用户名"
           width="350">
       </el-table-column>
@@ -56,6 +56,7 @@
       <p>用户名：{{ modifyUserId }}</p>
       <p>密码：<el-input v-model="modifyPassword" :placeholder="modifyPassword" style="width:200px"/></p>
       <p>职位：<el-input v-model="modifyCharactor" :placeholder="modifyCharactor" style="width:200px"/></p>
+      <p>电话：<el-input v-model="modifyPhone" :placeholder="modifyPhone" style="width:200px"/></p>
     </span>
     <template #footer>
       <span class="dialog-footer">
@@ -73,6 +74,7 @@
       <p>用户名：<el-input v-model="addUserId" style="width:200px"/></p>
       <p>密  码：<el-input v-model="addPassword" style="width:200px"/></p>
       <p>职  位：<el-input v-model="addCharactor" style="width:200px"/></p>
+       <p>电 话：<el-input v-model="addPhone" style="width:200px"/></p>
     </span>
     <template #footer>
       <span class="dialog-footer">
@@ -98,12 +100,14 @@ export default {
       modifyUserId: "",
       modifyPassword: "",
       modifyCharactor: "",
+      modifyPhone:"",
       addUserId: "",
       addPassword: "",
       addCharactor: "",
+      addPhone:"",
       tableData: [
         {
-          userId: "10001",
+          userid: "10001",
           password: "123456",
           charactor: "厨师",
         }
@@ -130,6 +134,7 @@ export default {
           userid: this.modifyUserId,
           password: this.modifyPassword,
           charactor: this.modifyCharactor,
+          phone:this.modifyPhone,
         }
       })
           .then((res) => {
@@ -156,26 +161,18 @@ export default {
 
       axios({
         method: "post",
-        url: "/front/deleteUser?userId="+row.userId,
+        url: "/front/deleteUser?userId="+row.userid,
 
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               this.tableData.forEach(function (item, index, arr) {
                 if (item.userId === row.id) {
                   arr.splice(index, 0);
                 }
               })
             } else {
-              this.$alert(res.data.msg, '删除用户', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  this.$message({
-                    type: 'info',
-                    message: `action: ${action}`
-                  });
-                }
-              });
+              console.log(res.data.msg);
             }
           })
     },
@@ -188,7 +185,7 @@ export default {
       })
           .then((res) => {
             if (res.data.status === 0) {
-              this.tableData = res.data;
+              this.tableData = res.data.data;
             } else {
               this.$alert(res.data.msg, '查找用户', {
                 confirmButtonText: '确定',
@@ -214,10 +211,11 @@ export default {
           userid: this.addUserId,
           password: this.addPassword,
           charactor: this.addCharactor,
+          phone:this.addPhone,
         },
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               this.dialogVisibleAdd = false;
               let user = {
                 userId: this.addUserId,
@@ -237,18 +235,10 @@ export default {
       url: '/front/viewUser'
     })
         .then((res) => {
-          if (res.data.code === 0) {
-            this.tableData = res.data
+          if (res.data.status === 0) {
+            this.tableData = res.data.data
           } else {
-            this.$alert(res.data.msg, '查询用户', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'info',
-                  message: `action: ${action}`
-                });
-              }
-            });
+            console.log(res.data.msg);
           }
         })
   }
