@@ -126,7 +126,7 @@ export default {
           sessionStorage.setItem("role", res.data.msg);
           sessionStorage.setItem("userId", this.username);
           vm.isErr = false;
-          console.log(redirectTo);
+          // console.log(redirectTo);
           vm.$router.push(redirectTo[0]);
         } else {
           // 账号密码错误

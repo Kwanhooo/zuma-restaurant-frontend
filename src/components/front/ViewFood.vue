@@ -65,10 +65,18 @@
       title="Tips"
       width="30%"
   >
-    <span>
-      <el-image :src="food.img" style="width:100px; height:100px">
-      </el-image>
-    </span>
+      <ul v-show="uploadImg.length!==0">
+          <li v-for="(item,index) in uploadImg"
+              :key="index"
+              class="addPic">
+            <img :src="item" alt="Food picture" class="img">
+          </li>
+        </ul>
+      <input type="file"
+        id="file"
+        accept="image/*"
+        @change="getPicture($event)" class="imgAdd">
+    <button @click="callFile()" v-if="uploadImg.length===0">+</button>
     <el-form ref="form" :model="food" label-width="80px">
       <el-form-item label="食物编号">
         <el-input v-model="food.id" :placeholder="food.id"></el-input>
@@ -166,7 +174,8 @@ export default {
           value: '其他',
           label: '其他',
         }
-      ]
+      ],
+      uploadImg:[],
     }
   },
   methods: {
@@ -263,7 +272,7 @@ export default {
         }
       })
           .then((res) => {
-            if (res.status === 0) {
+            if (res.data.status === 0) {
               this.tableData.push(this.food);
               this.addDialogVisible = false;
             } else {
@@ -281,6 +290,25 @@ export default {
       this.food.img = "";
       this.food.like = "";
       this.food.dislike = "";
+      this.uploadImg= [];
+    },
+    getPicture(e){
+      //预览图片
+      let src = window.URL.createObjectURL(e.target.files[0]);
+      this.uploadImg.push(src);
+
+      //将图片文件转化成base64格式图片
+      var reader = new FileReader();
+      reader.onload = (e) => {
+       this.food.img= e.target.result // 就是从本地读取的图片的base64格式,将它上传给服务器即可
+        //使用axios的post方法上传即可
+      }
+      reader.readAsDataURL(e.target.files[0])
+    },
+    callFile () {
+      //点击添加图片按钮，触发type:"file"的input标签
+      let fileDom = document.querySelector("#file")
+      fileDom.click()
     }
   },
   created() {
@@ -316,5 +344,12 @@ export default {
   transition: all 0.5s ease-in-out;
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
+}
+.imgAdd{
+  display: none;
+}
+.img{
+  width:70px;
+  height:70px;
 }
 </style>

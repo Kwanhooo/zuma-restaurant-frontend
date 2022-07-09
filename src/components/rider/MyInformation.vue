@@ -45,7 +45,7 @@ export default {
       oldPassword: "",
       newPassword: "",
       rider: {
-        userId: sessionStorage.getItem("token"),
+        userId: sessionStorage.getItem("userId"),
         name: "王二狗",
         paswword: "12345",
         phone: "114514114514",
@@ -73,7 +73,11 @@ export default {
     }
   },
   created() {
-
+    JSON.stringify()
+    axios({
+      method: 'POST',
+      url: '/rider/show'
+    })
   }
 }
 </script>

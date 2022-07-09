@@ -118,7 +118,7 @@ export default {
         }
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               let orderId = this.orderId;
               this.tableData.forEach(function (item, index, arr) {
                 if (item.orderId === orderId) {
@@ -134,18 +134,16 @@ export default {
     completeDialogShow(orderId) {
       this.completeDialogVisible = true;
       this.orderId = orderId;
+      console.log(this.orderId);
+      console.log(this.id);
     },
     completeOrder() {
       axios({
         method: 'POST',
-        url: '/rider/completeOrder',
-        data: {
-          id: this.id,
-          orderId: this.orderId,
-        }
+        url: '/rider/completeOrder?orderid=' + this.orderId + '&id=' + this.id,
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               let orderId = this.orderId;
               this.tableData.forEach(function (item, index, arr) {
                 if (item.orderId === orderId) {
@@ -162,14 +160,15 @@ export default {
 
   created() {
     axios({
-      method: 'POST',
-      url: '/rider/getDoingOrder'
+      method: 'GET',
+      url: '/rider/getDoingOrder?riderId='+this.id
     })
         .then((res) => {
-          if (res.data.code === 0) {
-            this.tableData = res.data
+          if (res.data.status === 0) {
+            console.log("Doing Order running")
+            this.tableData = res.data.data
           } else {
-            this.$alert(res.data.msg, '错误信息');
+            console.log(res.data.msg);
           }
         })
   }
