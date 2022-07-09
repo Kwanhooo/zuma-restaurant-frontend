@@ -67,9 +67,27 @@
             <br/>
             <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
               <br>
-              <input id="oldPasswordText" type="text" v-model="oldPassword" style="width: 250px; height: 50px; font-size: 30px"><p v-if="passwordNotTrue" style="color: red; font-size: 30px">密码错误</p>
-              <br><br>
-              <input id="newPasswordText" type="text" v-model="newPassword" style="width: 250px; height: 50px; font-size: 30px">
+              <table style="margin-left: 135px">
+                <tr>
+                  <td>
+                    <p style="font-size: 30px">旧密码：</p>
+                  </td>
+                  <td>
+                    <input id="oldPasswordText" type="text" v-model="oldPassword" style="width: 250px; height: 50px; font-size: 30px">
+                  </td>
+                  <td>
+                    <p v-if="passwordNotTrue" style="color: red; font-size: 30px">密码错误</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p style="font-size: 30px">新密码：</p>
+                  </td>
+                  <td>
+                    <input id="newPasswordText" type="text" v-model="newPassword" style="width: 250px; height: 50px; font-size: 30px">
+                  </td>
+                </tr>
+              </table>
               <br>
               <button class="continueButton" @click.prevent="modifyPassword()">确定修改</button>
               <br><br><br><br><br>
@@ -115,6 +133,8 @@ export default {
       })
           .then((res) => {
             alert("修改成功")
+            this.user.phone = this.newPhone
+            this.newPhone = ""
             console.log(res.data)
           })
           .catch(err => {
@@ -300,6 +320,7 @@ export default {
 .phoneText {
   position: relative;
   float: top;
+  font-size: 25px;
   left: 2%;
   top: 5%;
   width: 60%;
