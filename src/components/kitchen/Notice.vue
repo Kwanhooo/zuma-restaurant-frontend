@@ -68,7 +68,7 @@ export default {
     return {
       num : 0,
       noticeList: [
-        {
+        /*{
           noticeid: "12345",
           noticesource: "前台",
           text: "今天晚上十点半到会议室开会",
@@ -79,7 +79,7 @@ export default {
           noticesource: "前台",
           text: "国庆假期仅放1至3号，4至7号正常上班，三倍工薪，若有特殊情况需提前报备",
           noticetime: "2022-01-01 12:34:56"
-        },
+        },*/
       ],
       choose: -1,
     }
@@ -99,10 +99,11 @@ export default {
     },
 
     getNewMessage: function() {
-      console.log("第" + this.num++ + "次刷新公告");
+      this.noticeList = []
+
       axios({
         method: 'GET',
-        url: '/common/viewNotice'
+        url: '/back/viewNotice'
       })
           .then((res) => {
             if (res.data.status != 1) {
@@ -113,7 +114,6 @@ export default {
                   text: res.data.data[i].text,
                   noticetime: res.data.data[i].noticetime,
                 }
-                this.noticeList = [];
                 this.noticeList.push(temp);
               }
             }
@@ -125,16 +125,17 @@ export default {
     }
   },
   created() {
-    /*window.setInterval(() => {
-      setTimeout(this.getNewMessage(), 0);
-    }, 5000);*/
+    this.timer = window.setInterval(() => {
+      setTimeout(() => {
+        this.getNewMessage()
+      },0)
+    },5000)
 
     axios({
       method: 'GET',
       url: '/back/viewNotice'
     })
         .then((res) => {
-          console.log(res.data.data)
           if (res.data.status != 1) {
             for (let i in res.data.data) {
               let temp = {
@@ -143,7 +144,6 @@ export default {
                 text: res.data.data[i].text,
                 noticetime: res.data.data[i].noticetime,
               }
-              console.log(temp)
               this.noticeList.push(temp);
             }
           }
@@ -152,6 +152,10 @@ export default {
           //打印响应数据(错误信息)
           console.log(err);
         });
+  },
+
+  unmounted() {
+    window.clearInterval(this.timer)
   }
 }
 </script>
