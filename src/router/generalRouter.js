@@ -27,6 +27,7 @@ import MobileOrder from "@/components/mobile/MobileOrder";
 import MobileMe from "@/components/mobile/MobileMe";
 
 import Rider from "@/components/Rider"
+import NoticeCenter from "@/components/waiter/NoticeCenter";
 // import axios from "axios";
 
 const router = createRouter({
@@ -70,6 +71,16 @@ const router = createRouter({
                     meta: {authRequired: true},
                 },
                 {
+                    path: '/dashboard/rider',
+                    name: 'rider-dashboard',
+                    components: {
+                        default: Rider,
+                        'content-right': WaiterStatistics,
+                    },
+                    // TODO:暂时打上false，后期改为true
+                    meta: {authRequired: true},
+                },
+                {
                     path: '/order',
                     name: 'order',
                     // TODO:暂时打上false，后期改为true
@@ -86,6 +97,16 @@ const router = createRouter({
                     meta: {authRequired: true},
                     components: {
                         default: user,
+                        'content-right': WaiterStatistics,
+                    },
+                },
+                {
+                    path: 'notice/waiter',
+                    name: 'notice-waiter',
+                    // TODO:暂时打上false，后期改为true
+                    meta: {authRequired: true},
+                    components: {
+                        default: NoticeCenter,
                         'content-right': WaiterStatistics,
                     },
                 },

@@ -1,10 +1,14 @@
 <template>
-  <div id="mobile-order"></div>
+  <div id="mobile-order">
+    <RiderMain></RiderMain>
+  </div>
 </template>
 
 <script>
+import RiderMain from "@/components/Rider";
 export default {
-  name: "MobileOrder"
+  name: "MobileOrder",
+  components: {RiderMain}
 }
 </script>
 
