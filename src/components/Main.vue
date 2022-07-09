@@ -6,6 +6,15 @@
         <span id="topBar-restaurant-name">Zuma Restaurant</span>
       </div>
       <div id="topBar-right">
+        <div class="MenuContent">
+          <span>{{ restaurantName }}</span>
+          |
+          <span >
+            <text style="color:var(--danger);">注销🚪</text>
+          </span>
+          |
+          <span>?</span>
+        </div>
       </div>
     </div>
     <div id="content">
@@ -120,6 +129,12 @@ export default {
           toolTips: 'viewEvaluation',
           role: 'front'
         },
+        {
+          routeTo: '/dashboard/rider',
+          img: 'https://cdn1.iconfinder.com/data/icons/pixa-vol-1/160/blockchain-1-512.png',
+          toolTips: 'dashboard',
+          role: 'rider'
+        },
       ],
       statistics: [],
       //TODO:userInfo应该从后台获取，而不是在这里定义
@@ -211,6 +226,13 @@ body {
   bottom: 0;
 }
 
+.MenuContent {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-right: 60px;
+  float: right;
+}
 
 #topBar-right {
   position: relative;
@@ -218,6 +240,14 @@ body {
   height: 100%;
   flex: auto;
   background: #f3f6fd;
+}
+
+.MenuContent {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-right: 60px;
+  float: right;
 }
 
 #content {
