@@ -18,7 +18,7 @@ import HomeTitle from "@/components/mobile/HomeTopBar";
 import HomePurchase from "@/components/mobile/HomePurchase";
 
 export default {
-  name: "MobileOrder",
+  name: "MobileHome",
   components: {HomeTitle, HomePurchase}
 }
 </script>

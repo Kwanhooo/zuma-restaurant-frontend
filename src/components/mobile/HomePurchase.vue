@@ -43,6 +43,7 @@ export default {
     }
   },
   created() {
+    console.log("Purchase created");
     axios({
       method: "get",
       url: "/serve/viewFoodType",

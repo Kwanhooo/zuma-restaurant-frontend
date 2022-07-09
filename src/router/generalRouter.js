@@ -28,6 +28,7 @@ import MobileMe from "@/components/mobile/MobileMe";
 
 import Rider from "@/components/Rider"
 import NoticeCenter from "@/components/waiter/NoticeCenter";
+import CallingCenter from "@/components/waiter/CallingCenter";
 // import axios from "axios";
 
 const router = createRouter({
@@ -70,6 +71,7 @@ const router = createRouter({
                     // TODO:暂时打上false，后期改为true
                     meta: {authRequired: true},
                 },
+
                 {
                     path: '/dashboard/rider',
                     name: 'rider-dashboard',
@@ -104,9 +106,19 @@ const router = createRouter({
                     path: 'notice/waiter',
                     name: 'notice-waiter',
                     // TODO:暂时打上false，后期改为true
-                    meta: {authRequired: true},
+                    meta: {authRequired: false},
                     components: {
                         default: NoticeCenter,
+                        'content-right': WaiterStatistics,
+                    },
+                },
+                {
+                    path: 'calling/waiter',
+                    name: 'calling-waiter',
+                    // TODO:暂时打上false，后期改为true
+                    meta: {authRequired: false},
+                    components: {
+                        default: CallingCenter,
                         'content-right': WaiterStatistics,
                     },
                 },
@@ -202,25 +214,25 @@ const router = createRouter({
             children: [
                 {
                     path: '/m/home',
-                    name: 'Mobile-home',
-                    meta: {authRequired: true},
+                    name: 'MobileHome',
+                    meta: {keepAlive:true,authRequired: true},
                     component: MobileHome,
                 },
                 {
                     path: '/m/cart',
-                    name: 'Mobile-cart',
-                    meta: {authRequired: true},
+                    name: 'MobileCart',
+                    meta: {keepAlive:true,authRequired: true},
                     component: MobileCart,
                 },
                 {
                     path: '/m/order',
-                    name: 'Mobile-order',
+                    name: 'MobileOrder',
                     meta: {authRequired: true},
                     component: MobileOrder,
                 },
                 {
                     path: '/m/me',
-                    name: 'Mobile-me',
+                    name: 'MobileMe',
                     meta: {authRequired: true},
                     component: MobileMe,
                 },

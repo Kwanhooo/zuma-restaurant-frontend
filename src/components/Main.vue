@@ -7,13 +7,13 @@
       </div>
       <div id="topBar-right">
         <div class="MenuContent">
-          <span>{{ restaurantName }}</span>
+          <span style="color: var(--blue)">{{ restaurantName }}</span>
           |
-          <span >
-            <text style="color:var(--danger);">注销🚪</text>
+          <span>
+            <a style="color:var(--danger);" @click.prevent="logout()">注销🚪</a>
           </span>
           |
-          <span>?</span>
+          <span style="color: #3f3f3f">?</span>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      //TODO:dockItems应该从后台获取，而不是在这里定义
+      restaurantName: "卖当牢铁道学院店",
       dockItems: [
         {
           routeTo: '/dashboard/waiter',
@@ -61,6 +61,18 @@ export default {
           routeTo: '/order',
           img: 'https://cdn4.iconfinder.com/data/icons/e-commerce-lineart/48/Artboard_4-512.png',
           toolTips: 'order',
+          role: 'waiter',
+        },
+        {
+          routeTo: '/notice/waiter',
+          img: 'https://cdn4.iconfinder.com/data/icons/media-icons-23/24/24pt_bell-512.png',
+          toolTips: 'notice',
+          role: 'waiter',
+        },
+        {
+          routeTo: '/calling/waiter',
+          img: 'https://cdn4.iconfinder.com/data/icons/multimedia-75/512/multimedia-01-512.png',
+          toolTips: 'calling',
           role: 'waiter',
         },
         {
@@ -142,6 +154,11 @@ export default {
     };
   },
   methods: {
+    logout(){
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('role');
+      window.location.href= '/auth';
+    },
     // 向后端拉取用户信息
     getInfos() {
       axios.all([
