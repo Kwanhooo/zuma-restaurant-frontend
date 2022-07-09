@@ -94,15 +94,11 @@ export default {
     },
     takeOrder() {
       axios({
-        method: 'POST',
-        url: '/rider/takeOrder',
-        data: {
-          id: this.id,
-          orderId: this.orderId,
-        }
+        method: 'PUT',
+        url: '/rider/takeOrder?orderId='+this.orderId+'&riderId='+this.id,
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               let orderId = this.orderId;
               this.tableData.forEach(function (item, index, arr) {
                 if (item.orderId === orderId) {
@@ -118,12 +114,13 @@ export default {
   },
   created() {
     axios({
-      method: 'POST',
-      url: '/rider/getDoingOrder'
+      method: 'GET',
+      url: '/rider/getDeliveryOrder'
     })
         .then((res) => {
-          if (res.data.code === 0) {
-            this.tableData = res.data
+          console.log(res.data.data);
+          if (res.data.status === 0) {
+            this.tableData = res.data.data
           } else {
             this.$alert(res.data.msg, '错误信息');
           }
