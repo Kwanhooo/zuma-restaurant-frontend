@@ -46,7 +46,7 @@
              v-if="nowCook && nextCook.foodType == null">休息中
         </div>
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
-             v-if="nowCook && nextCook.foodType == null">暂无菜品需要烹饪噢
+             v-if="!nowCook">暂无菜品需要烹饪噢
         </div>
         <button class="finishButton" @click.prevent="finishCook()" v-if="nowCook && nowCook.foodType != null">完成烹饪</button>
         <button class="finishButton" @click.prevent="continueCook()"
@@ -347,12 +347,12 @@ export default {
             console.log(err);
           });
 
-      if (this.nextCook == null) {
+      if (this.nextCook.id == null) {
         this.nextCook = this.queue[0];
         this.queue.splice(0, 1);
       }
 
-      if (this.nowCook == null && !this.stop) {
+      if (this.nowCook.id == null && !this.stop) {
         this.nowCook = this.nextCook;
         this.nextCook = this.queue[0];
         this.queue.splice(0, 1);
