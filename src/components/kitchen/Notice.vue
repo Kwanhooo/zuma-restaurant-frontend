@@ -66,6 +66,7 @@ export default {
   notice: {},
   data() {
     return {
+      num : 0,
       noticeList: [
         {
           noticeid: "12345",
@@ -87,6 +88,7 @@ export default {
     checkNotice(index) {
       this.choose = index;
     },
+
     read(index) {
       this.noticeList.splice(index, 1);
       if (this.noticeList.length == 0) {
@@ -94,12 +96,42 @@ export default {
       } else {
         this.choose = 0;
       }
+    },
+
+    getNewMessage: function() {
+      console.log("第" + this.num++ + "次刷新公告");
+      axios({
+        method: 'GET',
+        url: '/common/viewNotice'
+      })
+          .then((res) => {
+            if (res.data.status != 1) {
+              for (let i in res.data.data) {
+                let temp = {
+                  noticeid: res.data.data[i].noticeid,
+                  noticesource: res.data.data[i].noticesource == "front" ? "前台" : res.data.data[i].noticesource,
+                  text: res.data.data[i].text,
+                  noticetime: res.data.data[i].noticetime,
+                }
+                this.noticeList = [];
+                this.noticeList.push(temp);
+              }
+            }
+          })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
     }
   },
   created() {
+    /*window.setInterval(() => {
+      setTimeout(this.getNewMessage(), 0);
+    }, 5000);*/
+
     axios({
       method: 'GET',
-      url: '/common/viewNotice'
+      url: '/back/viewNotice'
     })
         .then((res) => {
           console.log(res.data.data)

@@ -134,7 +134,6 @@ export default {
           .then((res) => {
             alert("修改成功")
             this.user.phone = this.newPhone
-            this.newPhone = ""
             console.log(res.data)
           })
           .catch(err => {
@@ -190,6 +189,7 @@ export default {
           this.user.id = res.data.data.id
           this.user.userId = res.data.data.userid
           this.user.phone = res.data.data.phone
+          this.newPhone = this.user.phone
         })
         .catch(err => {
           //打印响应数据(错误信息)
