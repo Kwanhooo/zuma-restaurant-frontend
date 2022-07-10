@@ -62,7 +62,7 @@ export default {
       // 按五星评分计算
       let rating = (like / (like + dislike)) * 5;
       // 取出rating的小数部分，如果在0.25-0.75之间，将小数部分设置为0.5，反之向上或向下取整
-      let ratingDecimal = parseFloat('0.'+rating.toString().split('.')[1]);
+      let ratingDecimal = parseFloat('0.' + rating.toString().split('.')[1]);
       if (ratingDecimal >= 0.25 && ratingDecimal <= 0.75) {
         rating = parseFloat(rating.toString().split('.')[0] + '.5');
       } else if (ratingDecimal > 0.75) {

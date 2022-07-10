@@ -95,7 +95,7 @@ export default {
     takeOrder() {
       axios({
         method: 'PUT',
-        url: '/rider/takeOrder?orderId='+this.orderId+'&riderId='+this.id,
+        url: '/rider/takeOrder?orderId=' + this.orderId + '&riderId=' + this.id,
       })
           .then((res) => {
             if (res.data.status === 0) {

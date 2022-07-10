@@ -162,7 +162,7 @@ export default {
 
     axios({
       method: 'GET',
-      url: '/rider/getDoingOrder?riderId='+this.id
+      url: '/rider/getDoingOrder?riderId=' + this.id
     })
         .then((res) => {
           console.log(res.data.data);

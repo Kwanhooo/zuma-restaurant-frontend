@@ -2,7 +2,8 @@
   <div id="on-going-item-wrapper">
     <template v-for="(data,index) in OrderList" :key="index">
       <MobileOrderItem :display-food="data.food" :type-of-food="data.typeOfFood"
-                       :food-status="data.status" :food-amount="data.amount" :ordered-time="data.orderedTime" :indexOfFood="index">
+                       :food-status="data.status" :food-amount="data.amount" :ordered-time="data.orderedTime"
+                       :indexOfFood="index">
 
       </MobileOrderItem>
     </template>
@@ -33,7 +34,7 @@ export default {
           typeOfFood: {"id": 1, "text": "麦满分", "type": "mmf", "img": null},
           amount: 2,
           status: '正在制作'
-        },{
+        }, {
           food: {
             "id": 1,
             "text": "1份猪柳蛋麦满分+1份小食+1杯饮料@1人份#汉堡",
@@ -47,7 +48,7 @@ export default {
           typeOfFood: {"id": 1, "text": "麦满分", "type": "mmf", "img": null},
           amount: 2,
           status: '正在制作'
-        },{
+        }, {
           food: {
             "id": 1,
             "text": "1份猪柳蛋麦满分+1份小食+1杯饮料@1人份#汉堡",
