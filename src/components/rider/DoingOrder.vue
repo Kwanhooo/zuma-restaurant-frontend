@@ -139,8 +139,8 @@ export default {
     },
     completeOrder() {
       axios({
-        method: 'POST',
-        url: '/rider/completeOrder?orderid=' + this.orderId + '&id=' + this.id,
+        method: 'PUT',
+        url: '/rider/completeOrder?orderId=' + this.orderId + '&riderName=' + this.id,
       })
           .then((res) => {
             if (res.data.status === 0) {
@@ -150,7 +150,7 @@ export default {
                   arr.splice(index, 1);
                 }
               });
-              this.cancelDialogVisible = false;
+              this.completeDialogVisible = false;
             } else {
               this.$alert(res.data.msg, '错误信息');
             }
@@ -159,11 +159,13 @@ export default {
   },
 
   created() {
+
     axios({
       method: 'GET',
       url: '/rider/getDoingOrder?riderId='+this.id
     })
         .then((res) => {
+          console.log(res.data.data);
           if (res.data.status === 0) {
             console.log("Doing Order running")
             this.tableData = res.data.data

@@ -105,7 +105,7 @@ export default {
                   arr.splice(index, 1);
                 }
               });
-              this.cancelDialogVisible = false;
+              this.takeDialogVisible = false;
             } else {
               this.$alert(res.data.msg, '错误信息');
             }

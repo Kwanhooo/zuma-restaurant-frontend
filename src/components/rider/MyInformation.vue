@@ -57,26 +57,40 @@ export default {
     modifyPassword() {
       JSON.stringify()
       axios({
-        method: 'POST',
-        url: '/rider/modifyPassword',
-        dataType: 'json',
+        method: "PUT",
+        url: "/rider/modifyPassword",
+        dataType:"json",
         data: {
           userId: this.rider.userId,
           oldPassword: this.oldPassword,
           newPassword: this.newPassword,
-        }.then((res) => {
-          if (res.data.code === 0) {
-            this.DialogVisible = false;
-          }
-        })
+        }
       })
+          .then((res) => {
+            if (res.data.status === 0) {
+              this.DialogVisible=false;
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
     }
   },
   created() {
     JSON.stringify()
     axios({
-      method: 'POST',
-      url: '/rider/show'
+      method: 'GET',
+      url: '/rider/viewRider?userid='+this.rider.userId,
+    }).then((res)=>{
+      console.log(114514);
+      console.log(res.data.data);
+      if(res.data.status===0){
+        this.rider.phone=res.data.data.phone;
+        this.rider.orderNumber=res.data.data.orderNumber;
+      }
     })
   }
 }
