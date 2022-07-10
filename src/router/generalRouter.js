@@ -29,6 +29,7 @@ import MobileMe from "@/components/mobile/MobileMe";
 import Rider from "@/components/Rider"
 import NoticeCenter from "@/components/waiter/NoticeCenter";
 import CallingCenter from "@/components/waiter/CallingCenter";
+import MobileAccountSettings from "@/components/mobile/MobileAccountSettings";
 // import axios from "axios";
 
 const router = createRouter({
@@ -215,13 +216,13 @@ const router = createRouter({
                 {
                     path: '/m/home',
                     name: 'MobileHome',
-                    meta: {keepAlive:true,authRequired: true},
+                    meta: {keepAlive: true, authRequired: true},
                     component: MobileHome,
                 },
                 {
                     path: '/m/cart',
                     name: 'MobileCart',
-                    meta: {keepAlive:true,authRequired: true},
+                    meta: {keepAlive: true, authRequired: true},
                     component: MobileCart,
                 },
                 {
@@ -236,7 +237,12 @@ const router = createRouter({
                     meta: {authRequired: true},
                     component: MobileMe,
                 },
-
+                {
+                    path: '/m/me/settings',
+                    name: 'MobileSettings',
+                    meta: {authRequired: true},
+                    component: MobileAccountSettings,
+                }
             ]
         },
     ]

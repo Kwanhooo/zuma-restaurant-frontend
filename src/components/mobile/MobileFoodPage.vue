@@ -54,7 +54,7 @@ export default {
   margin: 0.5rem 0.5rem;
 }
 
-.MobileTypeTitle{
+.MobileTypeTitle {
   margin: 10px 0 0 3px;
 }
 </style>

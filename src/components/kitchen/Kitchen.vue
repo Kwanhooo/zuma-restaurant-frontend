@@ -33,11 +33,13 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId != -1">
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
+             v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId != -1">
           {{ nowCook.foodType }}
         </div>
         <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;"
-             v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId == -1" @click="showDetail = true">外卖订单{{ nowCook.id }}号
+             v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId == -1" @click="showDetail = true">
+          外卖订单{{ nowCook.id }}号
         </div>
         <el-dialog title="订单菜品" v-model="showDetail" width="35%" style="font-size: 30px; font-weight: bold">
           {{ nowCook.foodType }}
@@ -48,7 +50,8 @@
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
              v-if="JSON.stringify(this.nowCook)=='{}'">暂无菜品需要烹饪噢
         </div>
-        <button class="finishButton" @click.prevent="finishCook()" v-if="JSON.stringify(this.nowCook)!='{}'">完成烹饪</button>
+        <button class="finishButton" @click.prevent="finishCook()" v-if="JSON.stringify(this.nowCook)!='{}'">完成烹饪
+        </button>
         <button class="finishButton" @click.prevent="continueCook()"
                 v-if="JSON.stringify(this.nowCook)=='{}' && JSON.stringify(this.nextCook)!='{}'">继续工作
         </button>
@@ -62,7 +65,8 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="JSON.stringify(this.nextCook)!='{}' && nextCook.foodInUseListId != -1">
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
+             v-if="JSON.stringify(this.nextCook)!='{}' && nextCook.foodInUseListId != -1">
           {{ nextCook.foodType }}
         </div>
         <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;"
@@ -100,7 +104,9 @@
             <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold"
                   v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId != -1">{{ waiting.foodType }}</span>
             <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold"
-                  v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId == -1">外卖订单{{ waiting.id }}号</span>
+                  v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId == -1">外卖订单{{
+                waiting.id
+              }}号</span>
             <br/>
             <span class="waiting-table" style="font-size: 20px; font-weight: bold;"
                   v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId != -1">{{ waiting.table }}号桌</span>
@@ -177,7 +183,7 @@ export default {
   kitchen: {},
   data() {
     return {
-      num : 0,
+      num: 0,
       stop: false,
       showDetail: false,
       nowCook: {},
@@ -235,7 +241,7 @@ export default {
 
     continueCook() {
       this.stop = false;
-      if (JSON.stringify(this.nowCook)=='{}') {
+      if (JSON.stringify(this.nowCook) == '{}') {
         this.nowCook = this.nextCook;
         if (this.queue.length > 0) {
           this.nextCook = this.queue[0];
@@ -314,11 +320,9 @@ export default {
                   }
                   if (this.num == 0 && !this.stop) {
                     this.nowCook = JSON.parse(JSON.stringify(temp1))
-                  }
-                  else if ((this.num == 1 && !this.stop) || (this.num == 0 && this.stop)) {
+                  } else if ((this.num == 1 && !this.stop) || (this.num == 0 && this.stop)) {
                     this.nextCook = JSON.parse(JSON.stringify(temp1))
-                  }
-                  else {
+                  } else {
                     this.queue.push(JSON.parse(JSON.stringify(temp1)))
                   }
                   this.num++
@@ -347,11 +351,9 @@ export default {
                 }
                 if (this.num == 0) {
                   this.nowCook = JSON.parse(JSON.stringify(temp1))
-                }
-                else if (this.num == 1) {
+                } else if (this.num == 1) {
                   this.nextCook = JSON.parse(JSON.stringify(temp1))
-                }
-                else {
+                } else {
                   this.queue.push(JSON.parse(JSON.stringify(temp1)))
                 }
                 this.num++
@@ -386,8 +388,8 @@ export default {
     this.timer = window.setInterval(() => {
       setTimeout(() => {
         this.getNewQueue()
-      },0)
-    },5000)
+      }, 0)
+    }, 5000)
 
     //获取堂食队列
     axios({
@@ -414,11 +416,9 @@ export default {
                 }
                 if (this.num == 0) {
                   this.nowCook = JSON.parse(JSON.stringify(temp1))
-                }
-                else if (this.num == 1) {
+                } else if (this.num == 1) {
                   this.nextCook = JSON.parse(JSON.stringify(temp1))
-                }
-                else {
+                } else {
                   this.queue.push(JSON.parse(JSON.stringify(temp1)))
                 }
                 this.num++
@@ -447,11 +447,9 @@ export default {
               }
               if (this.num == 0) {
                 this.nowCook = JSON.parse(JSON.stringify(temp1))
-              }
-              else if (this.num == 1) {
+              } else if (this.num == 1) {
                 this.nextCook = JSON.parse(JSON.stringify(temp1))
-              }
-              else {
+              } else {
                 this.queue.push(JSON.parse(JSON.stringify(temp1)))
               }
               this.num++

@@ -1430,7 +1430,7 @@ export default {
   created() {
     axios({
       method: 'GET',
-      url: '/rider/getAllHistoryOrder?riderName='+this.id,
+      url: '/rider/getAllHistoryOrder?riderName=' + this.id,
     })
         .then((res) => {
           if (res.data.status === 0) {

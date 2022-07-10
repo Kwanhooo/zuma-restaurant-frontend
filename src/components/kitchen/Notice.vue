@@ -66,7 +66,7 @@ export default {
   notice: {},
   data() {
     return {
-      num : 0,
+      num: 0,
       noticeList: [
         /*{
           noticeid: "12345",
@@ -98,7 +98,7 @@ export default {
       }
     },
 
-    getNewMessage: function() {
+    getNewMessage: function () {
       this.noticeList = []
 
       axios({
@@ -128,8 +128,8 @@ export default {
     this.timer = window.setInterval(() => {
       setTimeout(() => {
         this.getNewMessage()
-      },0)
-    },5000)
+      }, 0)
+    }, 5000)
 
     axios({
       method: 'GET',

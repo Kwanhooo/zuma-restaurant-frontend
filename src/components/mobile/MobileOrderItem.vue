@@ -5,8 +5,8 @@
     </div>
     <div class="MobileFoodItemWrapperRight">
       <div class="TagsWrapper">
-        <span class="FoodTag" style="background: #fdd1c5;color: #ff835e">{{ tags[0] }}</span>
-        <span class="FoodTag" style="background: #fef8e3;color: #ef8830">{{ tags[1] }}</span>
+        <span class="FoodTag" style="background: #fdd1c5;color: #ff835e">{{ this.tags }}</span>
+        <span><div class="OrderFoodIndexWrapper">{{ this.$props.indexOfFood + 1 }}</div></span>
       </div>
       <div class="FoodTitleWrapper">
         <span>{{ this.$props.displayFood.name }}</span>
@@ -18,20 +18,14 @@
         <DynamicRatingStars :rating="getRating()"></DynamicRatingStars>
       </div>
       <div class="MonthlySales">
-        <span>{{ '月销 ' + (this.$props.displayFood.likenumber + this.$props.displayFood.dislikenumber) }}</span>
+        <span>{{ this.$props.orderedTime }}</span>
       </div>
       <div class="BottomLine">
         <div class="PriceWrapper">
-          <span class="CharRMB">￥</span>{{ this.$props.displayFood.price }}
-        </div>
-        <div class="OperationWrapperFlex">
-          <div class="OperationWrapper">
-            <span class="BtnMinus" @click.prevent="handleOperatorClick('-')">-</span>
-            <span class="NumberBoxWrapper">
-              <input type="number" class="NumberBox" v-model="this.amount" readonly="readonly">
-            </span>
-            <span class="BtnPlus" @click.prevent="handleOperatorClick('+')">+</span>
-          </div>
+          <span class="CharRMB">￥</span>
+          <span>{{ this.$props.displayFood.price }}</span>
+          <span class="CharRMB">× {{ this.$props.foodAmount }} = </span>
+          <span> {{ this.$props.displayFood.price * this.$props.foodAmount }} </span>
         </div>
       </div>
     </div>
@@ -44,17 +38,17 @@ import bus from '../../util/bus.ts';
 import DynamicRatingStars from "@/components/mobile/DynamicRatingStars";
 
 export default {
-  name: "MobileFoodItem",
+  name: "MobileOrderItem",
   components: {DynamicRatingStars},
   data() {
     return {
-      tags: [],
+      tags: "",
       amount: 0,
     };
   },
   methods: {
     resolveTags() {
-      this.tags = this.$props.displayFood.text.split('@')[1].split('#');
+      this.tags = this.$props.foodStatus;
     },
     getRating() {
       let like = this.$props.displayFood.likenumber;
@@ -90,6 +84,22 @@ export default {
     typeOfFood: {
       type: Object,
       required: true
+    },
+    orderedTime: {
+      type: String,
+      required: true
+    },
+    foodAmount: {
+      type: Number,
+      required: true
+    },
+    foodStatus: {
+      type: String,
+      required: true
+    },
+    indexOfFood: {
+      type: Number,
+      required: false
     }
   },
   created() {
@@ -114,8 +124,9 @@ export default {
 
   box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.07);
 
-  padding: 0;
-  margin: 5px 5px;
+  padding: 5px 0;
+  margin: 10px 5px;
+
 
   display: flex;
   flex-direction: row;
@@ -125,8 +136,22 @@ export default {
   flex: 1;
 }
 
+.OrderFoodIndexWrapper {
+  margin-right: 1rem;
+  float: right;
+  font-size: 1.2rem;
+  /*font-weight: bolder;*/
+  background: #ffc56b;
+  border-radius: 0.75rem;
+
+  height: 1.5rem;
+  width: 1.5rem;
+  text-align: center;
+  vertical-align: central;
+}
+
 .MobileFoodImage {
-  margin-top: 1rem;
+  /*margin-top: 1rem;*/
   max-width: 100%;
   width: auto;
   height: auto;
@@ -174,7 +199,7 @@ export default {
 }
 
 .MonthlySales {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   margin: 0 2px;
 
   color: #3f3f3f;
@@ -213,7 +238,7 @@ export default {
   float: right;
   width: 90px;
   margin: 3px 10px 10px 0;
-  border: 1px solid #e0e0e0;
+  /*border: 1px solid #e0e0e0;*/
   border-radius: 20px;
   text-align: center;
 }
@@ -233,6 +258,7 @@ export default {
   max-width: 45px;
   height: 1.25rem;
   border: 1px solid transparent;
+  border-radius: 15px;
   text-align: center;
 }
 

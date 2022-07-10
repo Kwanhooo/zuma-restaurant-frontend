@@ -73,7 +73,8 @@
                     <p style="font-size: 30px">旧密码：</p>
                   </td>
                   <td>
-                    <input id="oldPasswordText" type="text" v-model="oldPassword" style="width: 250px; height: 50px; font-size: 30px">
+                    <input id="oldPasswordText" type="text" v-model="oldPassword"
+                           style="width: 250px; height: 50px; font-size: 30px">
                   </td>
                   <td>
                     <p v-if="passwordNotTrue" style="color: red; font-size: 30px">密码错误</p>
@@ -84,7 +85,8 @@
                     <p style="font-size: 30px">新密码：</p>
                   </td>
                   <td>
-                    <input id="newPasswordText" type="text" v-model="newPassword" style="width: 250px; height: 50px; font-size: 30px">
+                    <input id="newPasswordText" type="text" v-model="newPassword"
+                           style="width: 250px; height: 50px; font-size: 30px">
                   </td>
                 </tr>
               </table>
@@ -112,7 +114,7 @@ export default {
     return {
       user: {id: 0, userId: "", phone: ""},
       sendVal: false,
-      passwordNotTrue :false,
+      passwordNotTrue: false,
       oldPassword: "",
       newPassword: "",
       newPhone: "",
@@ -149,9 +151,9 @@ export default {
 
     modifyPassword() {
       var modifyPassword = {
-        userId : this.user.userId,
-        oldPassword : this.oldPassword,
-        newPasswrod : this.newPassword
+        userId: this.user.userId,
+        oldPassword: this.oldPassword,
+        newPasswrod: this.newPassword
       }
       axios({
         method: 'POST',
@@ -159,13 +161,12 @@ export default {
         data: modifyPassword
       })
           .then(res => {
-            if(res.data.status === 0){
+            if (res.data.status === 0) {
               this.oldPassword = "";
               this.newPassword = "";
               alert("修改成功")
               this.sendVal = false;
-            }
-            else {
+            } else {
               this.passwordNotTrue = true;
             }
           })
@@ -184,7 +185,7 @@ export default {
   created() {
     axios({
       method: 'GET',
-      url: '/back/viewUser/'+sessionStorage.getItem("userId")
+      url: '/back/viewUser/' + sessionStorage.getItem("userId")
     })
         .then((res) => {
           this.user.id = res.data.data.id

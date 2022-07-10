@@ -59,7 +59,7 @@ export default {
       axios({
         method: "PUT",
         url: "/rider/modifyPassword",
-        dataType:"json",
+        dataType: "json",
         data: {
           userId: this.rider.userId,
           oldPassword: this.oldPassword,
@@ -68,7 +68,7 @@ export default {
       })
           .then((res) => {
             if (res.data.status === 0) {
-              this.DialogVisible=false;
+              this.DialogVisible = false;
             } else {
               console.log(res.data.msg);
             }
@@ -83,13 +83,13 @@ export default {
     JSON.stringify()
     axios({
       method: 'GET',
-      url: '/rider/viewRider?userid='+this.rider.userId,
-    }).then((res)=>{
+      url: '/rider/viewRider?userid=' + this.rider.userId,
+    }).then((res) => {
       console.log(114514);
       console.log(res.data.data);
-      if(res.data.status===0){
-        this.rider.phone=res.data.data.phone;
-        this.rider.orderNumber=res.data.data.orderNumber;
+      if (res.data.status === 0) {
+        this.rider.phone = res.data.data.phone;
+        this.rider.orderNumber = res.data.data.orderNumber;
       }
     })
   }
