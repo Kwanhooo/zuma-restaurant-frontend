@@ -154,10 +154,10 @@ export default {
     };
   },
   methods: {
-    logout(){
+    logout() {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('role');
-      window.location.href= '/auth';
+      window.location.href = '/auth';
     },
     // 向后端拉取用户信息
     getInfos() {

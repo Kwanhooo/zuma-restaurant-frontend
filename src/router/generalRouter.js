@@ -216,13 +216,13 @@ const router = createRouter({
                 {
                     path: '/m/home',
                     name: 'MobileHome',
-                    meta: {keepAlive:true,authRequired: true},
+                    meta: {keepAlive: true, authRequired: true},
                     component: MobileHome,
                 },
                 {
                     path: '/m/cart',
                     name: 'MobileCart',
-                    meta: {keepAlive:true,authRequired: true},
+                    meta: {keepAlive: true, authRequired: true},
                     component: MobileCart,
                 },
                 {

@@ -150,13 +150,13 @@ export default {
       }
       this.calTotalPrice();
     },
-    clearCart(){
+    clearCart() {
       this.foodInCart.forEach((value, key) => {
         bus.emit('cartAmountChange', {food: key, amount: 0});
         this.foodInCart.delete(key);
       });
     },
-    mobileSubmitOrder(){
+    mobileSubmitOrder() {
       // TODO:接口还没写好的
     },
     loadList() {
