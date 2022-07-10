@@ -1,6 +1,7 @@
 <template>
   <div id="mobile-frame">
-    <router-view></router-view>
+    <router-view v-show="isShow"></router-view>
+    <MobileCart v-show="!isShow"></MobileCart>
     <div id="mobile-nav-bar">
       <div class="item">
         <a class="active" @click.prevent="handleClickNav('/m/home')">
@@ -14,7 +15,7 @@
         </a>
       </div>
       <div class="item">
-        <a @click.prevent="handleClickNav('/m/cart')">
+        <a @click.prevent="openCart()">
           <svg t="1657100656412" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
                p-id="9667" width="200" height="200">
             <path
@@ -61,6 +62,8 @@
 </template>
 
 <script>
+import MobileCart from "@/components/mobile/MobileCart";
+
 window.onload = function () {
   // 阻止双击放大
   var lastTouchEnd = 0;
@@ -131,14 +134,21 @@ window.onload = function () {
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Mobile",
+  components: {MobileCart},
   data() {
-    return {};
+    return {
+      isShow: true,
+    };
   },
   methods: {
     handleClickNav(to) {
+      this.isShow = true;
       if (to !== this.$route.path) {
         this.$router.push(to);
       }
+    },
+    openCart() {
+      this.isShow = false;
     }
   },
   mounted() {

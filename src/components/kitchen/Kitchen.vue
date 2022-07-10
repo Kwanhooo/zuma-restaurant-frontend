@@ -33,24 +33,24 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nowCook.foodInUseListId != -1">
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId != -1">
           {{ nowCook.foodType }}
         </div>
         <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;"
-             v-if="nowCook.foodInUseListId == -1" @click="showDetail = true">外卖订单{{ nowCook.id }}号
+             v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId == -1" @click="showDetail = true">外卖订单{{ nowCook.id }}号
         </div>
         <el-dialog title="订单菜品" v-model="showDetail" width="35%" style="font-size: 30px; font-weight: bold">
           {{ nowCook.foodType }}
         </el-dialog>
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
-             v-if="nowCook.foodType == null && nextCook.foodType != null">休息中
+             v-if="JSON.stringify(this.nowCook)=='{}' && JSON.stringify(this.nextCook)!='{}' && this.stop">休息中
         </div>
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
-             v-if="nowCook.foodType == null && nextCook.foodType == null">暂无菜品需要烹饪噢
+             v-if="JSON.stringify(this.nowCook)=='{}'">暂无菜品需要烹饪噢
         </div>
-        <button class="finishButton" @click.prevent="finishCook()" v-if="nowCook.foodType != null">完成烹饪</button>
+        <button class="finishButton" @click.prevent="finishCook()" v-if="JSON.stringify(this.nowCook)!='{}'">完成烹饪</button>
         <button class="finishButton" @click.prevent="continueCook()"
-                v-if="nowCook.foodType == null && nextCook.foodType != null">继续工作
+                v-if="JSON.stringify(this.nowCook)=='{}' && JSON.stringify(this.nextCook)!='{}'">继续工作
         </button>
       </div>
     </div>
@@ -62,14 +62,14 @@
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
         <img src="../../assets/img/logo.webp" class="dishImg">
         <br/><br/>
-        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="nextCook.foodInUseListId != -1">
+        <div class="nowCooking" style="font-size: 30px; font-weight: bolder;" v-if="JSON.stringify(this.nextCook)!='{}' && nextCook.foodInUseListId != -1">
           {{ nextCook.foodType }}
         </div>
         <div class="nowCooking" style="font-size: 30px; color: #007BFF; text-decoration:underline; font-weight: bolder;"
-             v-if="nextCook.foodInUseListId == -1">外卖订单{{ nextCook.id }}号
+             v-if="JSON.stringify(this.nextCook)!='{}' && nextCook.foodInUseListId == -1">外卖订单{{ nextCook.id }}号
         </div>
         <div v-if="stop" style="font-size: 30px">休息中</div>
-        <div v-if="nextCook.foodType == null" style="font-size: 30px">没有了哦</div>
+        <div v-if="JSON.stringify(this.nextCook)=='{}'" style="font-size: 30px">没有了哦</div>
         <button class="pauseButton" @click.prevent="pause()" v-if="!stop">小溜一会</button>
         <button class="continueButton" @click.prevent="continueCook()" v-if="stop">继续工作</button>
       </div>
@@ -98,14 +98,14 @@
           <div>
             <div style="height: 13px;"></div>
             <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold"
-                  v-if="waiting.foodInUseListId != -1">{{ waiting.foodType }}</span>
+                  v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId != -1">{{ waiting.foodType }}</span>
             <span class="waiting-foodType" style="font-size: 35px;color: #007BFF ;font-weight: bold"
-                  v-if="waiting.foodInUseListId == -1">外卖订单{{ waiting.id }}号</span>
+                  v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId == -1">外卖订单{{ waiting.id }}号</span>
             <br/>
             <span class="waiting-table" style="font-size: 20px; font-weight: bold;"
-                  v-if="waiting.foodInUseListId != -1">{{ waiting.table }}号桌</span>
+                  v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId != -1">{{ waiting.table }}号桌</span>
             <span class="waiting-table" style="font-size: 20px; font-weight: bold;"
-                  v-if="waiting.foodInUseListId == -1">用户：{{ waiting.table }}</span>
+                  v-if="JSON.stringify(waiting)!='{}' && waiting.foodInUseListId == -1">用户：{{ waiting.table }}</span>
           </div>
           <br>
         </div>
@@ -139,20 +139,20 @@
             <div>
               <div style="height: 13px;"></div>
               <span class="waiting-foodType" style="font-size: 25px; font-weight: bold"
-                    v-if="dish.foodInUseListId != -1">{{ dish.foodType }}</span>
+                    v-if="JSON.stringify(dish)!='{}' && dish.foodInUseListId != -1">{{ dish.foodType }}</span>
               <span class="waiting-foodType" style="font-size: 25px; font-weight: bold"
-                    v-if="dish.foodInUseListId == -1">外卖订单{{ dish.id }}号</span>
+                    v-if="JSON.stringify(dish)!='{}' && dish.foodInUseListId == -1">外卖订单{{ dish.id }}号</span>
               <br/>
               <br/>
               <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;"
-                    v-if="dish.foodInUseListId != -1">{{ dish.table }}号桌</span>
+                    v-if="JSON.stringify(dish)!='{}' && dish.foodInUseListId != -1">{{ dish.table }}号桌</span>
               <span class="waiting-table" style="margin-left: 20px; font-size: 20px; font-weight: bold;"
-                    v-if="dish.foodInUseListId == -1">用户：{{ dish.table }}</span>
+                    v-if="JSON.stringify(dish)!='{}' && dish.foodInUseListId == -1">用户：{{ dish.table }}</span>
               <button class="callingBtm" style="margin-left: 100px" @click.prevent="inform(index)"
-                      v-if="dish.foodInUseListId != -1">通知上菜
+                      v-if="JSON.stringify(dish)!='{}' && dish.foodInUseListId != -1">通知上菜
               </button>
               <button class="callingBtm" style="margin-left: 50px" @click.prevent="inform(index)"
-                      v-if="dish.foodInUseListId == -1">通知上菜
+                      v-if="JSON.stringify(dish)!='{}' && dish.foodInUseListId == -1">通知上菜
               </button>
             </div>
             <br>
@@ -177,14 +177,14 @@ export default {
   kitchen: {},
   data() {
     return {
+      num : 0,
       stop: false,
       showDetail: false,
       nowCook: {},
       nextCook: {},
       queue: [
-        {id: 1, foodType: "红烧肉", table: "1", foodInUseListId: 1},
-        {id: 2, foodType: "狮子头", table: "2", foodInUseListId: 1},
-        {id: 3, foodType: "水煮鱼", table: "3", foodInUseListId: 1},
+        /*{id: 1, foodType: "红烧肉", table: "1", foodInUseListId: 1},
+        {id: 2, foodType: "狮子头", table: "2", foodInUseListId: 1},*/
       ],
       finish: [],
     }
@@ -215,6 +215,7 @@ export default {
               console.log(err);
             });
       }
+
       if (!this.stop) {
         if (this.nextCook.foodType != null) {
           this.nowCook = this.nextCook;
@@ -234,7 +235,7 @@ export default {
 
     continueCook() {
       this.stop = false;
-      if (this.nowCook.foodType == null) {
+      if (JSON.stringify(this.nowCook)=='{}') {
         this.nowCook = this.nextCook;
         if (this.queue.length > 0) {
           this.nextCook = this.queue[0];
@@ -278,16 +279,122 @@ export default {
             //打印响应数据(错误信息)
             console.log(err);
           });
+    },
+
+    getNewQueue() {
+      this.nowCook = {}
+      this.nextCook = {}
+      this.queue = [
+        /*{id: 1, foodType: "红烧肉", table: "1", foodInUseListId: 1},
+        {id: 2, foodType: "狮子头", table: "2", foodInUseListId: 1},*/
+      ]
+      this.num = 0
+
+      axios({
+        method: 'GET',
+        url: '/back/viewDinner'
+      })
+          .then((res) => {
+            if (res.data.status != 1) {
+              for (let i in res.data.data) {
+                let temp = {
+                  id: res.data.data[i].id,
+                  table: res.data.data[i].table,
+                  foodInUseList: {
+                    id: res.data.data[i].foodInUseList.id,
+                    name: res.data.data[i].foodInUseList.name,
+                  }
+                }
+                for (let food in temp.foodInUseList) {
+                  let temp1 = {
+                    id: temp.id,
+                    table: temp.table.toString(),
+                    foodInUseListId: temp.foodInUseList[food].id,
+                    foodType: temp.foodInUseList[food].name,
+                  }
+                  if (this.num == 0 && !this.stop) {
+                    this.nowCook = JSON.parse(JSON.stringify(temp1))
+                  }
+                  else if ((this.num == 1 && !this.stop) || (this.num == 0 && this.stop)) {
+                    this.nextCook = JSON.parse(JSON.stringify(temp1))
+                  }
+                  else {
+                    this.queue.push(JSON.parse(JSON.stringify(temp1)))
+                  }
+                  this.num++
+                }
+              }
+            }
+          })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
+
+      //获取外卖队列
+      axios({
+        method: 'GET',
+        url: '/back/viewOrderOut'
+      })
+          .then((res) => {
+            if (res.data.status != 1) {
+              for (let i in res.data.data) {
+                let temp1 = {
+                  id: res.data.data[i].orderId,
+                  table: res.data.data[i].userId,
+                  foodInUseListId: -1,
+                  foodType: res.data.data[i].allFood,
+                }
+                if (this.num == 0) {
+                  this.nowCook = JSON.parse(JSON.stringify(temp1))
+                }
+                else if (this.num == 1) {
+                  this.nextCook = JSON.parse(JSON.stringify(temp1))
+                }
+                else {
+                  this.queue.push(JSON.parse(JSON.stringify(temp1)))
+                }
+                this.num++
+              }
+            }
+          })
+          .catch(err => {
+            //打印响应数据(错误信息)
+            console.log(err);
+          });
+
+      /*console.log(this.queue)
+      console.log(JSON.parse(JSON.stringify(this.queue)))
+
+      if (JSON.stringify(this.nextCook)=='{}') {
+        this.nextCook = JSON.parse(JSON.stringify(this.queue))[0];
+        this.queue.splice(0, 1);
+      }
+      console.log(this.nextCook)
+
+
+      if (JSON.stringify(this.nowCook)=='{}' && !this.stop) {
+        this.nowCook = this.nextCook;
+        this.nextCook = this.queue[0];
+        this.queue.splice(0, 1);
+      }
+
+      console.log(this.nowCook)*/
     }
   },
   created() {
+    this.timer = window.setInterval(() => {
+      setTimeout(() => {
+        this.getNewQueue()
+      },0)
+    },5000)
+
     //获取堂食队列
     axios({
       method: 'GET',
       url: '/back/viewDinner'
     })
         .then((res) => {
-          console.log(res.data)
           if (res.data.status != 1) {
             for (let i in res.data.data) {
               let temp = {
@@ -305,7 +412,16 @@ export default {
                   foodInUseListId: temp.foodInUseList[food].id,
                   foodType: temp.foodInUseList[food].name,
                 }
-                this.queue.push(temp1);
+                if (this.num == 0) {
+                  this.nowCook = JSON.parse(JSON.stringify(temp1))
+                }
+                else if (this.num == 1) {
+                  this.nextCook = JSON.parse(JSON.stringify(temp1))
+                }
+                else {
+                  this.queue.push(JSON.parse(JSON.stringify(temp1)))
+                }
+                this.num++
               }
             }
           }
@@ -329,7 +445,16 @@ export default {
                 foodInUseListId: -1,
                 foodType: res.data.data[i].allFood,
               }
-              this.queue.push(temp1);
+              if (this.num == 0) {
+                this.nowCook = JSON.parse(JSON.stringify(temp1))
+              }
+              else if (this.num == 1) {
+                this.nextCook = JSON.parse(JSON.stringify(temp1))
+              }
+              else {
+                this.queue.push(JSON.parse(JSON.stringify(temp1)))
+              }
+              this.num++
             }
           }
         })
@@ -338,7 +463,7 @@ export default {
           console.log(err);
         });
 
-    if (this.nextCook.id == null) {
+    /*if (this.nextCook.id == null) {
       this.nextCook = this.queue[0];
       this.queue.splice(0, 1);
     }
@@ -347,8 +472,12 @@ export default {
       this.nowCook = this.nextCook;
       this.nextCook = this.queue[0];
       this.queue.splice(0, 1);
-    }
+    }*/
   },
+
+  unmounted() {
+    window.clearInterval(this.timer)
+  }
 }
 </script>
 

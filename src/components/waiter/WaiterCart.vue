@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     load() {
-      console.log("load");
+      // console.log("load");
     },
     handleAmountChanged(sign, data) {
       if (sign === '-') {

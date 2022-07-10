@@ -1,10 +1,10 @@
 <template>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <div class="RiderWrapper">
+  <div class="wrapper">
     <div class="formContent">
-<!--      <div class="head">-->
+      <div class="head">
 
-<!--      </div>-->
+      </div>
       <div class="body">
         <el-tabs tab-position="top" style="height: 100%;" type="border-card">
           <el-tab-pane label="进行中的订单">
@@ -95,7 +95,7 @@ export default {
 </script>
 
 <style scoped>
-.RiderWrapper {
+.wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
