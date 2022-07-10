@@ -176,8 +176,9 @@ export default {
     },
 
     logout() {
-      sessionStorage.clear()
-      this.$router.push("/auth")
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('role');
+      window.location.href= '/auth';
     }
   },
   created() {
