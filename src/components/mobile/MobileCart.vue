@@ -1,5 +1,5 @@
 <template>
-  <div id="mobile-cart">
+  <div id="mobile-cart" v-if="cartShow">
     <div id="mobile-cart-top-bar">
       <span id="mobile-cart-title" @click.prevent="printCart()">🛒 购物车</span><span id="mobile-cart-total-amount">
       ({{ this.foodInCart.size }})
@@ -106,12 +106,66 @@
       </div>
     </div>
   </div>
-
+  <div id="confirm-order" v-else>
+    <div id="confirm-order-top-bar">
+      <span id="confirm-order-top-title" @click="cartShow=true">🔙订单确认</span>
+    </div>
+    <div id="confirm-order-content-wrapper">
+      <div id="confirm-order-content-choose">
+        <el-radio v-model="orderMethod" label="堂食" style="margin-top:10px"><h2>🏪堂食</h2></el-radio>
+        <el-radio v-model="orderMethod" label="外卖"><h2>🍱外卖</h2></el-radio>
+      </div>
+      <div id="address" v-if="orderMethod==='外卖'" >
+        <div style="margin-left:10px" ><h3>🚲填写您的配送地址：</h3></div>
+        <input type="text" id="addressInput" placeholder="请输入配送地址"/>
+      </div>
+      <div id="confirm-order-content-food">
+        <ul style="padding: 0">
+          <li v-for="(value,index) in this.foodInCart" :key="index">
+            <div class="MobileFoodItemWrapper">
+              <div class="MobileFoodItemWrapperLeft">
+                <img class="MobileFoodImage" :src="value[0].img" :alt="value[0].name">
+              </div>
+              <div class="MobileFoodItemWrapperRight">
+                <div class="FoodTitleWrapper">
+                  <span>{{ value[0].name }}</span>
+                </div>
+                <div class="FoodDescription">
+                  {{ value[0].text.split('@')[0] }}
+                </div>
+                <div class="BottomLine">
+                  <div class="PriceWrapper">
+                    <span class="CharRMB">￥</span>{{ value[0].price }}
+                  </div>
+                  <div class="OperationWrapperFlex">
+                    <div class="OperationWrapper">
+                      <span class="BtnMinus" @click.prevent="handleChange(value[0],'-')">-</span>
+                      <span class="NumberBoxWrapper">
+              <input type="number" class="NumberBox" v-model="value[1]" readonly="readonly">
+            </span>
+                      <span class="BtnPlus" @click.prevent="handleChange(value[0],'+')">+</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="confirm-order-bottom-bar">
+      <div id="confirm-total">合计：{{this.totalPrice}}￥</div>
+      <div class="confirm-pay"  v-if="orderMethod==='外卖'"><button type="button" class="confirm-button" @click="payForFoodIn()">去支付</button></div>
+      <div class="confirm-pay"  v-else><button type="button" class="confirm-button" @click="payForFoodOut()">确认</button></div>
+    </div>
+  </div>
 </template>
+
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import bus from '../../util/bus.ts';
+import axios from "axios";
 
 export default {
   name: "MobileCart",
@@ -119,6 +173,9 @@ export default {
     return {
       foodInCart: new Map(),// <food, amount>
       totalPrice: 0.0,
+      cartShow:true,
+      orderMethod:"堂食",
+      address:"",
     }
   },
   methods: {
@@ -158,6 +215,33 @@ export default {
     },
     mobileSubmitOrder() {
       // TODO:接口还没写好的
+      this.cartShow=false;
+    },
+    payForFoodIn() {
+      axios({
+        method:'POST',
+        url:'/fuck?foodList='+this.foodInCart+'&userId='+sessionStorage.getItem('userId'),
+      }).then((res)=>{
+        if(res.data.status===0){
+          this.clearCart();
+          this.$alert('下单成功！','点餐通知');
+        }else {
+          console.log(res.data.msg);
+        }
+      })
+    },
+    payForFoodOut() {
+      axios({
+        method:'POST',
+        url:'/fuck?foodList='+this.foodInCart+'&userId='+sessionStorage.getItem('userId')+'&address='+this.address,
+      }).then((res)=>{
+        if(res.data.status===0){
+          this.clearCart();
+          this.$alert('下单成功！','点餐通知');
+        }else {
+          console.log(res.data.msg);
+        }
+      })
     },
     loadList() {
     },
@@ -410,4 +494,63 @@ export default {
   margin-top: 10%;
 }
 
+#confirm-order-top-bar{
+  flex-shrink: 0;
+
+  margin: 10px 0 10px 5px;
+
+  font-family: 黑体, ui-sans-serif;
+}
+#confirm-order-content-wrapper{
+  height: 35em;
+  overflow-y:scroll
+}
+#confirm-order-content-choose{
+  text-align:center;
+}
+#addressInput{
+  background-color: #EEEEFF;
+  color: #0d0d0d;
+  padding: 15px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+#confirm-order-bottom-bar{
+  padding-left:30px;
+  text-align: left;
+  background-color: #7F8588;
+  border-radius:25px;
+  height:50px;
+}
+#confirm-total{
+  margin-top: 12px;
+  float: left;
+  width:210px;
+  font-size:20px;
+  font-weight:bolder;
+  color:#fffcfb;
+}
+.confirm-pay{
+  margin-left: 220px;
+}
+.confirm-button{
+  border-radius:25px;
+  height:50px;
+  width:100px;
+  background-color: #FF9465;
+  font-size:20px;
+  font-weight:bolder;
+}
 </style>
