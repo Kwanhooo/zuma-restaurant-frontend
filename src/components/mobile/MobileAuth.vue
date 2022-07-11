@@ -102,6 +102,8 @@ export default {
           sessionStorage.setItem("token", res.data.data);
           // 将用户角色存入sessionStorage
           sessionStorage.setItem("role", 'Customer');
+          // 将用户userId存入sessionStorage
+          sessionStorage.setItem("userId", this.username);
           window.location.href = redirectTo;
           vm.isErr = false;
         } else {
