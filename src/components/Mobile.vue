@@ -167,6 +167,7 @@ export default {
   height: 100vh;
   /*background: #f3f6fd;*/
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 
