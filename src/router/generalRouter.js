@@ -30,6 +30,11 @@ import Rider from "@/components/Rider"
 import NoticeCenter from "@/components/waiter/NoticeCenter";
 import CallingCenter from "@/components/waiter/CallingCenter";
 import MobileAccountSettings from "@/components/mobile/MobileAccountSettings";
+import AvatarSetting from "@/components/mobile/AvatarSetting";
+import SecuritySetting from "@/components/mobile/SecuritySetting";
+import PhoneNumberSetting from "@/components/mobile/PhoneNumberSetting";
+import CancellationSetting from "@/components/mobile/CancellationSetting";
+import UserNameSetting from "@/components/mobile/UserNameSetting";
 // import axios from "axios";
 
 const router = createRouter({
@@ -242,7 +247,38 @@ const router = createRouter({
                     name: 'MobileSettings',
                     meta: {authRequired: true},
                     component: MobileAccountSettings,
-                }
+                },
+                {
+                    path: '/m/me/settings/avatar',
+                    name: 'AvatarSetting',
+                    meta: {authRequired: true},
+                    component: AvatarSetting,
+                },
+                {
+                    path: '/m/me/settings/username',
+                    name: 'UserNameSetting',
+                    meta: {authRequired: true},
+                    component: UserNameSetting,
+                },
+                {
+                    path: '/m/me/settings/security',
+                    name: 'SecuritySetting',
+                    meta: {authRequired: true},
+                    component: SecuritySetting
+                },
+                {
+                    path: '/m/me/settings/phone',
+                    name: 'PhoneNumberSetting',
+                    meta: {authRequired: true},
+                    component: PhoneNumberSetting
+                },
+                {
+                    path: '/m/me/settings/cancellation',
+                    name: 'CancellationSetting',
+                    meta: {authRequired: true},
+                    component: CancellationSetting
+                },
+
             ]
         },
     ]
