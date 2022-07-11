@@ -65,18 +65,9 @@
       title="Tips"
       width="30%"
   >
-    <ul v-show="uploadImg.length!==0">
-      <li v-for="(item,index) in uploadImg"
-          :key="index"
-          class="addPic">
-        <img :src="item" alt="Food picture" class="img">
-      </li>
-    </ul>
-    <input type="file"
-           id="file"
-           accept="image/*"
-           @change="getPicture($event)" class="imgAdd">
-    <button @click="callFile()" v-if="uploadImg.length===0">+</button>
+    <input type="file" name="image" accept="image/*" @change='onImgSelectChanged()' id="img-selector"
+           ref="inputer">
+    <img alt="头像" class="NullSvgWrapper" :src="getDisplayUrl()" v-if="isShowPreview"/>
     <el-form ref="form" :model="food" label-width="80px">
       <el-form-item label="食物编号">
         <el-input v-model="food.id" :placeholder="food.id"></el-input>
@@ -111,11 +102,14 @@
 
 <script>
 import axios from "axios";
+import * as vm from "vm";
 
 export default {
   name: "ViewFood",
   data() {
     return {
+      isShowPreview:false,
+      newAvatarFile:null,
       addDialogVisible: false,
       dialogVisible: false,
       searchFoodName: "",
@@ -274,11 +268,31 @@ export default {
           .then((res) => {
             if (res.data.status === 0) {
               this.tableData.push(this.food);
-              this.addDialogVisible = false;
             } else {
               this.$alert(res.data.msg, '错误信息');
             }
           })
+      let dataToSend = new FormData();
+      dataToSend.append('image', this.newAvatarFile);
+      axios.post('/front/addFoodImg?foodName='+this.food.name, dataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        if (response.data.status === 0) {
+          vm.$message({
+            message: '上传成功',
+            type: 'success'
+          });
+          this.addDialogVisible = false;
+        } else {
+          vm.$message({
+            message: '上传失败，请稍后再试',
+            type: 'error'
+          });
+        }
+        // eslint-disable-next-line no-unused-vars
+      })
     },
     addDialogInit() {
       this.addDialogVisible = true;
@@ -309,7 +323,21 @@ export default {
       //点击添加图片按钮，触发type:"file"的input标签
       let fileDom = document.querySelector("#file")
       fileDom.click()
-    }
+    },
+    onImgSelectChanged(){
+      let inputDOM = this.$refs.inputer;
+      this.newAvatarFile = inputDOM.files[0];
+      this.imgPreview();
+    },
+    getDisplayUrl() {
+      if (this.newAvatarUrl !== '') {
+        this.isShowPreview = true;
+        return this.newAvatarUrl;
+      } else {
+        this.isShowPreview = false;
+        document.querySelector('#AvatarUploadBtn').disabled = true;
+      }
+    },
   },
   created() {
     axios({

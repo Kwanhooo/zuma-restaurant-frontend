@@ -49,9 +49,9 @@
     </span>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="pushNotice()"
-        >Confirm</el-button
+        >发布</el-button
         >
       </span>
     </template>
@@ -108,17 +108,27 @@ export default {
   },
   methods: {
     pushNotice() {
+      JSON.stringify()
       axios({
         method: 'POST',
-        url: '/front/addNotice?adminId=' + sessionStorage.getItem('userId') + "&text=" + this.text,
+        url: '/front/addNotice',
+        dataType:'json',
+        data: {
+          noticeid:this.noticeId,
+          noticesource:this.noticeSource,
+          noticereceiver:this.noticeReceiver,
+          text:this.text,
+          ifchecked:'false',
+        }
       })
           .then((res) => {
+            console.log(res.data);
             if (res.data.status === 0) {
               var newNotice = {
-                noticeId: res.data.data.noticeId,
-                noticeSource: res.data.data.noticeSource,
-                noticeReceiver: res.data.data.noticeReceiver,
-                noticeTime: res.data.data.noticeTime,
+                noticeid: res.data.data.noticeid,
+                noticesource: res.data.data.noticesource,
+                noticereceiver: res.data.data.noticereceiver,
+                noticetime: res.data.data.noticetime,
                 text: res.data.data.text
               };
               this.tableData.push(newNotice);

@@ -114,10 +114,13 @@
       <div id="confirm-order-content-choose">
         <el-radio v-model="orderMethod" label="堂食" style="margin-top:10px"><h2>🏪堂食</h2></el-radio>
         <el-radio v-model="orderMethod" label="外卖"><h2>🍱外卖</h2></el-radio>
+        {{orderMethod}}
       </div>
       <div id="address" v-if="orderMethod==='外卖'" >
-        <div style="margin-left:10px" ><h3>🚲填写您的配送地址：</h3></div>
-        <input type="text" id="addressInput" placeholder="请输入配送地址"/>
+        <div style="margin-left:10px" ><h3>🚲填写您的相关配送信息：</h3></div>
+        <input type="text" v-model="receiverName" class="addressInput" placeholder="请输入姓名"/>
+        <input type="text" v-model="receiverPhone" class="addressInput" placeholder="请输入电话号码"/>
+        <input type="text" v-model="address" class="addressInput" placeholder="请输入配送地址"/>
       </div>
       <div id="confirm-order-content-food">
         <ul style="padding: 0">
@@ -155,17 +158,19 @@
     </div>
     <div id="confirm-order-bottom-bar">
       <div id="confirm-total">合计：{{this.totalPrice}}￥</div>
-      <div class="confirm-pay"  v-if="orderMethod==='外卖'"><button type="button" class="confirm-button" @click="payForFoodIn()">去支付</button></div>
-      <div class="confirm-pay"  v-else><button type="button" class="confirm-button" @click="payForFoodOut()">确认</button></div>
+      <div class="confirm-pay"  v-if="orderMethod==='外卖'"><button type="button" class="confirm-button" @click="payForFoodOut()">去支付</button></div>
+      <div class="confirm-pay"  v-else><button type="button" class="confirm-button" @click="payForFoodIn()">确定</button></div>
     </div>
   </div>
 </template>
 
 
-<script>
+<script >
+
 // eslint-disable-next-line no-unused-vars
 import bus from '../../util/bus.ts';
 import axios from "axios";
+import vm from "vm";
 
 export default {
   name: "MobileCart",
@@ -176,6 +181,9 @@ export default {
       cartShow:true,
       orderMethod:"堂食",
       address:"",
+      receiverName:"",
+      receiverPhone:"",
+      allFood:"",
     }
   },
   methods: {
@@ -217,10 +225,21 @@ export default {
       // TODO:接口还没写好的
       this.cartShow=false;
     },
+
     payForFoodIn() {
+      let allFood="";
+      // eslint-disable-next-line no-unused-vars
+      function foodMapToString(value,key,thisMap){
+        for(var i=0;i<value;i++){
+          allFood=allFood+key.name+',';
+        }
+      }
+      this.allFood=allFood;
+      this.foodInCart.forEach(foodMapToString);
+      console.log('allFood:'+allFood);
       axios({
         method:'POST',
-        url:'/fuck?foodList='+this.foodInCart+'&userId='+sessionStorage.getItem('userId'),
+        url:'/customer/addOrderIn?allFood='+this.allFood+'&table='+sessionStorage.getItem('table')+'$totalPrice='+this.totalPrice,
       }).then((res)=>{
         if(res.data.status===0){
           this.clearCart();
@@ -231,13 +250,27 @@ export default {
       })
     },
     payForFoodOut() {
+      let allFood="";
+      // eslint-disable-next-line no-unused-vars
+      function foodMapToString(value,key,thisMap){
+        for(var i=0;i<value;i++){
+          allFood=allFood+key.name+',';
+        }
+      }
+      this.allFood=allFood;
+      this.foodInCart.forEach(foodMapToString);
       axios({
         method:'POST',
-        url:'/fuck?foodList='+this.foodInCart+'&userId='+sessionStorage.getItem('userId')+'&address='+this.address,
+        url:'/customer/addOrderOut?allFood='+allFood+'&userid='+sessionStorage.getItem('userid')+'&totalPrice='+this.totalPrice
+        +'&address='+this.address+'&receiverName='+this.receiverName+'&receiverPhone='+this.receiverPhone,
       }).then((res)=>{
         if(res.data.status===0){
           this.clearCart();
-          this.$alert('下单成功！','点餐通知');
+      //    this.$alert('下单成功！','点餐通知');
+          vm.$message({
+            message: '下单成功',
+            type: 'success'
+          });
         }else {
           console.log(res.data.msg);
         }
@@ -508,7 +541,7 @@ export default {
 #confirm-order-content-choose{
   text-align:center;
 }
-#addressInput{
+.addressInput{
   background-color: #EEEEFF;
   color: #0d0d0d;
   padding: 15px 15px;
