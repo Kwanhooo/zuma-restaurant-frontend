@@ -259,6 +259,7 @@ export default {
       }
       this.allFood=allFood;
       this.foodInCart.forEach(foodMapToString);
+      const vm = this;
       axios({
         method:'POST',
         url:'/customer/addOrderOut?allFood='+allFood+'&userid='+sessionStorage.getItem('userid')+'&totalPrice='+this.totalPrice

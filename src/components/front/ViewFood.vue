@@ -102,7 +102,7 @@
 
 <script>
 import axios from "axios";
-import * as vm from "vm";
+//import * as vm from "vm";
 
 export default {
   name: "ViewFood",
@@ -273,6 +273,7 @@ export default {
             }
           })
       let dataToSend = new FormData();
+      const vm = this;
       dataToSend.append('image', this.newAvatarFile);
       axios.post('/front/addFoodImg?foodName='+this.food.name, dataToSend, {
         headers: {
