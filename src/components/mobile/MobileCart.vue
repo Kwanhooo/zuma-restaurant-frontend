@@ -170,7 +170,7 @@
 // eslint-disable-next-line no-unused-vars
 import bus from '../../util/bus.ts';
 import axios from "axios";
-import vm from "vm";
+//import vm from "vm";
 
 export default {
   name: "MobileCart",
@@ -239,7 +239,7 @@ export default {
       console.log('allFood:'+allFood);
       axios({
         method:'POST',
-        url:'/customer/addOrderIn?allFood='+this.allFood+'&table='+sessionStorage.getItem('table')+'$totalPrice='+this.totalPrice,
+        url:'/customer/addDinnerFood?allFood='+this.allFood+'&table=1'+'&totalPrice='+this.totalPrice,
       }).then((res)=>{
         if(res.data.status===0){
           this.clearCart();
