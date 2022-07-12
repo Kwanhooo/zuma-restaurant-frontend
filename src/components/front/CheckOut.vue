@@ -96,16 +96,16 @@ export default {
         {
           id: 114514,
           table: 1,
-          customerList: [],
+          customerList: ["1"],
           foodInUseList: [
             {
               id: 114514114514,
-              name: "榴莲",
+              name: "猪柳蛋麦满分套餐",
               ifCompleted: true,
             },
             {
               id: 6666,
-              name: "臭豆腐",
+              name: "法式经典可颂",
               ifCompleted: false,
             }
           ],
@@ -115,16 +115,16 @@ export default {
         {
           id: 1,
           table: 0,
-          customerList: [],
+          customerList: ["2"],
           foodInUseList: [
             {
               id: 114514114514,
-              name: "榴莲",
+              name: "猪柳蛋麦满分套餐",
               ifCompleted: true,
             },
             {
               id: 6666,
-              name: "臭豆腐",
+              name: "法式经典可颂",
               ifCompleted: false,
             }
           ],

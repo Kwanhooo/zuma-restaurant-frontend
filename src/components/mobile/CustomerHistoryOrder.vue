@@ -30,7 +30,7 @@
   </div>
 
   <div class="wrapper">
-  <el-dialog class="detailDialog" title="订单详情" v-model="showInDetail" width="70%">
+  <el-dialog class="detailDialog" title="评价" v-model="showInDetail" width="70%">
       <div class="detail">
         <div class="foodList" v-for="(food,index) in showFoodList" :key="food">
           <div>
@@ -49,7 +49,7 @@
       </div>
       <p>对本订单进行评价：</p>
       <input type="text" v-model="comment" style="margin-top: 10px;margin-left: 10%;height: 80px;width: 80%;font-size: 15px">
-      <button class="orderTypeBtm" @click.prevent="submitComment()" style="margin-top: 10px;margin-left: 25%;width: 50%">提交评论</button>
+      <button class="orderTypeBtm" @click.prevent="submitComment(true)" style="margin-top: 10px;margin-left: 25%;width: 50%">提交评论</button>
       <el-dialog
           width="30%"
           title="评论成功"
@@ -90,7 +90,7 @@
   </div>
 
   <div class="wrapper">
-  <el-dialog class="detailDialog" title="订单详情" v-model="showOutDetail" width="70%">
+  <el-dialog class="detailDialog" title="评价" v-model="showOutDetail" width="70%">
     <div class="detail">
       <div class="foodList" v-for="food in showFoodList" :key="food">
         <div style="flex-direction: row">
@@ -109,7 +109,7 @@
     </div>
     <p>对本订单进行评价：</p>
     <input type="text" v-model="comment" style="margin-top: 10px;margin-left: 10%;height: 50px;width: 80%;font-size: 15px">
-    <button class="orderTypeBtm" @click.prevent="submitComment()" style="margin-top: 10px;margin-left: 25%;width: 50%">提交评论</button>
+    <button class="orderTypeBtm" @click.prevent="submitComment(false)" style="margin-top: 10px;margin-left: 25%;width: 50%">提交评论</button>
     <el-dialog
         width="30%"
         title="评论成功"
@@ -134,6 +134,7 @@ export default {
       innerVisible: false,
       comment: "",
       showFoodList: [],
+      nowShow: 0,
       orderInList: [
         {
           orderid: 1,
@@ -170,7 +171,6 @@ export default {
     },
 
     getFoodImg(food) {
-      console.log(food)
       axios({
         url: "/common/viewPicture",
         method: "GET",
@@ -179,7 +179,8 @@ export default {
         }
       }).then((res) => {
         console.log(res.data)
-        return  res.data.data;
+        /*return res.data.date*/
+        return  "https://officialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2019/08/201908271032169362.png";
       }).catch(err => {
         //打印响应数据(错误信息)
         console.log(err);
@@ -189,30 +190,40 @@ export default {
     showOrderInDetail(index) {
       this.showInDetail = true
       this.showFoodList = this.orderInList[index].allfood.split(',')
+      this.nowShow = index
     },
 
     showOrderOutDetail(index) {
       this.showOutDetail = true
       this.showFoodList = this.orderOutList[index].allFood.split(',')
+      this.nowShow = index
     },
 
-    submitComment() {
-      /*axios({
-        url: "/customer/commentOnFood/"+sessionStorage.getItem("userId"),
-        method: "POST",
-        params: {
-          foodName: this.showFoodList[index],
-          likeOrDislike: good,
-        }
-      }).then((res) => {
-        console.log(res.data)
-        if(good == "true"){
-          alert("点赞成功")
-        }
-        else {
-          alert("点踩成功")
-        }
-      });*/
+    submitComment(good) {
+      if(good) {
+        axios({
+          url: "/customer/commentOnOrder/"+this.orderInList[this.nowShow].orderid,
+          method: "POST",
+          params: {
+            comment: this.comment,
+          }
+        }).then((res) => {
+          console.log(res.data)
+          alert("评论成功")
+        });
+      }
+      else {
+        axios({
+          url: "/customer/commentOnOrderOut/"+this.orderOutList[this.nowShow].orderId,
+          method: "POST",
+          params: {
+            comment: this.comment,
+          }
+        }).then((res) => {
+          console.log(res.data)
+          alert("评论成功")
+        });
+      }
     },
 
     commentOnFood(index,good) {

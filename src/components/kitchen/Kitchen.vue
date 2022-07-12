@@ -31,7 +31,7 @@
       <div class="categoryTitle">🍳 当前正在烹饪</div>
       <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
-        <img src="../../assets/img/logo.webp" class="dishImg">
+        <img v-if="JSON.stringify(this.nowCook)!='{}'" src="https://officialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2019/08/201908271032169362.png" class="dishImg">
         <br/><br/>
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
              v-if="JSON.stringify(this.nowCook)!='{}' && nowCook.foodInUseListId != -1">
@@ -63,7 +63,7 @@
       <div class="nextTitle">🍱 下一个菜品</div>
       <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
-        <img src="../../assets/img/logo.webp" class="dishImg">
+        <img v-if="JSON.stringify(this.nowCook)!='{}'" src="https://officialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2019/08/201908271032169362.png" class="dishImg">
         <br/><br/>
         <div class="nowCooking" style="font-size: 30px; font-weight: bolder;"
              v-if="JSON.stringify(this.nextCook)!='{}' && nextCook.foodInUseListId != -1">
@@ -285,6 +285,22 @@ export default {
             //打印响应数据(错误信息)
             console.log(err);
           });
+    },
+
+    getFoodImg(food) {
+      axios({
+        url: "/common/viewPicture",
+        method: "GET",
+        params: {
+          foodName: food
+        }
+      }).then((res) => {
+        console.log(res.data)
+        return  res.data.data;
+      }).catch(err => {
+        //打印响应数据(错误信息)
+        console.log(err);
+      });
     },
 
     getNewQueue() {
