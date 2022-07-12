@@ -19,46 +19,51 @@
       <div class="orderItem" v-for="item in tableData" :key="item">
         <div v-if="item.orderoutcomplete" class="orderOutComplete">
           <div class="id"><h1><b>
-            订单:{{ item.orderId }}已完成
+            🚴订单:{{ item.orderId }}已完成
           </b></h1></div>
           <div class="userId">
-            用户ID:{{ item.userId }}
+            👨‍🏭用户ID:{{ item.userId }}
           </div>
           <div class="time">
-            下单时间:{{ item.time }}
+            📅下单时间:{{ item.time }}
           </div>
           <div class="address">
-            地址:{{ item.address }}
+            🏠地址:{{ item.address }}
           </div>
           <div class="allFood">
-            订单内容:{{ item.allFood }}
+            🧊订单内容:{{ item.allFood }}
           </div>
           <div class="totalPrice"><h2>
-            消费合计:{{ item.totalPrice }}元
+            💴消费合计:{{ item.totalPrice }}元
           </h2></div>
         </div>
         <div v-else class="orderOutUnComplete">
           <div class="id"><h1><b>
-            订单:{{ item.orderId }}未完成
+            🚴订单:{{ item.orderId }}未完成
           </b></h1></div>
           <div class="userId">
-            用户ID:{{ item.userId }}
+            👨‍🏭用户ID:{{ item.userId }}
           </div>
           <div class="time">
-            下单时间:{{ item.time }}
+            📅下单时间:{{ item.time }}
           </div>
           <div class="address">
-            地址:{{ item.address }}
+            🏠地址:{{ item.address }}
           </div>
           <div class="allFood">
-            订单内容:{{ item.allFood }}
+            🧊订单内容:{{ item.allFood }}
           </div>
           <div class="totalPrice"><h2>
-            消费合计:{{ item.totalPrice }}元
+            💴消费合计:{{ item.totalPrice }}元
           </h2></div>
         </div>
       </div>
+      <div class="flash">
+        <el-button type="text" @click="flash()">🔄️</el-button>
+        <el-button type="text">刷新</el-button>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -1426,6 +1431,21 @@ export default {
             }
           })
     },
+    flash() {
+      axios({
+        method: 'GET',
+        url: '/rider/getAllHistoryOrder?riderName=' + this.id,
+      })
+          .then((res) => {
+            console.log("History Order");
+            console.log(res.data.data);
+            if (res.data.status === 0) {
+              this.tableData = res.data.data
+            } else {
+              this.$alert(res.data.msg, '错误信息');
+            }
+          })
+    }
   },
   created() {
     axios({

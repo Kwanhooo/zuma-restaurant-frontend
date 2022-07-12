@@ -4,7 +4,7 @@
       <div class="column" v-for="column of 6" :key="column">
         <div class="emptyTable" v-if="!(busyTable[row * 6 + column - 7])">
           <div class="tableTitle" style="text-align: center;font-weight: bold;font-size: 25px">
-            {{row * 6 + column - 6}}号桌
+            {{row * 6 + column - 7}}号桌
           </div>
 <!--          <br><br>
           <div style="text-align: center;font-weight: bold;font-size: 40px">
@@ -13,7 +13,7 @@
         </div>
         <div class="busyTable" v-if="busyTable[row * 6 + column - 7]" @click.prevent="tableDetail(row * 6 + column - 7)">
           <div class="tableTitle" style="text-align: center;font-weight: bold;font-size: 25px">
-            {{row * 6 + column - 6}}号桌
+            {{row * 6 + column - 7}}号桌
           </div>
           <br>
           <div style="font-size: 20px; margin-left: 30px">
@@ -42,7 +42,7 @@
             <div style="font-size: 25px;margin-left: 30px;margin-top: 20px;font-weight: bold;color: #007BFF">
               总计：{{nowCheck.value}} 元
             </div>
-            <button class="checkout" @click.prevent="checkOut(nowCheck.id)">结账</button>
+            <button class="checkout" @click.prevent="checkOut(nowCheck.table)">结账</button>
           </el-dialog>
         </div>
       </div>
@@ -86,64 +86,30 @@ export default {
       showDetail: false,
       nowCheck: {},
       busyTable: [
-        true,true,false,false,false,false,
+        false,false,false,false,false,false,
         false,false,false,false,false,false,
         false,false,false,false,false,false,
         false,false,false,false,false,false,
         false,false,false,false,false,false
       ],
-      tableData: [
-        {
-          id: 114514,
-          table: 1,
-          customerList: ["1"],
-          foodInUseList: [
-            {
-              id: 114514114514,
-              name: "猪柳蛋麦满分套餐",
-              ifCompleted: true,
-            },
-            {
-              id: 6666,
-              name: "法式经典可颂",
-              ifCompleted: false,
-            }
-          ],
-          value: 100,
-        },
-
-        {
-          id: 1,
-          table: 0,
-          customerList: ["2"],
-          foodInUseList: [
-            {
-              id: 114514114514,
-              name: "猪柳蛋麦满分套餐",
-              ifCompleted: true,
-            },
-            {
-              id: 6666,
-              name: "法式经典可颂",
-              ifCompleted: false,
-            }
-          ],
-          value: 100,
-        }
-      ],
+      tableData: [],
     }
   },
   methods: {
     checkOut(row) {
+      console.log('row is'+row);
+      const vm = this;
       axios({
         method: 'POST',
-        url: '/front/confirm?orderId=' + row.id,
+        url: '/front/confirm?tableId=' + row,
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            console.log(res.data);
+            if (res.data.status === 0) {
               this.tableData.forEach(function (item, index, arr) {
-                if (item === row) {
+                if (item.table === row) {
                   arr.splice(index, 1);
+                  vm.busyTable[item.table]=false;
                 }
               });
             } else {
@@ -155,7 +121,7 @@ export default {
     findOrder(table) {
       console.log(table)
       for(let i in this.tableData) {
-        if(table == this.tableData[i].table) {
+        if(table === this.tableData[i].table) {
           return this.tableData[i]
         }
       }
@@ -168,14 +134,17 @@ export default {
   },
   created() {
     axios({
-      method: 'GET',
-      url: '/back/viewDinner'
+      method: 'POST',
+      url: '/front/viewDinner'
     })
         .then((res) => {
+          console.log(444444444444444444);
+          console.log(res.data.data);
           if (res.data.status === 0) {
             this.tableData = res.data.data;
-            for(let i in res.data.data) {
-              this.busyTable[res.data.data[i].table] = true
+
+            for(var i = 0;i<=res.data.data.length-1;i++) {
+            this.busyTable[(res.data.data[i].table)] = true;
             }
           } else {
             console.log(res.data.msg);

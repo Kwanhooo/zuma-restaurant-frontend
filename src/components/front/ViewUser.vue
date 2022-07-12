@@ -52,12 +52,20 @@
       title="提示"
       v-model="dialogVisibleModify"
       width="30%">
-    <span>
-      <p>用户名：{{ modifyUserId }}</p>
-      <p>密码：<el-input v-model="modifyPassword" :placeholder="modifyPassword" style="width:200px"/></p>
-      <p>职位：<el-input v-model="modifyCharactor" :placeholder="modifyCharactor" style="width:200px"/></p>
-      <p>电话：<el-input v-model="modifyPhone" :placeholder="modifyPhone" style="width:200px"/></p>
-    </span>
+    <div style="text-align:center;margin-bottom:40px"><h1>{{ modifyUserId }}</h1></div>
+
+    <div style="text-align:center;">
+      <p>🔑密码：<el-input v-model="modifyPassword" :placeholder="modifyPassword" style="width:200px"/></p>
+    </div>
+    <div style="text-align:center;">
+      <p>👨‍🏭职位：<el-input v-model="modifyCharactor" :placeholder="modifyCharactor" style="width:200px"/></p>
+    </div>
+    <div style="text-align:center;">
+      <p>📞电话：<el-input v-model="modifyPhone" :placeholder="modifyPhone" style="width:200px"/></p>
+    </div>
+
+
+
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisibleModify = false">取消</el-button>
@@ -70,12 +78,22 @@
       title="添加用户"
       v-model="dialogVisibleAdd"
       width="30%">
-    <span>
-      <p>用户名：<el-input v-model="addUserId" style="width:200px"/></p>
-      <p>密  码：<el-input v-model="addPassword" style="width:200px"/></p>
-      <p>职  位：<el-input v-model="addCharactor" style="width:200px"/></p>
-       <p>电 话：<el-input v-model="addPhone" style="width:200px"/></p>
-    </span>
+   <div style="margin-top:15px;text-align: center;">
+     <p>👨‍🏭用户名：<el-input v-model="addUserId" style="width:200px"/></p>
+   </div>
+    <div style="margin-top:15px;text-align: center;">
+      <p>🔑密  码：<el-input v-model="addPassword" style="width:200px"/></p>
+    </div>
+    <div style="margin-top:15px;text-align: center;">
+      <p>👷职  位：<el-input v-model="addCharactor" style="width:200px"/></p>
+    </div>
+    <div style="margin-top:15px;text-align: center;">
+      <p>📞电 话：<el-input v-model="addPhone" style="width:200px"/></p>
+    </div>
+
+
+
+
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>

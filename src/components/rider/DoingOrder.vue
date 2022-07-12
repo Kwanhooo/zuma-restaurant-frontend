@@ -2,27 +2,31 @@
   <div class="container">
     <div class="orderItem" v-for="item in tableData" :key="item">
       <div class="id"><h1><b>
-        订单编号:{{ item.orderId }}
+        🚴订单编号:{{ item.orderId }}
       </b></h1></div>
       <div class="userId">
-        用户ID:{{ item.userId }}
+        👨‍🏭用户ID:{{ item.userId }}
       </div>
       <div class="time">
-        下单时间:{{ item.time }}
+        📅下单时间:{{ item.time }}
       </div>
       <div class="address">
-        地址:{{ item.address }}
+        🏠地址:{{ item.address }}
       </div>
       <div class="allFood">
-        订单内容:{{ item.allFood }}
+        🧊订单内容:{{ item.allFood }}
       </div>
       <div class="totalPrice"><h2>
-        消费合计:{{ item.totalPrice }}元
+        💴消费合计:{{ item.totalPrice }}元
       </h2></div>
       <div class="Button">
         <el-button type="danger" style="width:6em;" @click="cancelDialogShow(item.orderId)" round>❌取消</el-button>
         <el-button type="success" style="width:6em" @click="completeDialogShow(item.orderId)" round>✔️完成</el-button>
       </div>
+    </div>
+    <div class="flash">
+      <el-button type="text" @click="flash()">🔄️</el-button>
+      <el-button type="text">刷新</el-button>
     </div>
   </div>
   <el-dialog
@@ -156,6 +160,21 @@ export default {
             }
           })
     },
+    flash () {
+      axios({
+        method: 'GET',
+        url: '/rider/getDoingOrder?riderId=' + this.id
+      })
+          .then((res) => {
+            console.log(res.data.data);
+            if (res.data.status === 0) {
+              console.log("Doing Order running")
+              this.tableData = res.data.data
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+    }
   },
 
   created() {
@@ -165,9 +184,9 @@ export default {
       url: '/rider/getDoingOrder?riderId=' + this.id
     })
         .then((res) => {
+          console.log("Doing Order ");
           console.log(res.data.data);
           if (res.data.status === 0) {
-            console.log("Doing Order running")
             this.tableData = res.data.data
           } else {
             console.log(res.data.msg);

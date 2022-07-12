@@ -19,8 +19,8 @@
       width="30%"
   >
     <span>
-      <p>编    号:   <el-input v-model="noticeId" placeholder="Please input" style="width:225px"/></p>
-      <p>发出者:   <el-select v-model="noticeSource" class="m-2" placeholder="Select" size="middle">
+      <p>🤖编  号:   <el-input v-model="noticeId" placeholder="Please input" style="width:225px"/></p>
+      <p>👨‍🏭发出者:   <el-select v-model="noticeSource" class="m-2" placeholder="Select" size="middle">
     <el-option
         v-for="item in options"
         :key="item.value"
@@ -28,7 +28,7 @@
         :value="item.value"
     />
   </el-select></p>
-      <p>接收者:   <el-select v-model="noticeReceiver" class="m-2" placeholder="Select" size="middle">
+      <p>👩‍🍳接收者:   <el-select v-model="noticeReceiver" class="m-2" placeholder="Select" size="middle">
     <el-option
         v-for="item in options"
         :key="item.value"
@@ -37,7 +37,7 @@
         :disabled="item.disabled"
     />
   </el-select></p>
-      <p>发布时间：<el-date-picker
+      <p>📅发布时间：<el-date-picker
           v-model="noticeTime"
           type="datetime"
           placeholder="Pick a Date"
