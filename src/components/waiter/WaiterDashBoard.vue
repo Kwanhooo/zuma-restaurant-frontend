@@ -5,10 +5,10 @@
       <other-boards></other-boards>
       <!--      </el-row>-->
     </el-col>
-    <el-col :span="8" style="top:0;padding-bottom: 40px;height: auto;" class="fadeIn second">
+    <el-col :span="8" style="top:0;height: auto;" class="fadeIn second">
       <CallingCenter></CallingCenter>
     </el-col>
-    <el-col :span="8" style="top:0;padding-bottom: 40px;height: auto;" class="fadeIn third">
+    <el-col :span="8" style="top:0;height: auto;" class="fadeIn third">
       <NoticeBoard></NoticeBoard>
     </el-col>
   </el-row>

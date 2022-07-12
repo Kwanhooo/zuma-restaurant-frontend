@@ -1,7 +1,6 @@
 <template>
-
   <div id="left">
-    <div class="user">
+    <div class="user fadeIn first">
       <div class="categoryTitle" align="center">📃 账号信息</div>
       <hr style="width:80%;top:0%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
@@ -23,7 +22,7 @@
       </div>
     </div>
 
-    <div class="changePhone">
+    <div class="changePhone fadeIn second">
       <div class="categoryTitle" align="center">💾 修改电话</div>
       <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
@@ -36,7 +35,7 @@
   </div>
 
   <div id="right">
-    <div class="today">
+    <div class="today fadeIn third">
       <div class="todayTitle">
         <div style="height: 20px;"></div>
         <span>📅 今日</span>
@@ -56,7 +55,7 @@
       </div>
     </div>
 
-    <div class="other">
+    <div class="other fadeIn fourth">
       <div class="categoryTitle" align="center">📎 其他操作</div>
       <hr style="width:80%">
       <div style="background: white;border-radius: 30px;margin: 20px 20px 10px 20px;height: 60%">
@@ -179,7 +178,7 @@ export default {
     logout() {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('role');
-      window.location.href= '/auth';
+      window.location.href = '/auth';
     }
   },
   created() {
@@ -401,4 +400,69 @@ export default {
   color: #F6F5FE;
 }
 
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-duration: 0.4s;
+  -moz-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+}
+
+.fadeIn.first {
+  -webkit-animation-delay: 0.2s;
+  -moz-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.fadeIn.second {
+  -webkit-animation-delay: 0.4s;
+  -moz-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.fadeIn.third {
+  -webkit-animation-delay: 0.5s;
+  -moz-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+
+.fadeIn.fourth {
+  -webkit-animation-delay: 0.6s;
+  -moz-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
 </style>

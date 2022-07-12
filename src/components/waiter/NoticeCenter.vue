@@ -1,10 +1,10 @@
 <template>
-  <div class="noticeCenter">
+  <div class="noticeCenter fadeIn">
     <div class="noticeCenterTitle">
       <span style="margin-left: 20px;">🔔 通知中心</span>
       <hr style="margin-left: 20px;width: 90%">
     </div>
-    <div style="height:100%;">
+    <div>
       <ul id="notice-list" class="infinite-list" v-infinite-scroll="load" :infinite-scroll-immediate="false"
           style="overflow:auto;max-height:680px;">
         <li style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;" v-if="notices.length===0">
@@ -33,11 +33,15 @@
           </span>
             </div>
             <div style="margin-top:10px;">
-          <span class="notice-content">
+          <span class="notice-content" v-if="notice.noticesource === 'kitchen'">
             📦 送：{{ notice.foodName }} × {{ 1 }} <br>
             🐾 到：{{ notice.toTable }}
           </span>
-              <button class="confirmBtn" @click="handleBtn(notice)">确认</button>
+              <span class="notice-content" v-if="notice.noticesource !== 'kitchen'">
+           {{ notice.text }} <br>
+          </span>
+              <button class="confirmBtn" @click="handleBtn(notice)" v-if="notice.noticesource === 'kitchen'">确认
+              </button>
             </div>
             <br>
           </div>
@@ -69,11 +73,17 @@ export default {
           notice.foodName = notice.text.split(',')[0];
           notice.toTable = notice.text.split(',')[1];
         });
-        console.log(this.notices);
+      });
+      axios.get('/serve/viewNoticeAll').then(res => {
+        res.data.data.forEach(notice => {
+          notice.noticetime = notice.noticetime.split('T')[0];
+          notice.foodName = notice.text.split(',')[0];
+          notice.toTable = notice.text.split(',')[1];
+          this.notices.push(notice);
+        });
       });
     },
     load() {
-      console.log(123);
       this.notices.push({
         type: '送餐',
         source: '后厨',
@@ -84,6 +94,15 @@ export default {
       });
     },
     handleBtn(notice) {
+      axios({
+        method: 'GET',
+        url: '/serve/noticeReadReceipt?noticeid=' + notice.noticeid,
+      }).then(()=>{
+        this.$message({
+          message: '已确认收到',
+          type: 'success'
+        });
+      });
       this.notices.splice(this.notices.indexOf(notice), 1);
     },
   },
@@ -91,7 +110,7 @@ export default {
   mounted() {
     this.getNoticeData();
     // TODO:每隔十秒钟执行一次getNoticeData函数，获取公告数据
-    setInterval(this.getNoticeData, 10000);
+    setInterval(this.getNoticeData, 5000);
   },
 }
 </script>
@@ -110,9 +129,9 @@ hr {
 }
 
 .noticeCenter {
-  margin: 20px 20px 20px 20px;
+  margin: 20px 20px 20px 10px;
   /*width: 100%;*/
-  height: 100%;
+  height: 95%;
   /*text-align: center;*/
   background: #e9e7fd;
   box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.09);
@@ -184,4 +203,45 @@ hr {
   color-stop(0.86, rgb(28, 58, 148)));
 }
 
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+}
 </style>

@@ -22,7 +22,7 @@
     </div>
 
     <div class="item-btn">
-      <button class="btn-basket"><i class="fas fa-shopping-basket"></i>下单</button>
+      <button class="btn-basket" @click.prevent="handleAmountChanged('+')"><i class="fas fa-shopping-basket"></i>添加</button>
     </div>
   </div>
 </template>

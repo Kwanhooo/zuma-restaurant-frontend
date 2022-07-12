@@ -64,6 +64,12 @@ export default {
           role: 'waiter',
         },
         {
+          routeTo: '/front/checkOut',
+          img: 'https://cdn3.iconfinder.com/data/icons/finance-business-15/91/Finance__Business_09-512.png',
+          toolTips: 'checkOut',
+          role: 'waiter'
+        },
+        {
           routeTo: '/notice/waiter',
           img: 'https://cdn4.iconfinder.com/data/icons/media-icons-23/24/24pt_bell-512.png',
           toolTips: 'notice',
