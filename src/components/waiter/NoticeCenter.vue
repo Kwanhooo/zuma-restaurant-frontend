@@ -35,7 +35,7 @@
             <div style="margin-top:10px;">
           <span class="notice-content" v-if="notice.noticesource === 'kitchen'">
             📦 送：{{ notice.foodName }} × {{ 1 }} <br>
-            🐾 到：{{ notice.toTable }}
+            🐾 到：{{ notice.toTable }} 号桌
           </span>
               <span class="notice-content" v-if="notice.noticesource !== 'kitchen'">
            {{ notice.text }} <br>
@@ -61,43 +61,45 @@ export default {
       notices: [
         // {type: '送餐', source: '后厨', toTable: '1号', foodName: '狮子头', quantity: '1', time: '2022-01-01 12:12:12'},
       ],
+      tempNotices: [],
     };
   },
   methods: {
     // 从后台获取公告数据
     getNoticeData() {
+      const vm = this;
       axios.get('/serve/viewNoticeForServe').then(res => {
-        this.notices = res.data.data;
-        this.notices.forEach(notice => {
+        vm.tempNotices = res.data.data;
+
+        vm.tempNotices.forEach(notice => {
           notice.noticetime = notice.noticetime.split('T')[0];
           notice.foodName = notice.text.split(',')[0];
           notice.toTable = notice.text.split(',')[1];
         });
-      });
-      axios.get('/serve/viewNoticeAll').then(res => {
-        res.data.data.forEach(notice => {
-          notice.noticetime = notice.noticetime.split('T')[0];
-          notice.foodName = notice.text.split(',')[0];
-          notice.toTable = notice.text.split(',')[1];
-          this.notices.push(notice);
+        axios.get('/serve/viewNoticeAll').then(res => {
+          res.data.data.forEach(notice => {
+            notice.noticetime = notice.noticetime.split('T')[0];
+            notice.foodName = notice.text.split(',')[0];
+            notice.toTable = notice.text.split(',')[1];
+            vm.tempNotices.push(notice);
+            vm.notices = vm.tempNotices;
+          });
         });
       });
+
     },
     load() {
-      this.notices.push({
-        type: '送餐',
-        source: '后厨',
-        toTable: '12',
-        foodName: '狮子头',
-        quantity: '1',
-        time: '2022-01-01 12:12:12'
+      this.$message({
+        message: '到底啦...',
+        type: 'info',
+        duration: 0,
       });
     },
     handleBtn(notice) {
       axios({
         method: 'GET',
         url: '/serve/noticeReadReceipt?noticeid=' + notice.noticeid,
-      }).then(()=>{
+      }).then(() => {
         this.$message({
           message: '已确认收到',
           type: 'success'
@@ -110,7 +112,7 @@ export default {
   mounted() {
     this.getNoticeData();
     // TODO:每隔十秒钟执行一次getNoticeData函数，获取公告数据
-    setInterval(this.getNoticeData, 5000);
+    setInterval(this.getNoticeData, 10000);
   },
 }
 </script>

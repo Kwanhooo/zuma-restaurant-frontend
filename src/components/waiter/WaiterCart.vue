@@ -116,6 +116,14 @@ export default {
       // 从bus发送消息清空购物车
       bus.emit("ClearCart");
     },
+    resetCart() {
+      // 清空orderMap
+      this.orderMap.clear();
+      // 清空tableId
+      this.tableId = null;
+      // 从bus发送消息清空购物车
+      bus.emit("ClearCart");
+    },
     submitOrder() {
       // 构造传送给服务器的数据
       let foodInUse = [];
@@ -147,8 +155,6 @@ export default {
       //TODO:删掉这个
       console.log(orderToSend);
 
-      this.clearAll();
-
       // TODO:发送orderToSend到/serve/order
       let vm = this;
       axios({
@@ -161,7 +167,7 @@ export default {
           message: "下单成功",
           type: "success"
         });
-        vm.clearAll();
+        vm.resetCart();
       });
     }
   },

@@ -85,7 +85,7 @@ export default {
     }
   },
   mounted() {
-    setInterval(this.getCallings, 5000);
+    setInterval(this.getCallings, 2000);
   },
 }
 </script>
