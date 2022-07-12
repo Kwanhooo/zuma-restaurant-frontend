@@ -1,7 +1,7 @@
 <template>
   <div class="MobileFoodItemWrapper">
     <div class="MobileFoodItemWrapperLeft">
-      <img class="MobileFoodImage" :src="this.$props.displayFood.img" :alt="this.$props.displayFood.name">
+      <img class="MobileFoodImage" :src="this.$props.imgSrc" :alt="this.$props.foodName">
     </div>
     <div class="MobileFoodItemWrapperRight">
       <div class="TagsWrapper">
@@ -9,10 +9,10 @@
         <span><div class="OrderFoodIndexWrapper">{{ this.$props.indexOfFood + 1 }}</div></span>
       </div>
       <div class="FoodTitleWrapper">
-        <span>{{ this.$props.displayFood.name }}</span>
+        <span>{{ this.$props.foodName }}</span>
       </div>
       <div class="FoodDescription">
-        {{ this.$props.displayFood.text.split('@')[0] }}
+        {{ this.$props.description.split('@')[0] }}
       </div>
       <div class="FoodRatingWrapper">
         <DynamicRatingStars :rating="getRating()"></DynamicRatingStars>
@@ -20,7 +20,7 @@
       <div class="BottomLine">
         <div class="PriceWrapper">
           <span class="CharRMB">￥</span>
-          <span>{{ this.$props.displayFood.price }}</span>
+          <span>{{ this.$props.price }}</span>
         </div>
       </div>
     </div>
@@ -43,11 +43,19 @@ export default {
   },
   methods: {
     resolveTags() {
-      this.tags = this.$props.foodStatus;
+      if (this.$props.ifCompleted === 'true'){
+        this.tags = "已完成";
+      }
+      else if (this.$props.ifCompleted === 'false'){
+        this.tags = "未完成";
+      }
+      else {
+        this.tags = "异常";
+      }
     },
     getRating() {
-      let like = this.$props.displayFood.likenumber;
-      let dislike = this.$props.displayFood.dislikenumber;
+      let like = this.$props.likenumber;
+      let dislike = this.$props.dislikenumber;
       // 按五星评分计算
       let rating = (like / (like + dislike)) * 5;
       // 取出rating的小数部分，如果在0.25-0.75之间，将小数部分设置为0.5，反之向上或向下取整
@@ -60,15 +68,6 @@ export default {
         rating = (parseFloat(rating.toString().split('.')[0]));
       }
       return rating;
-    },
-    handleOperatorClick(operator) {
-      if (operator === '+') {
-        this.amount++;
-        bus.emit('itemAmountChange', {food: this.$props.displayFood, amount: this.amount});
-      } else {
-        if (this.amount > 0)
-          this.amount--;
-      }
     },
   },
   props: {
@@ -89,30 +88,25 @@ export default {
       required: true
     },
     price: {
-      type: Number,
+      type: String,
       required: true
     },
     ifCompleted: {
       type: String,
       required: true
     },
+    imgSrc:{
+      type: String,
+      required: true
+    },
     indexOfFood: {
       type: Number,
-      required: false
+      required: true
     }
   },
   created() {
     this.resolveTags();
   },
-  mounted() {
-    //TODO:删掉下面这行
-    // this.handleOperatorClick('+');
-    bus.on('cartAmountChange', (callBackData) => {
-      if (callBackData.food === this.$props.displayFood) {
-        this.amount = callBackData.amount;
-      }
-    });
-  }
 }
 </script>
 
