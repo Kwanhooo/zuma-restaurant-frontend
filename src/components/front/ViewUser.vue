@@ -117,7 +117,7 @@ export default {
   methods: {
     showModifyDialog(row) {
       this.dialogVisibleModify = true;
-      this.modifyUserId = row.userId;
+      this.modifyUserId = row.userid;
       this.modifyPassword = row.password;
       this.modifyCharactor = row.charactor;
       this.dialogTableVisible = true;
@@ -138,13 +138,13 @@ export default {
         }
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               this.dialogVisibleModify = false;
               let id = this.modifyUserId;
               let password = this.modifyPassword;
               let charactor = this.modifyCharactor;
               this.tableData.forEach(function (item, index, arr) {
-                if (item.userId === id) {
+                if (item.userid === id) {
                   arr[index].password = password;
                   arr[index].charactor = charactor;
                 }
@@ -165,10 +165,12 @@ export default {
 
       })
           .then((res) => {
+            console.log(res.data);
             if (res.data.status === 0) {
               this.tableData.forEach(function (item, index, arr) {
-                if (item.userId === row.id) {
-                  arr.splice(index, 0);
+                    console.log('item: '+item.userid+'row: '+row.userid);
+                if (item.userid === row.userid) {
+                  arr.splice(index, 1);
                 }
               })
             } else {
@@ -184,8 +186,16 @@ export default {
 
       })
           .then((res) => {
+            console.log(res.data);
             if (res.data.status === 0) {
-              this.tableData = res.data.data;
+            //  this.tableData = res.data.data;
+              this.tableData=[];
+              let user = {
+                userid: res.data.data.userid,
+                password: res.data.data.password,
+                charactor: res.data.data.charactor,
+              }
+              this.tableData.push(user);
             } else {
               this.$alert(res.data.msg, '查找用户', {
                 confirmButtonText: '确定',
@@ -218,7 +228,7 @@ export default {
             if (res.data.status === 0) {
               this.dialogVisibleAdd = false;
               let user = {
-                userId: this.addUserId,
+                userid: this.addUserId,
                 password: this.addPassword,
                 charactor: this.addCharactor,
               }
