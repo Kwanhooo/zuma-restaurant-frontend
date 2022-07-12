@@ -3,6 +3,7 @@
     <div id="top-bar-left">
       <div id="title-wrapper">
         <span>{{ restaurantName }}</span>
+        <span style="font-weight: normal;font-size: 0.8rem">{{ showTableID() }}</span>
       </div>
       <div id="address-wrapper">
         <span>{{ restaurantAddress }}</span>
@@ -37,6 +38,9 @@ export default {
     }
   },
   methods: {
+    showTableID() {
+      return sessionStorage.getItem('tableID')+'号桌';
+    },
     getRestaurantInfo() {
       axios({
         method: "get",

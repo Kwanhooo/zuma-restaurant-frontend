@@ -207,7 +207,7 @@ const router = createRouter({
             component: Rider,
         },
         {
-            path: '/m/auth',
+            path: '/m/auth/:tableID',
             name: 'Mobile-auth',
             meta: {authRequired: false},
             component: MobileAuth
@@ -286,6 +286,12 @@ const router = createRouter({
 
 //路由守卫
 router.beforeEach((to, from, next) => {
+    console.log('from:');
+    console.log(from);
+
+    console.log('to:');
+    console.log(to);
+
     // 由于dashboard需要判断角色，所以在这里先特殊处理
     if (to.path === '/dashboard') {
         if (sessionStorage.getItem('token') === null) {
@@ -297,28 +303,26 @@ router.beforeEach((to, from, next) => {
             let role = sessionStorage.getItem('role');
             next('/dashboard/' + role);
         }
-    }
-    // 判断是否需要登录权限
-    if (to.meta.authRequired === true) {
-        // TODO:生产环境需要添加token验证
-        // next();
-        // 判断是否已经登录
-        const token = sessionStorage.getItem('token');
-        if (token) {
-            next()
-        } else {
-            if (to.path.split('/')[1] === 'm') {
+    } else {
+        // 判断是否需要登录权限
+        if (to.meta.authRequired === true) {
+            // 判断是否已经登录
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                next();
+            } else {
+                if (to.path.split('/')[1] === 'm') {
+                    next({
+                        path: '/m/auth',
+                    });
+                    return;
+                }
                 next({
-                    path: '/m/auth',
-                    query: {redirect: to.fullPath}
-                });
+                    path: '/auth',
+                })
             }
-            next({
-                path: '/auth',
-                query: {redirect: to.fullPath}
-            })
-        }
-    } else next();
+        } else next();
+    }
 });
 
 export default router;

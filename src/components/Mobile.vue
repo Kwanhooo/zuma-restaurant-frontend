@@ -152,7 +152,7 @@ export default {
     }
   },
   mounted() {
-    this.$router.push('/m/home');
+    // this.$router.push('/m/home');
   }
 }
 </script>

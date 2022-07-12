@@ -97,14 +97,17 @@ export default {
       }).then((res) => {
         // 获取url中的redirect参数，用于跳转到相应的页面
         if (res.data.status === 0) {
-          const redirectTo = vm.$router.currentRoute.value.query.redirectTo;
+          this.$message.success("登录成功");
+          // const redirectTo = vm.$router.currentRoute.value.query.redirectTo;
           // 将token存入sessionStorage
           sessionStorage.setItem("token", res.data.data);
           // 将用户角色存入sessionStorage
           sessionStorage.setItem("role", 'customer');
+          sessionStorage.setItem("tableID", this.$route.params.tableID.toString());
           // 将用户userId存入sessionStorage
           sessionStorage.setItem("userId", this.username);
-          window.location.href = redirectTo;
+          // window.location.href = redirectTo;
+          this.$router.push('/m/home');
           vm.isErr = false;
         } else {
           // 账号密码错误
@@ -145,20 +148,19 @@ export default {
           phone: this.telephone,
         },
       }).then((res) => {
-            if (res.data.status === 0) {
-              // 登录成功，将token存入本地存储
-              sessionStorage.setItem("token", res.data.token);
-              // 跳转到首页
-              this.$router.push("/home");
-            } else {
-              // 登录失败，提示错误信息
-              this.errInfo = res.data.msg;
-              this.isErr = true;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        if (res.data.status === 0) {
+          this.userLogin();
+          // sessionStorage.setItem("tableID", this.$route.params.tableID.toString());
+          // 跳转到首页
+          // this.$router.push("/m/home");
+        } else {
+          // 登录失败，提示错误信息
+          this.errInfo = res.data.msg;
+          this.isErr = true;
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
     },
 
   },
