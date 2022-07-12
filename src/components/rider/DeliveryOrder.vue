@@ -25,8 +25,8 @@
         </div>
       </div>
       <div class="flash">
-        <el-button type="text" @click="flash()">🔄️</el-button>
-        <el-button type="text">刷新</el-button>
+        <el-button type="text"  @click.prevent="flash()">🔄️</el-button>
+        <el-button type="text"  @click.prevent="flash()">刷新</el-button>
       </div>
     </div>
   </div>

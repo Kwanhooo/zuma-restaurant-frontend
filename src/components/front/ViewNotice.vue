@@ -37,13 +37,8 @@
         :disabled="item.disabled"
     />
   </el-select></p>
-      <p>📅发布时间：<el-date-picker
-          v-model="noticeTime"
-          type="datetime"
-          placeholder="Pick a Date"
-          format="YYYY/MM/DD hh:mm:ss"
-      /></p>
-      <p><el-form-item label="内容">
+
+      <p><el-form-item label="📚内容">
       <el-input v-model="text" type="textarea"/>
     </el-form-item></p>
     </span>

@@ -17,7 +17,7 @@
   <div class="container">
     <div class="container">
       <div class="orderItem" v-for="item in tableData" :key="item">
-        <div v-if="item.orderoutcomplete" class="orderOutComplete">
+        <div v-if="item.orderoutComplete==='true'" class="orderOutComplete">
           <div class="id"><h1><b>
             🚴订单:{{ item.orderId }}已完成
           </b></h1></div>
@@ -25,7 +25,7 @@
             👨‍🏭用户ID:{{ item.userId }}
           </div>
           <div class="time">
-            📅下单时间:{{ item.time }}
+            📅下单时间:{{ item.orderoutTime }}
           </div>
           <div class="address">
             🏠地址:{{ item.address }}
@@ -45,7 +45,7 @@
             👨‍🏭用户ID:{{ item.userId }}
           </div>
           <div class="time">
-            📅下单时间:{{ item.time }}
+            📅下单时间:{{ item.orderoutTime }}
           </div>
           <div class="address">
             🏠地址:{{ item.address }}
@@ -59,8 +59,8 @@
         </div>
       </div>
       <div class="flash">
-        <el-button type="text" @click="flash()">🔄️</el-button>
-        <el-button type="text">刷新</el-button>
+        <el-button type="text" @click.prevent="flash()">🔄️</el-button>
+        <el-button type="text" @click.prevent="flash()">刷新</el-button>
       </div>
     </div>
 
@@ -90,7 +90,7 @@ export default {
           allFood: '榴莲 臭豆腐',
           check: '0',
           totalPrice: '50',
-          orderoutcomplete: false,
+          orderoutComplete: false,
         },
         {
           orderId: '10002',
@@ -101,7 +101,7 @@ export default {
           allFood: '螺狮粉',
           check: '0',
           totalPrice: '50',
-          orderoutcomplete: true,
+          orderoutComplete: true,
         },
         {
           orderId: '10003',
@@ -112,7 +112,7 @@ export default {
           allFood: '螺狮粉',
           check: '0',
           totalPrice: '50',
-          orderoutcomplete: true,
+          orderoutComplete: true,
         }
       ],
       monthData: [
@@ -1453,6 +1453,8 @@ export default {
       url: '/rider/getAllHistoryOrder?riderName=' + this.id,
     })
         .then((res) => {
+          console.log("History Order");
+          // console.log(res.data.data);
           if (res.data.status === 0) {
             this.tableData = res.data.data
           } else {

@@ -138,6 +138,7 @@ export default {
       this.modifyUserId = row.userid;
       this.modifyPassword = row.password;
       this.modifyCharactor = row.charactor;
+      this.modifyPhone = row.phone;
       this.dialogTableVisible = true;
       // dialog.show();
     },
