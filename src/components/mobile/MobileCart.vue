@@ -306,6 +306,7 @@ export default {
         } else {
           console.log(res.data.msg);
         }
+        this.goBack();
       })
     },
     loadList() {
