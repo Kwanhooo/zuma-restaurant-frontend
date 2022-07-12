@@ -30,17 +30,17 @@
       <el-image :src="food.img" style="width:100px; height:100px">
       </el-image>
     </span>
-    <el-form ref="form" :model="food" label-width="80px">
-      <el-form-item label="食物编号">
+    <el-form ref="form" :model="food" label-width="100px">
+      <el-form-item label="食物编号🦴">
         <el-input v-model="food.id" :placeholder="food.id"></el-input>
       </el-form-item>
-      <el-form-item label="食物名称">
+      <el-form-item label="食物名称🍱">
         <el-input v-model="food.name" :placeholder="food.name"></el-input>
       </el-form-item>
-      <el-form-item label="食物价格">
+      <el-form-item label="食物价格💴">
         <el-input v-model="food.price" :placeholder="food.price">￥</el-input>
       </el-form-item>
-      <el-form-item label="食物类型">
+      <el-form-item label="食物类型🍕">
         <el-select v-model="food.type" :placeholder="food.type">
           <el-option label="主食" value="主食"></el-option>
           <el-option label="炒菜" value="炒菜"></el-option>
@@ -51,7 +51,7 @@
           <el-option label="其他" value="其他"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="描述">
+      <el-form-item label="描述👍">
         <el-input type="textarea" v-model="food.text"></el-input>
       </el-form-item>
       <el-form-item>
@@ -65,20 +65,21 @@
       title="Tips"
       width="30%"
   >
-    <input type="file" name="image" accept="image/*" @change='onImgSelectChanged()' id="img-selector"
-           ref="inputer">
-    <img alt="头像" class="NullSvgWrapper" :src="getDisplayUrl()" v-if="isShowPreview"/>
-    <el-form ref="form" :model="food" label-width="80px">
-      <el-form-item label="食物编号">
+    <div style="margin-left:30px">食物图片🏜️<input type="file" name="image" accept="image/*" @change='onImgSelectChanged()' id="img-selector"
+                       ref="inputer" style="margin-left:30px;margin-bottom:30px">
+      <img alt="头像" class="NullSvgWrapper" :src="getDisplayUrl()" v-if="isShowPreview"/></div>
+    <el-form ref="form" :model="food" label-width="100px" style="margin-left:15px">
+      <el-form-item label="食物编号🦴">
         <el-input v-model="food.id" :placeholder="food.id"></el-input>
+
       </el-form-item>
-      <el-form-item label="食物名称">
+      <el-form-item label="食物名称🍱">
         <el-input v-model="food.name" :placeholder="food.name"></el-input>
       </el-form-item>
-      <el-form-item label="食物价格">
-        <el-input v-model="food.price" :placeholder="food.price">￥</el-input>
+      <el-form-item label="食物价格💴" >
+        <el-input v-model="food.price" :placeholder="food.price" >￥</el-input>
       </el-form-item>
-      <el-form-item label="食物类型">
+      <el-form-item label="食物类型🍕">
         <el-select v-model="food.type" :placeholder="food.type">
           <el-option label="主食" value="主食"></el-option>
           <el-option label="炒菜" value="炒菜"></el-option>
@@ -89,7 +90,7 @@
           <el-option label="其他" value="其他"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="描述">
+      <el-form-item label="描述👍">
         <el-input type="textarea" v-model="food.text"></el-input>
       </el-form-item>
       <el-form-item>
@@ -224,8 +225,20 @@ export default {
         url: '/front/viewOneFood?name=' + this.searchFoodName,
       })
           .then((res) => {
+            console.log(res.data.data)
             if (res.data.status === 0) {
-              this.tableData = res.data.data;
+              this.tableData=[];
+              let food = {
+                id:res.data.data.id,
+                img:res.data.data.img,
+                name:res.data.data.name,
+                price:res.data.data.price,
+                text:res.data.data.text,
+                type:res.data.data.type,
+                like:res.data.data.likenumber,
+                dislike:res.data.data.dislikenumber,
+              }
+              this.tableData.push(food);
             } else {
               this.$alert(res.data.msg, '错误信息');
             }
@@ -237,7 +250,7 @@ export default {
         url: '/front/deleteFood?name=' + row.name,
       })
           .then((res) => {
-            if (res.status === 0) {
+            if (res.data.status === 0) {
               this.tableData.forEach(function (item, index, arr) {
                 if (item.name === row.name) {
                   arr.splice(index, 1);
@@ -258,7 +271,7 @@ export default {
           id: this.food.id,
           text: this.food.text,
           price: this.food.price,
-          img: this.food.img,
+          img:"",
           name: this.food.name,
           type: this.food.type,
           like: this.food.like,
@@ -267,25 +280,31 @@ export default {
       })
           .then((res) => {
             if (res.data.status === 0) {
-              this.tableData.push(this.food);
+              this.addFoodPicture();
             } else {
               this.$alert(res.data.msg, '错误信息');
             }
           })
+
+    },
+    addFoodPicture() {
       let dataToSend = new FormData();
       const vm = this;
       dataToSend.append('image', this.newAvatarFile);
-      axios.post('/front/addFoodImg?foodName='+this.food.name, dataToSend, {
+      axios.post('/front/addFoodPicture?foodName='+this.food.name, dataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      }).then(function (response) {
-        if (response.data.status === 0) {
+      }).then( (res)=> {
+        if (res.data.status === 0) {
+          this.tableData.push(this.food);
+          this.addDialogVisible = false;
+          console.log(res.data);
           vm.$message({
             message: '上传成功',
             type: 'success'
           });
-          this.addDialogVisible = false;
+
         } else {
           vm.$message({
             message: '上传失败，请稍后再试',

@@ -3,26 +3,30 @@
     <div class="container">
       <div class="orderItem" v-for="item in tableData" :key="item">
         <div class="id"><h1><b>
-          待接取的订单:{{ item.orderId }}
+          🚴待接取的订单:{{ item.orderId }}
         </b></h1></div>
         <div class="userId">
-          用户ID:{{ item.userId }}
+          👨‍🏭用户ID:{{ item.userId }}
         </div>
         <div class="time">
-          下单时间:{{ item.time }}
+          📅下单时间:{{ item.orderoutTime }}
         </div>
         <div class="address">
-          地址:{{ item.address }}
+          🏠地址:{{ item.address }}
         </div>
         <div class="allFood">
-          订单内容:{{ item.allFood }}
+          🧊订单内容:{{ item.allFood }}
         </div>
         <div class="totalPrice"><h2>
-          消费合计:{{ item.totalPrice }}元
+          💴消费合计:{{ item.totalPrice }}元
         </h2></div>
         <div class="Button">
           <el-button type="success" style="width:6em" @click="takeDialogShow(item.orderId)" round>✔️接取</el-button>
         </div>
+      </div>
+      <div class="flash">
+        <el-button type="text" @click="flash()">🔄️</el-button>
+        <el-button type="text">刷新</el-button>
       </div>
     </div>
   </div>
@@ -111,13 +115,29 @@ export default {
             }
           })
     },
+    flash() {
+      axios({
+        method: 'GET',
+        url: '/rider/getDeliveryOrder'
+      })
+          .then((res) => {
+            console.log("GetDeliveryOrder "+res.data.data);
+            if (res.data.status === 0) {
+              this.tableData = res.data.data
+            } else {
+              this.$alert(res.data.msg, '错误信息');
+            }
+          })
+    }
   },
   created() {
+
     axios({
       method: 'GET',
       url: '/rider/getDeliveryOrder'
     })
         .then((res) => {
+          console.log("GetDeliveryOrder");
           console.log(res.data.data);
           if (res.data.status === 0) {
             this.tableData = res.data.data

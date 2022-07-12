@@ -44,8 +44,8 @@ export default {
       url: '/rider/getNotice'
     })
         .then((res) => {
-          if (res.data.code === 0) {
-            this.tableData = res.data
+          if (res.data.status === 0) {
+            this.tableData = res.data.data
           } else {
             this.$alert(res.data.msg, '错误信息');
           }
