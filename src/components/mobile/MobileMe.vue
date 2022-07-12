@@ -6,7 +6,7 @@
           <img src="https://pic.allhistory.com/T1AjCvB5bv1RCvBVdK.jpeg?w=3840&h=&rc=resize" class="MobileMeAvatar">
         </div>
         <div id="mobile-me-top-bar-right">
-          <span class="Username">用户名</span>
+          <span class="Username">{{ userid }}</span>
           <span @click.prevent="goToSetting()">
             <svg t="1657331798417" class="Icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  p-id="3044" width="200" height="200"><path
@@ -29,17 +29,25 @@
 
 <script>
 import MobileDashboard from "@/components/mobile/MobileDashboard";
+import axios from "axios";
 
 export default {
   name: "MobileMe",
   components: {MobileDashboard},
   data() {
-    return {}
+    return {
+      userid: sessionStorage.getItem('userId'),
+    }
   },
   methods: {
     goToSetting() {
       this.$router.push('/m/me/settings');
     }
+  },
+  created() {
+    axios.get("/customer/viewCustomer/"+sessionStorage.getItem('userId')).then(res => {
+      this.userid = res.data.data.userid;
+    });
   },
 }
 </script>
@@ -88,7 +96,7 @@ export default {
 
 .Username {
   font-weight: bolder;
-  font-size: 22px;
+  font-size: 24px;
   margin-left: 0.8rem;
 }
 

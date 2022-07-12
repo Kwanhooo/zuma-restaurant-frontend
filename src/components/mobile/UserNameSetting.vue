@@ -41,7 +41,7 @@ export default {
   name: "UserNameSetting",
   data() {
     return {
-      userName: "暴龙哥"
+      userName: sessionStorage.getItem("userId")
     }
   },
   methods: {
@@ -49,8 +49,8 @@ export default {
       this.$router.go(-1);
     },
     getUserName() {
-      axios.get("/customer/getUserId").then(res => {
-        this.userName = res.data.userid;
+      axios.get("/customer/viewCustomer/" + sessionStorage.getItem('userId')).then(res => {
+        this.userName = res.data.data.userid;
       }).catch(() => {
         this.$message.error('网络错误，请稍后再试');
       });
@@ -61,9 +61,7 @@ export default {
       // 合法
       if (reg.test(this.userName)) {
         // 更新用户名
-        axios.post("/customer/updateUserName", {
-          userName: this.userName
-        }).then(res => {
+        axios.post("/customer/modifyName?userid=" + sessionStorage.getItem('userId') + '&newUserid=' + this.userName).then(res => {
           if (res.data.status === 0) {// 返回OK
             this.$message({
               message: "用户名修改成功！",

@@ -128,6 +128,7 @@ export default {
   name: "CustomerHistoryOrder",
   data() {
     return {
+      tempSrc: "",
       orderType: true,
       showOutDetail: false,
       showInDetail: false,
@@ -171,6 +172,7 @@ export default {
     },
 
     getFoodImg(food) {
+      const vm = this;
       axios({
         url: "/common/viewPicture",
         method: "GET",
@@ -180,11 +182,13 @@ export default {
       }).then((res) => {
         console.log(res.data)
         /*return res.data.date*/
-        return  "https://officialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2019/08/201908271032169362.png";
+        vm.tempSrc = "https://officialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2019/08/201908271032169362.png";
       }).catch(err => {
         //打印响应数据(错误信息)
         console.log(err);
       });
+      console.log('fuck'+vm.tempSrc);
+      return vm.tempSrc;
     },
 
     showOrderInDetail(index) {

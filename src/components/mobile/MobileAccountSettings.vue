@@ -104,8 +104,8 @@ export default {
   name: "MobileAccountSettings",
   data() {
     return {
-      username: "暴龙哥",
-      maskedPhoneNumber: "178****3323",
+      username: sessionStorage.getItem('userId'),
+      maskedPhoneNumber: "",
     }
   },
   methods: {
@@ -121,9 +121,9 @@ export default {
     },
   },
   created() {
-    axios.get("/customer/getUserInfo").then(res => {
-      this.username = res.data.data.username;
-      this.putPhoneNumberMask(res.data.data.phoneNumber);
+    axios.get("/customer/viewCustomer/"+sessionStorage.getItem('userId')).then(res => {
+      this.username = res.data.data.userid;
+      this.putPhoneNumberMask(res.data.data.phone);
     });
   }
 }

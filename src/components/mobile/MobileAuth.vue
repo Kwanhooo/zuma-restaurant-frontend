@@ -107,8 +107,13 @@ export default {
           // 将用户userId存入sessionStorage
           sessionStorage.setItem("userId", this.username);
           // window.location.href = redirectTo;
-          this.$router.push('/m/home');
-          vm.isErr = false;
+          axios({
+            method: "POST",
+            url: "/customer/addDinner/" + sessionStorage.getItem("userId") + "/?table=" + sessionStorage.getItem("tableID"),
+          }).then(() => {
+            vm.$router.push('/m/home');
+            vm.isErr = false;
+          });
         } else {
           // 账号密码错误
           vm.isErr = true;

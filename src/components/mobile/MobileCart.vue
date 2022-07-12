@@ -114,10 +114,10 @@
       <div id="confirm-order-content-choose">
         <el-radio v-model="orderMethod" label="堂食" style="margin-top:10px"><h2>🏪堂食</h2></el-radio>
         <el-radio v-model="orderMethod" label="外卖"><h2>🍱外卖</h2></el-radio>
-        {{orderMethod}}
+        {{ orderMethod }}
       </div>
-      <div id="address" v-if="orderMethod==='外卖'" >
-        <div style="margin-left:10px" ><h3>🚲填写您的相关配送信息：</h3></div>
+      <div id="address" v-if="orderMethod==='外卖'">
+        <div style="margin-left:10px"><h3>🚲填写您的相关配送信息：</h3></div>
         <input type="text" v-model="receiverName" class="addressInput" placeholder="请输入姓名"/>
         <input type="text" v-model="receiverPhone" class="addressInput" placeholder="请输入电话号码"/>
         <input type="text" v-model="address" class="addressInput" placeholder="请输入配送地址"/>
@@ -157,15 +157,19 @@
       </div>
     </div>
     <div id="confirm-order-bottom-bar">
-      <div id="confirm-total">合计：{{this.totalPrice}}￥</div>
-      <div class="confirm-pay"  v-if="orderMethod==='外卖'"><button type="button" class="confirm-button" @click="payForFoodOut()">去支付</button></div>
-      <div class="confirm-pay"  v-else><button type="button" class="confirm-button" @click="payForFoodIn()">确定</button></div>
+      <div id="confirm-total">合计：{{ this.totalPrice }}￥</div>
+      <div class="confirm-pay" v-if="orderMethod==='外卖'">
+        <button type="button" class="confirm-button" @click="payForFoodOut()">去支付</button>
+      </div>
+      <div class="confirm-pay" v-else>
+        <button type="button" class="confirm-button" @click="payForFoodIn()">确定</button>
+      </div>
     </div>
   </div>
 </template>
 
 
-<script >
+<script>
 
 // eslint-disable-next-line no-unused-vars
 import bus from '../../util/bus.ts';
@@ -178,12 +182,12 @@ export default {
     return {
       foodInCart: new Map(),// <food, amount>
       totalPrice: 0.0,
-      cartShow:true,
-      orderMethod:"堂食",
-      address:"",
-      receiverName:"",
-      receiverPhone:"",
-      allFood:"",
+      cartShow: true,
+      orderMethod: "堂食",
+      address: "",
+      receiverName: "",
+      receiverPhone: "",
+      allFood: "",
     }
   },
   methods: {
@@ -223,7 +227,7 @@ export default {
       this.calTotalPrice();
     },
     mobileSubmitOrder() {
-      if (this.foodInCart.size === 0){
+      if (this.foodInCart.size === 0) {
         this.$message({
           message: '请先在首页加入菜品，之后再下单',
           type: 'warning'
@@ -231,59 +235,59 @@ export default {
         return;
       }
       // TODO:接口还没写好的
-      this.cartShow=false;
+      this.cartShow = false;
     },
 
     payForFoodIn() {
-      let allFood="";
-      // eslint-disable-next-line no-unused-vars
-      function foodMapToString(value,key,thisMap){
-        for(var i=0;i<value;i++){
-          allFood=allFood+key.name+',';
-        }
-      }
-      this.allFood=allFood;
-      this.foodInCart.forEach(foodMapToString);
-      console.log('allFood:'+allFood);
+      const vm = this;
+      this.allFood = "";
+
+      this.foodInCart.forEach((value, key) => {
+        vm.allFood += key.name + ",";
+      });
+
+      console.log('allFood:' + this.allFood);
       axios({
-        method:'POST',
-        url:'/customer/addDinnerFood?allFood='+this.allFood+'&table=1'+'&totalPrice='+this.totalPrice,
-      }).then((res)=>{
-        if(res.data.status===0){
+        method: 'POST',
+        url: '/customer/addDinnerFood?allFood=' + this.allFood + '&table=' + sessionStorage.getItem('tableID') + '&totalPrice=' + this.totalPrice,
+      }).then((res) => {
+        if (res.data.status === 0) {
           this.clearCart();
           this.$message({
             message: '下单成功',
             type: 'success'
           });
-        }else {
+        } else {
           console.log(res.data.msg);
         }
       })
     },
     payForFoodOut() {
-      let allFood="";
+      let allFood = "";
+
       // eslint-disable-next-line no-unused-vars
-      function foodMapToString(value,key,thisMap){
-        for(var i=0;i<value;i++){
-          allFood=allFood+key.name+',';
+      function foodMapToString(value, key, thisMap) {
+        for (var i = 0; i < value; i++) {
+          allFood = allFood + key.name + ',';
         }
       }
-      this.allFood=allFood;
+
+      this.allFood = allFood;
       this.foodInCart.forEach(foodMapToString);
       const vm = this;
       axios({
-        method:'POST',
-        url:'/customer/addOrderOut?allFood='+allFood+'&userid='+sessionStorage.getItem('userid')+'&totalPrice='+this.totalPrice
-        +'&address='+this.address+'&receiverName='+this.receiverName+'&receiverPhone='+this.receiverPhone,
-      }).then((res)=>{
-        if(res.data.status===0){
+        method: 'POST',
+        url: '/customer/addOrderOut?allFood=' + allFood + '&userid=' + sessionStorage.getItem('userid') + '&totalPrice=' + this.totalPrice
+            + '&address=' + this.address + '&receiverName=' + this.receiverName + '&receiverPhone=' + this.receiverPhone,
+      }).then((res) => {
+        if (res.data.status === 0) {
           this.clearCart();
-      //    this.$alert('下单成功！','点餐通知');
+          //    this.$alert('下单成功！','点餐通知');
           vm.$message({
             message: '下单成功',
             type: 'success'
           });
-        }else {
+        } else {
           console.log(res.data.msg);
         }
       })
@@ -539,21 +543,24 @@ export default {
   margin-top: 10%;
 }
 
-#confirm-order-top-bar{
+#confirm-order-top-bar {
   flex-shrink: 0;
 
   margin: 10px 0 10px 5px;
 
   font-family: 黑体, ui-sans-serif;
 }
-#confirm-order-content-wrapper{
+
+#confirm-order-content-wrapper {
   height: 35em;
-  overflow-y:scroll
+  overflow-y: scroll
 }
-#confirm-order-content-choose{
-  text-align:center;
+
+#confirm-order-content-choose {
+  text-align: center;
 }
-.addressInput{
+
+.addressInput {
   background-color: #EEEEFF;
   color: #0d0d0d;
   padding: 15px 15px;
@@ -572,30 +579,34 @@ export default {
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
 }
-#confirm-order-bottom-bar{
-  padding-left:30px;
+
+#confirm-order-bottom-bar {
+  padding-left: 30px;
   text-align: left;
   background-color: #7F8588;
-  border-radius:25px;
-  height:50px;
+  border-radius: 25px;
+  height: 50px;
 }
-#confirm-total{
+
+#confirm-total {
   margin-top: 12px;
   float: left;
-  width:210px;
-  font-size:20px;
-  font-weight:bolder;
-  color:#fffcfb;
+  width: 210px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #fffcfb;
 }
-.confirm-pay{
+
+.confirm-pay {
   margin-left: 220px;
 }
-.confirm-button{
-  border-radius:25px;
-  height:50px;
-  width:100px;
+
+.confirm-button {
+  border-radius: 25px;
+  height: 50px;
+  width: 100px;
   background-color: #FF9465;
-  font-size:20px;
-  font-weight:bolder;
+  font-size: 20px;
+  font-weight: bolder;
 }
 </style>
