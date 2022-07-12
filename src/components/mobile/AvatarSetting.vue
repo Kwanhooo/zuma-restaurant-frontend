@@ -73,7 +73,7 @@ export default {
       this.$router.go(-1);
     },
     getCurrentAvatar() {
-      axios.get('/customer/getAvatar?userId='+sessionStorage.getItem('userId')).then(res => {
+      axios.get('/customer/getAvatar?userId=' + sessionStorage.getItem('userId')).then(res => {
         if (res.data.status === 0) {
           this.currentAvatarUrl = res.data.data;
         } else {
@@ -133,7 +133,7 @@ export default {
       }
       let dataToSend = new FormData();
       dataToSend.append('image', this.newAvatarFile);
-      axios.post('/customer/updateAvatar?userId='+sessionStorage.getItem('userId'), dataToSend, {
+      axios.post('/customer/updateAvatar?userId=' + sessionStorage.getItem('userId'), dataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

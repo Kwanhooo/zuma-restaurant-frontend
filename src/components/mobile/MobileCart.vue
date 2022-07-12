@@ -108,13 +108,21 @@
   </div>
   <div id="confirm-order" v-else>
     <div id="confirm-order-top-bar">
-      <span id="confirm-order-top-title" @click="cartShow=true">🔙订单确认</span>
+      <div class="DetailGoBack" @click.prevent="goBack()">
+        <svg t="1657522982030" class="GoBackIcon" viewBox="0 0 1024 1024" version="1.1"
+             xmlns="http://www.w3.org/2000/svg" p-id="2262" width="200" height="200">
+          <path
+              d="M624.788992 204.047974 585.205965 164.464026 219.560038 530.185011 585.205965 895.864013 624.788992 856.280986 298.663014 530.16105Z"
+              p-id="2263" fill="#18abce"></path>
+        </svg>
+      </div>
+      <div class="DetailSettingTitle">订单确认</div>
     </div>
     <div id="confirm-order-content-wrapper">
       <div id="confirm-order-content-choose">
         <el-radio v-model="orderMethod" label="堂食" style="margin-top:10px"><h2>🏪堂食</h2></el-radio>
         <el-radio v-model="orderMethod" label="外卖"><h2>🍱外卖</h2></el-radio>
-        {{ orderMethod }}
+<!--        {{ orderMethod }}-->
       </div>
       <div id="address" v-if="orderMethod==='外卖'">
         <div style="margin-left:10px"><h3>🚲填写您的相关配送信息：</h3></div>
@@ -191,6 +199,9 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      this.cartShow=true;
+    },
     printCart() {
       console.log("cart::");
       console.log(this.foodInCart);
@@ -261,6 +272,7 @@ export default {
             message: '下单成功',
             type: 'success'
           });
+          vm.goBack();
         } else {
           console.log(res.data.msg);
         }
@@ -381,7 +393,7 @@ export default {
 
   display: flex;
   flex-direction: row;
-  background: #fbfbff;
+  background: white;
 
   /*max-height: 100px;*/
 }
@@ -548,15 +560,39 @@ export default {
 }
 
 #confirm-order-top-bar {
+  height: 60px;
+  border-radius: 20px 20px 0 0;
+
+  background: white;
+  display: flex;
+}
+
+.DetailGoBack {
   flex-shrink: 0;
+}
 
-  margin: 10px 0 10px 5px;
+.GoBackIcon {
+  width: 35px;
+  height: 35px;
+  margin: 13px 15px;
+  fill: #18abce;
+}
 
-  font-family: 黑体, ui-sans-serif;
+.DetailSettingTitle {
+  font-weight: bolder;
+  font-size: 22px;
+  margin-left: calc(50vw - 44px - 35px - 30px - 5px);
+  margin-top: calc(30px - 11px - 5px);
+}
+
+.DetailSettingContent {
+  height: calc(100% - 70px);
+  margin: 5px 5px;
 }
 
 #confirm-order-content-wrapper {
-  height: 35em;
+  height: calc(100vh - 204px);
+  margin: 5px 5px;
   overflow-y: scroll
 }
 
@@ -587,7 +623,7 @@ export default {
 #confirm-order-bottom-bar {
   padding-left: 30px;
   text-align: left;
-  background-color: #7F8588;
+  background-color: #b8c0c2;
   border-radius: 25px;
   height: 50px;
 }
@@ -609,8 +645,16 @@ export default {
   border-radius: 25px;
   height: 50px;
   width: 100px;
-  background-color: #FF9465;
+  background-color: #FFF4EA;
+  color: #FF9465;
   font-size: 20px;
-  font-weight: bolder;
+  font-weight: normal;
+  border: 0;
+  transition: 0.4s;
+}
+
+.confirm-button:hover{
+  background-color: #FF9465;
+  color: #FFF4EA;
 }
 </style>
