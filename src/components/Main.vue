@@ -13,7 +13,7 @@
             <a style="color:var(--danger);" @click.prevent="logout()">注销🚪</a>
           </span>
           |
-          <span style="color: #3f3f3f">?</span>
+          <span style="color: #3f3f3f">{{ getUserID() }}</span>
         </div>
       </div>
     </div>
@@ -164,6 +164,9 @@ export default {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('role');
       window.location.href = '/auth';
+    },
+    getUserID(){
+      return sessionStorage.getItem('userId');
     },
     // 向后端拉取用户信息
     getInfos() {
