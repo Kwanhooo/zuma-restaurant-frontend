@@ -1,13 +1,20 @@
 <template>
   <div id="on-going-item-wrapper">
+    <div class="NoOnGoingWrapper" v-if="this.dinner.length === 0">
+      暂无已点的食物...
+    </div>
     <template v-for="(data,index) in dinner" :key="index">
-      <MobileOrderItem :display-food="data.food" :type-of-food="data.typeOfFood"
-                       :food-status="data.status" :food-amount="data.amount" :ordered-time="data.orderedTime"
-                       :indexOfFood="index">
-
+      <MobileOrderItem :foodName="data.name" :description="data.description"
+                       :likenumber="data.likenumber" :dislikenumber="data.dislikenumber"
+                       :price="data.price" :imgSrc="data.imgSrc"
+                       :indexOfFood="index" :if-completed="data.ifCompleted">
       </MobileOrderItem>
     </template>
   </div>
+<!--  <hr>-->
+<!--  <div id="on-going-total-price-wrapper">-->
+<!--    <span style="color: #0d0d0d">总计：￥ </span>{{ totalPrice }}-->
+<!--  </div>-->
 </template>
 
 <script>
@@ -21,24 +28,47 @@ export default {
     return {
       dinner: [],
       OrderList: [],
+      totalPrice: "",
     };
   },
-  methods: {},
+  methods: {
+    getOnGoing(){
+      axios({
+        url: "/customer/viewDinner/" + sessionStorage.getItem('tableID'),
+        method: "GET",
+      }).then((res) => {
+        this.dinner = res.data.data;
+        if (res.data.msg !== "this table is not used")
+          this.totalPrice = res.data.msg;
+        else this.totalPrice = "";
+        console.log(this.dinner);
+      });
+    },
+  },
   created() {
-    axios({
-      url: "/customer/viewDinner/" + sessionStorage.getItem('tableID'),
-      method: "GET",
-    }).then((res) => {
-      this.dinner = res.data.data;
-    });
+    this.getOnGoing();
   }
 }
 </script>
 
 <style scoped>
 #on-going-item-wrapper {
-  height: 100%;
+  height: 73vh;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.NoOnGoingWrapper{
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+}
+
+#on-going-total-price-wrapper {
+  float: right;
+
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #dc3545;
 }
 </style>

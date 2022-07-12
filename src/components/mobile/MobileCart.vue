@@ -234,8 +234,12 @@ export default {
         });
         return;
       }
-      // TODO:接口还没写好的
-      this.cartShow = false;
+      axios({
+        method: "POST",
+        url: "/customer/addDinner/" + sessionStorage.getItem("userId") + "/?table=" + sessionStorage.getItem("tableID"),
+      }).then(() => {
+        this.cartShow = false;
+      });
     },
 
     payForFoodIn() {
