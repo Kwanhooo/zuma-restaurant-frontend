@@ -18,13 +18,16 @@
       </div>
     </div>
   </div>
+  <CallWaiter></CallWaiter>
 </template>
 
 <script>
 import axios from "axios";
+import CallWaiter from "@/components/mobile/CallWaiter";
 
 export default {
   name: "HomeTitle",
+  components: {CallWaiter},
   data() {
     return {
       restaurantName: "",

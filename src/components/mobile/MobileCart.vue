@@ -220,6 +220,7 @@ export default {
         bus.emit('cartAmountChange', {food: key, amount: 0});
         this.foodInCart.delete(key);
       });
+      this.calTotalPrice();
     },
     mobileSubmitOrder() {
       // TODO:接口还没写好的

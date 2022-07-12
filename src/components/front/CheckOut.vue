@@ -1,5 +1,5 @@
 <template>
-  <ul id="table-ul" style="overflow:auto;max-height:830px;">
+  <ul id="table-ul" style="overflow:auto;max-height:830px;" class="fadeIn">
     <li class="row" v-for="row of 5" :key="row">
       <div class="column" v-for="column of 6" :key="column">
         <div class="emptyTable" v-if="!(busyTable[row * 6 + column - 7])">
@@ -270,6 +270,48 @@ ul {
 .checkout:hover {
   background-color: #4F3FF0;
   color: #F6F5FE;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 
 </style>

@@ -1,13 +1,13 @@
 <template>
-  <div class="callingCenter">
+  <div class="callingCenter fadeIn">
     <div class="callingCenterTitle">
       <span style="margin-left: 20px;">📞 服务呼叫</span>
       <hr style="margin-left: 20px;width: 90%">
     </div>
-    <div style="height:100%;">
+    <div>
       <ul id="calling-ul" class="infinite-list" v-infinite-scroll="load" :infinite-scroll-immediate="false"
           style="overflow:auto;max-height:680px;">
-        <li style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;" v-if="callings.length===0">
+        <li style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;" v-if="isShowNoCall()">
           <div style="margin-left: 20px;">
             <div>
               <div style="height: 13px;"></div>
@@ -19,16 +19,16 @@
             <br>
           </div>
         </li>
-        <li v-for="calling in callings" :key="calling" class="infinite-list-item"
+        <li v-for="(time,table) in callings" :key="table" class="infinite-list-item"
             style="background: white;border-radius: 30px;margin: 5px 20px 10px 0;">
           <div style="margin-left: 20px;">
             <div>
               <div style="height: 13px;"></div>
-              <span class="calling-table">{{ calling.source }}</span>
-              <span class="calling-time">{{ calling.time }}</span>
+              <span class="calling-table">{{ table }} <span style="font-size: 20px"> 号桌</span></span>
+              <span class="calling-time">{{ time }}</span>
             </div>
             <div style="margin-top:10px;">
-              <button class="okBtn" @click="handleBtn(notice)">现在去</button>
+              <button class="okBtn" @click="handleBtn(table)">现在去</button>
             </div>
             <br><br><br>
           </div>
@@ -45,43 +45,48 @@ export default {
   name: "CallingCenter",
   data() {
     return {
-      callings: [
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-        {source: '1号', time: '2022-01-01 12:12:12'},
-      ],
+      callings: {},
     };
   },
   methods: {
     // 从后台获取公告数据
     getCallings() {
       axios.get("/serve/getCallings").then(res => {
-        this.callings = res.data;
+        this.callings = res.data.data;
       });
     },
     load() {
       console.log(123);
       this.callings.push({});
     },
-    handleBtn(calling) {
+    handleBtn(table) {
       //TODO: 发送确认消息到后台
-      this.callings.splice(this.callings.indexOf(calling), 1);
+      axios.get("/serve/discardCalling?tableID=" + table).then(() => {
+      }).then(() => {
+        this.$message({
+          message: "已确认，请立即前往"+table+"号桌",
+          type: "success"
+        });
+      });
+      // this.callings.splice(this.callings.indexOf(table), 1);
+      Reflect.deleteProperty(this.callings, table);
     },
-    // 当这个组件被加载的时候，就会被调用
-    mounted() {
-      // 每隔十秒钟执行一次getNoticeData函数，获取公告数据
-      // setInterval(this.getCallings, 10000);
-    },
-  }
+    isShowNoCall() {
+      let count = 0;
+      // eslint-disable-next-line no-unused-vars
+      for (let p in this.callings) {
+        count++;
+      }
+      if (count === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  mounted() {
+    setInterval(this.getCallings, 5000);
+  },
 }
 </script>
 
@@ -112,9 +117,9 @@ export default {
 
 
 .callingCenter {
-  margin: 20px 0 20px 20px;
+  margin: 20px 10px 20px 20px;
   /*width: 100%;*/
-  height: 100%;
+  height: 95%;
   /*text-align: center;*/
   background: #fee4cb;
   box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.09);
@@ -175,5 +180,47 @@ hr {
 .okBtn:hover {
   background-color: #FF9465;
   color: #FFF4EA;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 </style>

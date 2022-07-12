@@ -54,7 +54,7 @@
     <div id="TotalPriceWrapper" v-if="orderMap.size !== 0" class="fadeInFast">
       <span style="font-weight: bold;">总价：</span>
       <span style="font-style: italic;font-weight: bold;color: var(--blue);">
-        {{ totalPrice }}</span>
+        {{ '￥ '+totalPrice }}</span>
     </div>
     <div id="CartSubmitWrapper" v-if="orderMap.size !== 0" class="fadeInFast">
       <input type="number" class="TableIdInput" v-model="tableId" placeholder="🍽️桌号">
@@ -109,6 +109,10 @@ export default {
       this.orderMap.clear();
       // 清空tableId
       this.tableId = null;
+      this.$message({
+        message: "已清空餐品",
+        type: "success"
+      });
       // 从bus发送消息清空购物车
       bus.emit("ClearCart");
     },
@@ -117,7 +121,13 @@ export default {
       let foodInUse = [];
       let orderToSend = {};
 
-
+      if (this.tableId === null) {
+        this.$message({
+          message: "请输入桌号",
+          type: "warning"
+        });
+        return;
+      }
       orderToSend.tableid = this.tableId.toString();
 
       let foodInUseIndex = 0;
@@ -132,7 +142,7 @@ export default {
       }
       orderToSend.foodInUse = foodInUse;
       this.calculateTotalPrice();
-      orderToSend.totalPrice = this.totalPrice;
+      orderToSend.totalPrice = this.totalPrice.toString();
 
       //TODO:删掉这个
       console.log(orderToSend);
@@ -147,6 +157,10 @@ export default {
         dataType: "json",
         data: orderToSend,
       }).then(() => {
+        vm.$message({
+          message: "下单成功",
+          type: "success"
+        });
         vm.clearAll();
       });
     }
@@ -232,8 +246,9 @@ ul {
 
 #TotalPriceWrapper {
   /*float: right;*/
-  margin: 0 20px 0 180px;
+  margin: 0 0 0 160px;
   font-size: 20px;
+  padding-right: 20px;
 }
 
 .item-title {

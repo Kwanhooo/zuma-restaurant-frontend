@@ -57,6 +57,8 @@
 <script>
 // import axios from "axios";
 
+import axios from "axios";
+
 export default {
   name: "WaiterStatistics",
   methods: {
@@ -64,17 +66,19 @@ export default {
       this.lastUpdateTime = new Date().toLocaleString();
       // 向后端发送请求，更新数据
       //TODO:接口还没写好，暂时不能更新数据
-      // axios.get('/api/waiter/statistics').then(response => {
-      //   this.usingTableCount = response.data.usingTableCount;
-      //   this.sellingDishCount = response.data.sellingDishCount;
-      //   this.workingWaiterCount = response.data.workingWaiterCount;
-      //   this.workingChiefCount = response.data.workingChiefCount;
-      //   this.dishInQueueCount = response.data.dishInQueueCount;
-      //   this.loadIndex = response.data.loadIndex;
-      //   this.revenueTodayCount = response.data.revenueTodayCount;
-      //   this.turnsTodayCount = response.data.turnsTodayCount;
-      //   this.lastUpdateTime = new Date().toLocaleString();
-      // });
+      axios({
+        method: "get",
+        url: "/common/viewRestaurant",
+      }).then((res) => {
+        this.usingTableCount = res.data.data.freeTable.length;
+        this.sellingDishCount = res.data.data.numberOfFood;
+        this.workingWaiterCount = res.data.data.serveNumber;
+        this.workingChiefCount = res.data.data.backNumber;
+        this.dishInQueueCount = res.data.data.foodInListNumber;
+        this.loadIndex = res.data.data.overload;
+        this.revenueTodayCount = res.data.data.todayRevenue;
+        this.turnsTodayCount = res.data.data.todayDinnerNumber;
+      });
     }
   },
   data() {
@@ -90,6 +94,9 @@ export default {
       lastUpdateTime: new Date().toLocaleString(),
     }
   },
+  created() {
+    this.updateNow();
+  }
 }
 </script>
 

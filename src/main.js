@@ -22,6 +22,8 @@ sessionStorage.clear();
 // sessionStorage.setItem('token', '123456');
 //TODO:模拟存一个用户角色为waiter
 // sessionStorage.setItem('role', 'waiter');
+//TODO:模拟存一个桌号
+sessionStorage.setItem('tableID', '4');
 
 // 路由守卫
 
