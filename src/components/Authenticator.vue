@@ -119,7 +119,7 @@ export default {
       }).then((res) => {
         // 获取url中的redirect参数，用于跳转到相应的页面
         if (res.data.status === 0) {
-          const redirectTo = vm.$router.currentRoute.value.query.redirect;
+          // const redirectTo = vm.$router.currentRoute.value.query.redirect;
           // 将token存入sessionStorage
           sessionStorage.setItem("token", res.data.data);
           // 将用户角色存入sessionStorage
@@ -127,7 +127,7 @@ export default {
           sessionStorage.setItem("userId", this.username);
           vm.isErr = false;
           // console.log(redirectTo);
-          vm.$router.push(redirectTo[0]);
+          vm.$router.push('/');
         } else {
           // 账号密码错误
           vm.isErr = true;

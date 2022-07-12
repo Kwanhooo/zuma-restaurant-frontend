@@ -72,23 +72,27 @@ export default {
     },
   },
   props: {
-    displayFood: {
-      type: Object,
-      required: true
-    },
-    typeOfFood: {
-      type: Object,
-      required: true
-    },
-    orderedTime: {
+    foodName: {
       type: String,
       required: true
     },
-    foodAmount: {
+    description: {
+      type: String,
+      required: true
+    },
+    likenumber: {
       type: Number,
       required: true
     },
-    foodStatus: {
+    dislikenumber: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    ifCompleted: {
       type: String,
       required: true
     },
