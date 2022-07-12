@@ -19,6 +19,7 @@ export default {
   components: {MobileOrderItem},
   data() {
     return {
+      dinner: {},
       OrderList: [
         {
           food: {
@@ -69,10 +70,10 @@ export default {
   methods: {},
   created() {
     axios({
-      url: "/customer/viewOrder",
+      url: "/customer/viewDinner/" + sessionStorage.getItem('tableID'),
       method: "GET",
     }).then((res) => {
-      this.OrderList = res.data.data;
+      this.dinner = res.data.data;
     });
   }
 }

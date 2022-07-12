@@ -223,6 +223,13 @@ export default {
       this.calTotalPrice();
     },
     mobileSubmitOrder() {
+      if (this.foodInCart.size === 0){
+        this.$message({
+          message: '请先在首页加入菜品，之后再下单',
+          type: 'warning'
+        });
+        return;
+      }
       // TODO:接口还没写好的
       this.cartShow=false;
     },
@@ -244,7 +251,10 @@ export default {
       }).then((res)=>{
         if(res.data.status===0){
           this.clearCart();
-          this.$alert('下单成功！','点餐通知');
+          this.$message({
+            message: '下单成功',
+            type: 'success'
+          });
         }else {
           console.log(res.data.msg);
         }

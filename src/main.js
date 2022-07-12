@@ -17,16 +17,16 @@ app.component('element-icon', Edit)
 app.use(ElementPlus)
 
 //TODO:模拟清空
-sessionStorage.clear();
+// sessionStorage.clear();
 //TODO:模拟存一个token
 // sessionStorage.setItem('token', '123456');
 //TODO:模拟存一个用户角色为waiter
 // sessionStorage.setItem('role', 'waiter');
 //TODO:模拟存一个桌号
-sessionStorage.setItem('tableID', '4');
+// sessionStorage.setItem('tableID', '4');
 
 // 路由守卫
-
+// 移动到generalRouter.js了
 
 // 注册路由
 app.use(generalRouter)

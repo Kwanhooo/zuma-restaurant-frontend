@@ -180,6 +180,8 @@ export default {
     this.$router.push("/dashboard");
     // TODO:暂时由data的userinfo指定角色，生产环境下解除这个注释
     // this.getInfos();
+    // 将页面标题改为Zuma
+    document.title = '管理系统 - Zuma Restaurant';
   }
 }
 

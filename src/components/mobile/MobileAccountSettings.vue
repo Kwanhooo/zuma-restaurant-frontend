@@ -98,12 +98,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "MobileAccountSettings",
   data() {
     return {
       username: "暴龙哥",
-      maskedPhoneNumber: "17806693323",
+      maskedPhoneNumber: "178****3323",
     }
   },
   methods: {
@@ -117,6 +119,12 @@ export default {
     goToDetailSettings(path) {
       this.$router.push(path);
     },
+  },
+  created() {
+    axios.get("/customer/getUserInfo").then(res => {
+      this.username = res.data.data.username;
+      this.putPhoneNumberMask(res.data.data.phoneNumber);
+    });
   }
 }
 </script>

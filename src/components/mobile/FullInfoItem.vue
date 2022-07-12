@@ -17,10 +17,15 @@
       <div class="FoodRatingWrapper">
         <DynamicRatingStars :rating="getRating()"></DynamicRatingStars>
       </div>
+      <div class="MonthlySales">
+        <span>{{ this.$props.orderedTime }}</span>
+      </div>
       <div class="BottomLine">
         <div class="PriceWrapper">
           <span class="CharRMB">￥</span>
           <span>{{ this.$props.displayFood.price }}</span>
+          <span class="CharRMB">× {{ this.$props.foodAmount }} = </span>
+          <span> {{ this.$props.displayFood.price * this.$props.foodAmount }} </span>
         </div>
       </div>
     </div>
@@ -33,7 +38,7 @@ import bus from '../../util/bus.ts';
 import DynamicRatingStars from "@/components/mobile/DynamicRatingStars";
 
 export default {
-  name: "MobileOrderItem",
+  name: "FullInfoItem",
   components: {DynamicRatingStars},
   data() {
     return {

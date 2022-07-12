@@ -48,7 +48,7 @@
                    v-model="confirmPassword" v-on:blur="judgePwd()">
             <div v-if="judgePwdStatus" style="color:green;font-size:14px;">{{}}</div>
             <div v-else style="color:red;font-size:14px">❌{{ judgePwdMsg }}</div>
-            <input type="submit" class="fadeIn fourth" value="员工注册" @click.prevent="userRegister()">
+            <input type="submit" class="fadeIn fourth" value="注册" @click.prevent="userRegister()">
             <!--          <input type="submit" class="fadeIn fourth" value="顾客注册" @click.prevent="userRegister()"-->
             <!--                 style="background-color: #ff6600;">-->
           </form>
@@ -91,7 +91,7 @@ export default {
         data: {
           userid: this.username,
           password: this.password,
-          charactor: 'Customer',
+          charactor: 'customer',
         }
         ,
       }).then((res) => {
@@ -101,7 +101,7 @@ export default {
           // 将token存入sessionStorage
           sessionStorage.setItem("token", res.data.data);
           // 将用户角色存入sessionStorage
-          sessionStorage.setItem("role", 'Customer');
+          sessionStorage.setItem("role", 'customer');
           // 将用户userId存入sessionStorage
           sessionStorage.setItem("userId", this.username);
           window.location.href = redirectTo;
@@ -128,22 +128,24 @@ export default {
     },
     userRegister() {
       if (!this.judgePwdStatus) {
-        alert("请保证两次密码一致！");
+        this.$message({
+          message: "两次密码不一致，请检查！",
+          type: "error",
+        });
         return;
       }
 
       // 将账号和密码Post到服务器，并获取token
       axios({
         method: "post",
-        url: "/serve/register",
+        url: "/customer/register",
         data: {
-          username: this.username,
+          userid: this.username,
           password: this.password,
-          telephone: this.telephone,
+          phone: this.telephone,
         },
-      })
-          .then((res) => {
-            if (res.data.code === 0) {
+      }).then((res) => {
+            if (res.data.status === 0) {
               // 登录成功，将token存入本地存储
               sessionStorage.setItem("token", res.data.token);
               // 跳转到首页

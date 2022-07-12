@@ -301,23 +301,18 @@ router.beforeEach((to, from, next) => {
     // 判断是否需要登录权限
     if (to.meta.authRequired === true) {
         // TODO:生产环境需要添加token验证
-        next();
+        // next();
         // 判断是否已经登录
         const token = sessionStorage.getItem('token');
         if (token) {
-            //TODO:token有效性验证，暂时不开
-            // axios.get('/user/validate').then(res => {
-            //     if (res.data.code === 0) {
-            //         // token有效，跳到首页
-            //         next();
-            //     } else {
-            //         // token无效，清除假token
-            //         localStorage.removeItem('token');
-            //         next('/auth');
-            //     }
-            // });
             next()
         } else {
+            if (to.path.split('/')[1] === 'm') {
+                next({
+                    path: '/m/auth',
+                    query: {redirect: to.fullPath}
+                });
+            }
             next({
                 path: '/auth',
                 query: {redirect: to.fullPath}

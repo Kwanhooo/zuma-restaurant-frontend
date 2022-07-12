@@ -6,6 +6,16 @@
         <hr style="width: 94%">
         <div id="notification-content">
           <ul id="mobile-notice-list">
+            <li v-if="noticeList.length === 0">
+              <div class="MobileNoticeItem">
+                <div class="MobileNoticeTitle">
+                  <span>暂无消息</span>
+                </div>
+                <div class="MobileNoticeText">
+                  到别的地方看看吧...
+                </div>
+              </div>
+            </li>
             <li v-for="(notice,index) in noticeList" :key="index">
               <div class="MobileNoticeItem">
                 <div class="MobileNoticeTitle">
@@ -94,6 +104,7 @@ export default {
   border-radius: 20px;
   height: auto;
   padding: 1px 1px 0.6rem 1px;
+  margin-top: 0.5rem;
 }
 
 .MobileNoticeTitle {
