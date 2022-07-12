@@ -319,20 +319,12 @@ export default {
           .then((res) => {
             if (res.data.status != 1) {
               for (let i in res.data.data) {
-                let temp = {
-                  id: res.data.data[i].id,
-                  table: res.data.data[i].table,
-                  foodInUseList: {
-                    id: res.data.data[i].foodInUseList.id,
-                    name: res.data.data[i].foodInUseList.name,
-                  }
-                }
-                for (let food in temp.foodInUseList) {
+                for (let food in res.data.data[i].foodInUseList) {
                   let temp1 = {
-                    id: temp.id,
-                    table: temp.table.toString(),
-                    foodInUseListId: temp.foodInUseList[food].id,
-                    foodType: temp.foodInUseList[food].name,
+                    id: res.data.data[i].id,
+                    table: res.data.data[i].table.toString(),
+                    foodInUseListId: res.data.data[i].foodInUseList[food].id,
+                    foodType: res.data.data[i].foodInUseList[food].name,
                   }
                   if (this.num == 0 && !this.stop) {
                     this.nowCook = JSON.parse(JSON.stringify(temp1))
@@ -405,7 +397,7 @@ export default {
       setTimeout(() => {
         this.getNewQueue()
       }, 0)
-    }, 5000)
+    }, 10000)
 
     //获取堂食队列
     axios({
@@ -415,24 +407,16 @@ export default {
         .then((res) => {
           if (res.data.status != 1) {
             for (let i in res.data.data) {
-              let temp = {
-                id: res.data.data[i].id,
-                table: res.data.data[i].table,
-                foodInUseList: {
-                  id: res.data.data[i].foodInUseList.id,
-                  name: res.data.data[i].foodInUseList.name,
-                }
-              }
-              for (let food in temp.foodInUseList) {
+              for (let food in res.data.data[i].foodInUseList) {
                 let temp1 = {
-                  id: temp.id,
-                  table: temp.table.toString(),
-                  foodInUseListId: temp.foodInUseList[food].id,
-                  foodType: temp.foodInUseList[food].name,
+                  id: res.data.data[i].id,
+                  table: res.data.data[i].table.toString(),
+                  foodInUseListId: res.data.data[i].foodInUseList[food].id,
+                  foodType: res.data.data[i].foodInUseList[food].name,
                 }
-                if (this.num == 0) {
+                if (this.num == 0 && !this.stop) {
                   this.nowCook = JSON.parse(JSON.stringify(temp1))
-                } else if (this.num == 1) {
+                } else if ((this.num == 1 && !this.stop) || (this.num == 0 && this.stop)) {
                   this.nextCook = JSON.parse(JSON.stringify(temp1))
                 } else {
                   this.queue.push(JSON.parse(JSON.stringify(temp1)))
