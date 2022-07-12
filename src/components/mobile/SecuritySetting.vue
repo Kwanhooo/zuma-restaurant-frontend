@@ -59,13 +59,13 @@ export default {
     },
     checkAndUpdatePassword() {
       // 检查密码是否合法
-      if (this.oldPassword.length < 8 || this.oldPassword.length > 32) {
+      if (this.oldPassword.length < 6 || this.oldPassword.length > 32) {
         this.$message({
           message: "旧密码长度不正确",
           type: "error"
         });
         return;
-      } else if (this.newPassword.length < 8 || this.newPassword.length > 32) {
+      } else if (this.newPassword.length < 6 || this.newPassword.length > 32) {
         this.$message({
           message: "新密码长度不正确",
           type: "error"
@@ -75,9 +75,11 @@ export default {
 
       axios({
         method: "post",
-        url: "/api/user/checkPassword",
+        url: "/customer/modifyPassword",
         data: {
-          password: this.oldPassword
+          userId:sessionStorage.getItem('userId'),
+          oldPassword: this.oldPassword,
+          newPasswrod: this.newPassword
         }
       }).then(res => {
         if (res.data.status === 0) {

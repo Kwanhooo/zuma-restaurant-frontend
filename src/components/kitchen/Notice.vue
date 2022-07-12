@@ -129,7 +129,7 @@ export default {
       setTimeout(() => {
         this.getNewMessage()
       }, 0)
-    }, 5000)
+    }, 10000)
 
     axios({
       method: 'GET',

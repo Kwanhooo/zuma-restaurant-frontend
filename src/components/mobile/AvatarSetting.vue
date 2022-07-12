@@ -62,7 +62,7 @@ export default {
   name: "AvatarSetting",
   data() {
     return {
-      currentAvatarUrl: "https://pic.allhistory.com/T1AjCvB5bv1RCvBVdK.jpeg?w=3840&h=&rc=resize",
+      currentAvatarUrl: "",
       newAvatarFile: null,
       newAvatarUrl: '',
       isShowPreview: false,
@@ -73,7 +73,7 @@ export default {
       this.$router.go(-1);
     },
     getCurrentAvatar() {
-      axios.get('/customer/getCurrentAvatar').then(res => {
+      axios.get('/customer/getAvatar?userId='+sessionStorage.getItem('userId')).then(res => {
         if (res.data.status === 0) {
           this.currentAvatarUrl = res.data.data;
         } else {
@@ -133,16 +133,17 @@ export default {
       }
       let dataToSend = new FormData();
       dataToSend.append('image', this.newAvatarFile);
-      axios.post('/customer/uploadAvatar', dataToSend, {
+      axios.post('/customer/updateAvatar?userId='+sessionStorage.getItem('userId'), dataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (response) {
-        if (response.data.code === 0) {
+        if (response.data.status === 0) {
           vm.$message({
             message: '上传成功',
             type: 'success'
           });
+          window.location.reload();
           this.getCurrentAvatar();
           this.resetToBegin();
         } else {
@@ -151,12 +152,6 @@ export default {
             type: 'error'
           });
         }
-        // eslint-disable-next-line no-unused-vars
-      }).catch(function (error) {
-        vm.$message({
-          message: '上传失败，请检查网络',
-          type: 'error'
-        });
       });
     }
   },

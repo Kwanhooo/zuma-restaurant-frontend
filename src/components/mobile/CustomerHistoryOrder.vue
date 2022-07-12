@@ -9,10 +9,12 @@
               <div style="margin-left: 10px;font-family: 黑体, ui-sans-serif;font-size: 1.1rem;font-weight: bold;color: #007BFF;">
                 🏪 堂食订单{{data.orderid}}号
               </div>
-              <div style="flex-direction: row;" v-for="food in data.allfood.split(',')" :key="food">
-                <div style="flex-direction: column;">
-                  <img class="MobileFoodImage" :src="getFoodImg(food)" :alt="food">
-                  <div style="font-size: 13px">{{food}}</div>
+              <div style="display: flex;flex-direction: row;">
+                <div v-for="food in data.allfood.split(',')" :key="food">
+                  <div style="display: flex;flex-direction: column;text-align: center">
+                    <img class="MobileFoodImage" :src="getFoodImg(food)" :alt="food">
+                    <div style="font-size: 13px">{{food}}</div>
+                  </div>
                 </div>
               </div>
 <!--              <div style="font-family: 黑体, ui-sans-serif;font-size: 1.1rem;margin: 0 0 0 10px">
@@ -67,10 +69,12 @@
               <div style="margin-left: 10px;font-family: 黑体, ui-sans-serif;font-size: 1.1rem;font-weight: bold;color: #007BFF;">
                 🍱 外卖订单{{data.orderId}}号
               </div>
-              <div style="flex-direction: row;" v-for="food in data.allFood.split(',')" :key="food">
-                <div style="flex-direction: column;">
-                  <img class="MobileFoodImage" :src="getFoodImg(food)" :alt="food">
-                  <div style="font-size: 13px">{{food}}</div>
+              <div style="display: flex;flex-direction: row;">
+                <div v-for="food in data.allFood.split(',')" :key="food">
+                  <div style="display: flex;flex-direction: column;">
+                    <img class="MobileFoodImage" :src="getFoodImg(food)" :alt="food">
+                    <div style="font-size: 13px">{{food}}</div>
+                  </div>
                 </div>
               </div>
 <!--              <div style="font-family: 黑体, ui-sans-serif;font-size: 1.1rem;margin: 0 0 0 10px">
@@ -180,15 +184,9 @@ export default {
           foodName: food
         }
       }).then((res) => {
-        console.log(res.data)
-        /*return res.data.date*/
-        vm.tempSrc = "https://officialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2019/08/201908271032169362.png";
-      }).catch(err => {
-        //打印响应数据(错误信息)
-        console.log(err);
-      });
-      console.log('fuck'+vm.tempSrc);
-      return vm.tempSrc;
+        vm.tempSrc = res.data.data
+      })
+      return vm.tempSrc
     },
 
     showOrderInDetail(index) {
@@ -240,7 +238,7 @@ export default {
         }
       }).then((res) => {
         console.log(res.data)
-        if(good == "true"){
+        if(good == "like"){
           alert("点赞成功")
         }
         else {
@@ -324,7 +322,7 @@ export default {
 
 .MobileFoodImage {
   /*margin-top: 1rem;*/
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
 }
 </style>

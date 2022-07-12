@@ -42,7 +42,7 @@ export default {
   name: "PhoneNumberSetting",
   data() {
     return {
-      phoneNumber: "17806693323"
+      phoneNumber: ""
     }
   },
   methods: {
@@ -50,17 +50,20 @@ export default {
       this.$router.go(-1);
     },
     getCurrentPhoneNumber() {
-      axios({
-        method: "get",
-        url: "/customer/getPhoneNumber"
-      }).then(res => {
-        this.phoneNumber = res.data.data;
+      axios.get("/customer/viewCustomer/" + sessionStorage.getItem('userId')).then(res => {
+        this.phoneNumber = res.data.data.phone;
       }).catch(() => {
         this.$message.error('网络错误，请稍后再试');
       });
     },
     checkAndUpdatePhoneNumber() {
-
+      const vm = this;
+      axios({
+        method: "POST",
+        url: "/customer/modifyPhone?userid=" + sessionStorage.getItem('userId') + "&phone=" + this.phoneNumber,
+      }).then(() => {
+        vm.$message.success('手机号修改成功！');
+      });
     }
   },
   created() {

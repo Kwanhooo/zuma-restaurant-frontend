@@ -3,7 +3,7 @@
     <div id="mobile-me-top-bar">
       <div id="mobile-me-top-bar-wrapper">
         <div id="mobile-me-top-bar-left">
-          <img src="https://pic.allhistory.com/T1AjCvB5bv1RCvBVdK.jpeg?w=3840&h=&rc=resize" class="MobileMeAvatar">
+          <img :src="avatarSrc" class="MobileMeAvatar">
         </div>
         <div id="mobile-me-top-bar-right">
           <span class="Username">{{ userid }}</span>
@@ -37,17 +37,30 @@ export default {
   data() {
     return {
       userid: sessionStorage.getItem('userId'),
+      avatarSrc: '',
     }
   },
   methods: {
     goToSetting() {
       this.$router.push('/m/me/settings');
+    },
+    getAvatar() {
+      axios.get('/customer/getAvatar?userId=' + sessionStorage.getItem('userId')).then(res => {
+        if (res.data.status === 0) {
+          this.avatarSrc = res.data.data;
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      }).catch(() => {
+        this.$message.error('网络错误，获取头像失败');
+      });
     }
   },
   created() {
     axios.get("/customer/viewCustomer/"+sessionStorage.getItem('userId')).then(res => {
       this.userid = res.data.data.userid;
     });
+    this.getAvatar();
   },
 }
 </script>
