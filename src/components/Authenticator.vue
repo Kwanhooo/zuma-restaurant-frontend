@@ -166,11 +166,11 @@ export default {
         }
       })
           .then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               // 登录成功，将token存入本地存储
               sessionStorage.setItem("token", res.data.token);
               // 跳转到首页
-              this.$router.push("/home");
+              this.$router.push("/dashboard/rider");
             } else {
               // 登录失败，提示错误信息
               this.errInfo = res.data.msg;
@@ -201,7 +201,7 @@ export default {
       })
           .then((res) => {
             console.log(res.data);
-            if (res.data.code === 0) {
+            if (res.data.status === 0) {
               // 登录成功，将token存入本地存储
               sessionStorage.setItem("token", res.data.token);
               // 跳转到首页
