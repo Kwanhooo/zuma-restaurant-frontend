@@ -144,7 +144,7 @@ export default {
         {
           orderid: 1,
           tableid: 1,
-          allfood: "猪柳蛋麦满分套餐,随便起的6",
+          allfood: "猪柳蛋麦满分套餐",
           ordercomment: "好",
           ordertime: "2022-07-09 10:04:16",
           totalprice: "24"
