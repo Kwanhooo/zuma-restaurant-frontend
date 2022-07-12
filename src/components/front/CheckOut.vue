@@ -26,7 +26,7 @@
 
           <el-dialog title="订单详情" v-model="showDetail" width="35%" style="font-size: 30px; font-weight: bold">
             <div style="margin-top: 15px;text-align: center;font-size: 25px;font-weight: bold">
-              桌号：{{nowCheck.table}}
+              桌号：{{nowCheck.table + 1}}
             </div>
             <div style="margin-top: 5px;text-align: center;font-size: 20px">
               订单号：{{nowCheck.id}}
