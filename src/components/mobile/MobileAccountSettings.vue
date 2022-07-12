@@ -19,7 +19,7 @@
         <div class="SettingItemValue" style="margin-top: 0">
           <div class="SettingValueWrapper" @click.prevent="goToDetailSettings('/m/me/settings/avatar')">
             <img alt="头像" class="SettingAvatarImg"
-                 src="https://pic.allhistory.com/T1AjCvB5bv1RCvBVdK.jpeg?w=3840&h=&rc=resize">
+                 :src="avatarSrc">
             <svg t="1657468984251" class="AvatarMoreIcon" viewBox="0 0 1024 1024" version="1.1"
                  xmlns="http://www.w3.org/2000/svg" p-id="2263" width="200" height="200">
               <path
@@ -106,6 +106,7 @@ export default {
     return {
       username: sessionStorage.getItem('userId'),
       maskedPhoneNumber: "",
+      avatarSrc: "",
     }
   },
   methods: {
@@ -119,12 +120,24 @@ export default {
     goToDetailSettings(path) {
       this.$router.push(path);
     },
+    getAvatar() {
+      axios.get('/customer/getAvatar?userId=' + sessionStorage.getItem('userId')).then(res => {
+        if (res.data.status === 0) {
+          this.avatarSrc = res.data.data;
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      }).catch(() => {
+        this.$message.error('网络错误，获取头像失败');
+      });
+    }
   },
   created() {
-    axios.get("/customer/viewCustomer/"+sessionStorage.getItem('userId')).then(res => {
+    axios.get("/customer/viewCustomer/" + sessionStorage.getItem('userId')).then(res => {
       this.username = res.data.data.userid;
       this.putPhoneNumberMask(res.data.data.phone);
     });
+    this.getAvatar();
   }
 }
 </script>

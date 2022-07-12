@@ -64,8 +64,16 @@ export default {
     },
     cancellationConfirm() {
       axios({
-        method: "DELETE",
-        url: "/customer/deleteAccount",
+        method: "POST",
+        url: "/customer/deleteAccount?userId=" + sessionStorage.getItem("userId"),
+      }).then(res => {
+        if (res.data.status === 0) {
+          this.$message.success("您已彻底注销！");
+          sessionStorage.removeItem("userId");
+          sessionStorage.removeItem("role");
+          sessionStorage.removeItem("token");
+          this.$router.push("/m/auth/" + sessionStorage.getItem('tableID'));
+        }
       });
     }
   },

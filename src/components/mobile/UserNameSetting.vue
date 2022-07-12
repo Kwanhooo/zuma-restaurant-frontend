@@ -67,6 +67,7 @@ export default {
               message: "用户名修改成功！",
               type: "success"
             });
+            sessionStorage.setItem('userId', this.userName);
           } else {// 返回错误
             this.$message({
               message: "修改失败，换一个吧！",

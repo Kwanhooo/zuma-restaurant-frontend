@@ -11,10 +11,10 @@
       </MobileOrderItem>
     </template>
   </div>
-<!--  <hr>-->
-<!--  <div id="on-going-total-price-wrapper">-->
-<!--    <span style="color: #0d0d0d">总计：￥ </span>{{ totalPrice }}-->
-<!--  </div>-->
+  <hr v-if="dinner.length !== 0">
+  <div id="on-going-total-price-wrapper" v-if="dinner.length !== 0">
+    <span style="color: #0d0d0d">总计：￥ </span>{{ totalPrice }}
+  </div>
 </template>
 
 <script>
