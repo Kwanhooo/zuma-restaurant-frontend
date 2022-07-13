@@ -37,13 +37,28 @@ axios.defaults.baseURL = "/api";
 // 每次请求都带上token
 axios.interceptors.request.use(config => {
         if (sessionStorage.getItem("token")) {
-            config.headers.Authorization = sessionStorage.getItem("token")
+            config.headers.token = sessionStorage.getItem("token")
         }
         return config
     },
     error => {
         return Promise.reject(error)
-    });
+    }
+);
+
+//如果http响应码为500，则跳转到登录页面
+axios.interceptors.response.use(response => {
+        if (response.status === 500) {
+            window.location.href = "/login.html";
+        }
+        return response;
+    }
+    , error => {
+        return Promise.reject(error);
+
+    }
+);
+
 
 // 全局axios实例
 app.config.globalProperties.$http = axios

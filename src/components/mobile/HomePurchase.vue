@@ -21,7 +21,7 @@
 
 <script>
 import MobileFoodPage from "@/components/mobile/MobileFoodPage";
-import axios from "axios";
+// import axios from "axios";
 
 export default {
   name: "MobileHomeOrder",
@@ -44,7 +44,7 @@ export default {
   },
   created() {
     console.log("Purchase created");
-    axios({
+    this.$http({
       method: "get",
       url: "/serve/viewFoodType",
     }).then((response) => {

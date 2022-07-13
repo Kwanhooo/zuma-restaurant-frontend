@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import CallWaiter from "@/components/mobile/CallWaiter";
 
 export default {
@@ -42,7 +42,7 @@ export default {
       return sessionStorage.getItem('tableID')+'号桌';
     },
     getRestaurantInfo() {
-      axios({
+      this.$http({
         method: "get",
         url: "/common/getRestaurantInfo",
       }).then(res => {
